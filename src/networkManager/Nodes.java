@@ -1,0 +1,136 @@
+package networkManager;
+
+/** Classe che contiene i nomi dei nodi di interesse della rete e i possibili stati assumibili*/
+public class Nodes 
+{
+	public static String SOCIAL_ATTITUDE = "Social_Attitude";
+	public static String SOCIAL_ATTITUDE_PREC = "Social_Attitude_prev";
+	public static String SA_BAD = "B";
+	public static String SA_NEUTRAL = "N";
+	public static String SA_POSITIVE = "P";
+	
+	public static String SESSO = "gender";
+	private static String SESSO_M_VAL = "M";
+	private static String SESSO_F_VAL = "F";
+	
+	public static String SESSO_MASCHIO = "Maschio";
+	public static String SESSO_FEMMINA = "Femmina";
+	public static String SESSO_NONSO = "Incerto";
+	
+	
+	public static String ESPR_CONFIDENZIALI = "conf";
+	public static String LUNGHEZZA = "leng";
+	public static String ESPR_2PERSONA = "you";
+	public static String ESPR_1PERSONA = "me";
+	public static String P_INTERROGATIVO = "qmar";
+	public static String ESPR_SALUTO = "ciao";
+	public static String MOSSA_PREC_SISTEMA = "contx";
+	public static String MOSSA_UTENTE = "mtyp";
+	
+	private static String MOSSA_SP_VAL = "SP";
+	private static String MOSSA_QU_VAL = "QU";
+	private static String MOSSA_SU_VAL = "SU";
+	private static String MOSSA_NA_VAL = "NA";
+	private static String MOSSA_AN_VAL = "AN";
+	private static String MOSSA_FA_VAL = "FA";
+	private static String MOSSA_CO_VAL = "CO";
+	
+	public static String MOSSA_SP = "Presentazione di sè";
+	public static String MOSSA_QU = "Domanda";
+	public static String MOSSA_SU = "Suggerimento";
+	public static String MOSSA_NA = "Risposta non data";
+	public static String MOSSA_AN = "Risposta";
+	public static String MOSSA_FA = "Arrivederci";
+	public static String MOSSA_CO = "Commento";
+	
+	private static String VALORE_YES_VAL = "Y";
+	private static String VALORE_NO_VAL = "N";
+
+	public static String VALORE_YES = "SI";
+	public static String VALORE_NO = "NO";
+	public static String VALORE_NONSO = "Incerto";
+	
+	
+	
+//	Metodi da utilizzare in fase di test di un dataset	
+//	public static String getMossa(String descr_mossa)
+//	{
+//		return descr_mossa;
+//	}
+//	
+//	public static String getValore(String descr_valore)
+//	{
+//		return descr_valore;
+//	}
+//	
+//	public static String getSesso(String sesso)
+//	{
+//		return sesso;
+//	}
+	
+	
+	
+	
+	/** Restituisce lo stato di un nodo (contx o mtype) a partire dalla descrizione testuale
+	 * 
+	 * @param descr_mossa Descrizione testuale dello stato
+	 * @return Stato del nodo
+	 */
+	public static String getMossa(String descr_mossa)
+	{
+		if(descr_mossa.equals(MOSSA_SP))
+			return MOSSA_SP_VAL;
+		else if(descr_mossa.equals(MOSSA_QU))
+			return MOSSA_QU_VAL;
+		else if(descr_mossa.equals(MOSSA_SU))
+			return MOSSA_SU_VAL;
+		else if(descr_mossa.equals(MOSSA_NA))
+			return MOSSA_NA_VAL;
+		else if(descr_mossa.equals(MOSSA_AN))
+			return MOSSA_AN_VAL;
+		else if(descr_mossa.equals(MOSSA_FA))
+			return MOSSA_FA_VAL;
+		else if(descr_mossa.equals(MOSSA_CO))
+			return MOSSA_CO_VAL;
+		else
+			return null;
+	}
+	
+	
+	
+	
+	
+	/** Restituisce lo stato di un nodo (avente stato Y o N) a partire dalla descrizione testuale
+	 * 
+	 * @param descr_valore Descrizione testuale dello stato
+	 * @return Stato del nodo.
+	 */
+	public static String getValore(String descr_valore)
+	{
+		if(descr_valore.equals(VALORE_YES))
+			return VALORE_YES_VAL;
+		else if(descr_valore.equals(VALORE_NO))
+			return VALORE_NO_VAL;
+		else
+			return null;
+	}
+	
+	
+	
+	
+	
+	/** Restituisce lo stato di un nodo (gender) a partire dalla descrizione testuale
+	 * 
+	 * @param sesso Descrizione testuale dello stato
+	 * @return Stato del nodo.
+	 */
+	public static String getSesso(String sesso)
+	{
+		if(sesso.equals(SESSO_MASCHIO))
+			return SESSO_M_VAL;
+		else if(sesso.equals(SESSO_FEMMINA))
+			return SESSO_F_VAL;
+		else
+			return null;
+	}
+}
