@@ -3,7 +3,7 @@
 
 == Introduction ==
 
-Installare Subclipse e importare il progetto da Google Code
+Breve guida all'installazione di Subclipse e all'importazione del progetto da Google Code in Eclipse.
 
 
 
