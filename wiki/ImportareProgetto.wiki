@@ -1,20 +1,24 @@
 #summary One-sentence summary of this page.
 
-= Introduction =
+== Introduction ==
 
 Installare Subclipse e importare il progetto da Google Code
 
 
 
 
-= Details =
+=== Details ===
 
--aprire eclipse
--help> install new software> add> archive> selezionare site-1.8.16.zip
--completare la procedura di installazione
--Window> Open perspective> Others> 
+ * aprire eclipse
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+ * help> install new software> add> archive> selezionare archivio (es: site-1.8.16.zip per eclipse 3.7)
+
+ * completare la procedura di installazione
+
+ * Window> Open perspective> Others> SVN Repository Exploring
+
+ * Tasto destro nello spazio bianco> New> Repository Location> Inserire https://social-attitude.googlecode.com/svn/trunk/
+
+ * Tasto destro sul repository appena aggiunto> Checkout> Finish
+
+ * Aprire la prospettiva Java
