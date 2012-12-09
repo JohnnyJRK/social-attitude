@@ -1,0 +1,20 @@
+#summary One-sentence summary of this page.
+
+= Introduction =
+
+Installare Subclipse e importare il progetto da Google Code
+
+
+
+
+= Details =
+
+-aprire eclipse
+-help> install new software> add> archive> selezionare site-1.8.16.zip
+-completare la procedura di installazione
+-Window> Open perspective> Others> 
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
