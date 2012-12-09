@@ -1,4 +1,5 @@
-#summary One-sentence summary of this page.
+#summary Installare Subclipse e importare il progetto da Google Code.
+#labels Phase-Deploy,Featured
 
 == Introduction ==
 
@@ -21,4 +22,4 @@ Installare Subclipse e importare il progetto da Google Code
 
  * Tasto destro sul repository appena aggiunto> Checkout> Finish
 
- * Aprire la prospettiva Java
+ * Aprire la prospettiva Java e iniziare a lavorare
