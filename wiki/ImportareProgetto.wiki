@@ -33,19 +33,4 @@ http://econference4.googlecode.com/svn/wiki/img/svn4.JPG
  * Tasto destro sul repository appena aggiunto> Checkout> Finish
 
  * Aprire la prospettiva Java e iniziare a lavorare
----
-Plain URLs such as http://www.google.com/ or ftp://ftp.kernel.org/ are
-automatically made into links.
-
-You can also provide some descriptive text. For example, the following
-link points to the [http://www.google.com Google home page].
-
-If your link points to an image, it will get inserted as an image tag
-into the page:
-
-http://code.google.com/images/code_sm.png
-
-You can also make the image into a link, by setting the image URL as
-the description of the URL you want to link:
-
-[http://code.google.com/ http://code.google.com/images/code_sm.png]
+----
