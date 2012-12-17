@@ -5,7 +5,7 @@ import networkManager.HuginInterface;
 import networkManager.Nodes;
 
 import com.csvreader.*;
-//provaaaaaaaaa
+
 /** Classe di avvio dell'applicazione*/
 public class Start_Test_din 
 {
