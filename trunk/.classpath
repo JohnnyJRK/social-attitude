@@ -7,5 +7,6 @@
 	<classpathentry kind="lib" path="lib/jcommon-1.0.16.jar"/>
 	<classpathentry kind="lib" path="lib/hapi73.jar"/>
 	<classpathentry kind="lib" path="lib/forms-1.1.0.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/VoiceClassifier_original"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

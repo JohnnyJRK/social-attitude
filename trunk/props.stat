@@ -1,0 +1,7 @@
+#Configuration Properties
+#Wed Feb 27 19:43:26 CET 2013
+fileDirectory=E\:\\Desktop\\agenti\\progetto_agenti\\VideoIUM\\audio\\ultimo_bacio
+sampleRate=8000.0F
+channel=2
+bytesFrame=4
+bit=16
