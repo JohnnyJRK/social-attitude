@@ -47,22 +47,22 @@ public class provaHugin {
 			rete.propagate(Domain.H_EQUILIBRIUM_SUM, Domain.H_EVIDENCE_MODE_NORMAL);
 			//recupera il nodo principale 
 			sa=(LabelledDCNode)rete.getNodeByName("Social_Attitude");
-			//recupera i valori degli stati dopo la propagazione delle evidenze e li salva nel vettore v[]
+			//recupera i valori degli stati dopo la propagazione delle evidenze
 			v[0]=sa.getBelief(0);
 			v[1]=sa.getBelief(sa.getStateIndex("N"));//recupera il numero di indice dello stato con nome "xyz"
 			v[2]=sa.getBelief(2);
-			//v=getSA();
+		
 			System.out.println(v[0]);
 			System.out.println(v[1]);
 			System.out.println(v[2]);
-			//dovrebbe inserire i valori del nodo social_attitude in social_attitude_prev
+			//setta direttamente i valori nella tabella del nodo sa_prev
 			sa_prev.getTable().setDataItem(0, v[0]);
 			sa_prev.getTable().setDataItem(1, v[1]);
 			sa_prev.getTable().setDataItem(2, v[2]);
-			
-			valori_SA[0]=sa_prev.getBelief(0);
-			valori_SA[1]=sa_prev.getBelief(1);
-			valori_SA[2]=sa_prev.getBelief(2);
+			//recupera i valori dalla tabella e li assegna al vettore valori_SA
+			valori_SA[0]=sa_prev.getTable().getDataItem(0);
+			valori_SA[1]=sa_prev.getTable().getDataItem(1);
+			valori_SA[2]=sa_prev.getTable().getDataItem(2);
 			
 			System.out.println("Valori sa_prev\n");
 			System.out.println(valori_SA[0]);
