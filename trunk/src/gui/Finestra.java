@@ -5,6 +5,10 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowStateListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -40,11 +44,14 @@ import javax.swing.ListSelectionModel;
 
 import javax.swing.WindowConstants;
 import javax.swing.border.BevelBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -99,6 +106,22 @@ public class Finestra extends javax.swing.JFrame {
 	private JRadioButton jrbLing;
 	private JRadioButton jrbAudio;
 	private JPanel jpnlLingImp;
+	private JButton btnAudioRimuovi;
+	private JButton btnAudioAggiungi;
+	private JLabel jLabel10;
+	private JTable tblAudioEvidenze;
+	private JScrollPane jScrollPane3;
+	private JButton btnAudioReset;
+	private JComboBox cmbAr;
+	private JComboBox cmbVal;
+	private JLabel lblAr;
+	private JLabel lblVal;
+	private JPanel pnlAudioAV;
+	private JList jListAudioFrasi;
+	private JList jList1;
+	private JScrollPane jScrollPane2;
+	private JLabel jLabel1;
+	private JPanel pnlAudioEvidenze;
 	private ButtonGroup btnGrp;
 	private JLabel lblFrasi;
 	private DefaultListModel jListFrasiModel;
@@ -111,7 +134,6 @@ public class Finestra extends javax.swing.JFrame {
 	private ChartPanel chartPanel1;
 	private JPanel pnlGestiSA;
 	private JButton jButton3;
-	private JButton jButton2;
 	private JComboBox cmbHands;
 	private JComboBox cmbLegs;
 	private JLabel lblHands;
@@ -158,7 +180,8 @@ public class Finestra extends javax.swing.JFrame {
 	private JButton btnRimuovi;
 	private double[] sa_iniziale;
 	private JLabel lblStorico;
-	private DefaultTableModel tblEvidenzeModel;
+	private DefaultTableModel tblLingEvidenzeModel;
+	private DefaultTableModel tblAudioEvidenzeModel;
 	private JFreeChart istogramma;
 	private JFreeChart andamento;
 
@@ -170,18 +193,22 @@ public class Finestra extends javax.swing.JFrame {
 	private void initGUI() {
 		try {
 			
-			hi = new HuginInterface();
+			hi = new HuginInterface(1);
 			sa_ling_history = new ArrayList<double[]>();
+			sa_audio_history = new ArrayList<double[]>();
+			sa_gesti_history = new ArrayList<double[]>();
 			sa_iniziale = hi.getSA();
 			setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-			this.setResizable(true);
+			this.setResizable(false);
 			this.setTitle("Hugin Framework");
 			this.setSize (1100, 700);
+			
 			getContentPane().setLayout(null);
 			{
 				jTabbedPane = new JTabbedPane();
 				getContentPane().add(jTabbedPane);
 				jTabbedPane.setBounds(0, 0, 1030, 790);
+				
 				{
 					pnlGenerale = new JPanel();
 					jTabbedPane.addTab("Generale", null, pnlGenerale, null);
@@ -200,7 +227,7 @@ public class Finestra extends javax.swing.JFrame {
 							jpnlLingImp = new JPanel();
 							pnlGenSA.add(jpnlLingImp);
 							jpnlLingImp.setBounds(10, 30, 472, 50);
-							jpnlLingImp.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+							jpnlLingImp.setBorder(BorderFactory.createEtchedBorder(BevelBorder.LOWERED));
 							jpnlLingImp.setLayout(null);
 							{
 								jrbLing = new JRadioButton();
@@ -222,6 +249,7 @@ public class Finestra extends javax.swing.JFrame {
 								jpnlLingImp.add(jbtLing);
 								jbtLing.setText("Vai");
 								jbtLing.setBounds(405, 15, 55, 25);
+								jbtLing.setEnabled(false);
 								jbtLing.addActionListener(new ActionListener() {
 									public void actionPerformed(ActionEvent evt) {
 										jbtALGActionPerformed(evt,1);
@@ -232,7 +260,7 @@ public class Finestra extends javax.swing.JFrame {
 						{
 							jpnlAudioImp = new JPanel();
 							pnlGenSA.add(jpnlAudioImp);
-							jpnlAudioImp.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+							jpnlAudioImp.setBorder(BorderFactory.createEtchedBorder(BevelBorder.LOWERED));
 							jpnlAudioImp.setLayout(null);
 							jpnlAudioImp.setBounds(10, 95, 472, 50);
 							{
@@ -254,6 +282,7 @@ public class Finestra extends javax.swing.JFrame {
 								jpnlAudioImp.add(jbtAudio);
 								jbtAudio.setText("Vai");
 								jbtAudio.setBounds(405, 14, 55, 25);
+								jbtAudio.setEnabled(false);
 								jbtAudio.addActionListener(new ActionListener() {
 									public void actionPerformed(ActionEvent evt) {
 										jbtALGActionPerformed(evt,2);
@@ -264,7 +293,7 @@ public class Finestra extends javax.swing.JFrame {
 						{
 							jpnlGestiImp = new JPanel();
 							pnlGenSA.add(jpnlGestiImp);
-							jpnlGestiImp.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+							jpnlGestiImp.setBorder(BorderFactory.createEtchedBorder(BevelBorder.LOWERED));
 							jpnlGestiImp.setLayout(null);
 							jpnlGestiImp.setBounds(10, 165, 472, 50);
 							{
@@ -286,6 +315,7 @@ public class Finestra extends javax.swing.JFrame {
 								jpnlGestiImp.add(jbtGesti);
 								jbtGesti.setText("Vai");
 								jbtGesti.setBounds(405, 12, 55, 25);
+								jbtGesti.setEnabled(false);
 								jbtGesti.addActionListener(new ActionListener() {
 									public void actionPerformed(ActionEvent evt) {
 										jbtALGActionPerformed(evt,3);
@@ -299,6 +329,7 @@ public class Finestra extends javax.swing.JFrame {
 						pnlGenerale.add(pnlGenResult);
 						pnlGenResult.setPreferredSize(new java.awt.Dimension(499, 543));
 						pnlGenResult.setBorder(BorderFactory.createTitledBorder("Risultato"));
+						pnlGenResult.setLayout(null);
 					}
 				}
 				{
@@ -318,7 +349,7 @@ public class Finestra extends javax.swing.JFrame {
 						pnlLingEvidenze.setLayout(null);
 						
 						{//gestione lista frasi caricate dal file .txt 
-							setFrasiList();
+							setFrasiList(1);
 							pnlContesto = new JPanel();
 							pnlLingEvidenze.add(pnlContesto);
 							pnlContesto.setBounds(5, 255, 487, 98);
@@ -486,8 +517,8 @@ public class Finestra extends javax.swing.JFrame {
 										sa_ling_history = new ArrayList<double[]>();
 										
 										// Svuota la tabella dello storico
-										for (int i=tblEvidenzeModel.getRowCount()-1;i>=0;i--)
-											tblEvidenzeModel.removeRow(i);
+										for (int i=tblLingEvidenzeModel.getRowCount()-1;i>=0;i--)
+											tblLingEvidenzeModel.removeRow(i);
 										
 										// Resetta le opzioni di default delle evidenze
 										cmbContx.setSelectedIndex(0);
@@ -513,13 +544,13 @@ public class Finestra extends javax.swing.JFrame {
 							pnlLingEvidenze.add(jScrollPane1);
 							jScrollPane1.setBounds(7, 170, 485, 77);
 							{
-								tblEvidenzeModel = 
+								tblLingEvidenzeModel = 
 										new DefaultTableModel(
 												new String[][] {},
 												new String[] { "M.Sys","M.Utente","Lung", "P.Interr.", "Conf.","Saluto","Forme 1a", "Forme 2a" });
 								tblEvidenze = new JTable();
 								jScrollPane1.setViewportView(tblEvidenze);
-								tblEvidenze.setModel(tblEvidenzeModel);
+								tblEvidenze.setModel(tblLingEvidenzeModel);
 								tblEvidenze.setBounds(11, 28, 481, 199);
 								tblEvidenze.setEnabled(false);
 							}
@@ -570,7 +601,7 @@ public class Finestra extends javax.swing.JFrame {
 										sa_ling_history.add(sa);
 										
 										// Scrive la riga sulla tabella
-										tblEvidenzeModel.addRow(new String[]{getValoreTabella(cmbContx.getSelectedItem().toString()),getValoreTabella(cmbMtype.getSelectedItem().toString()),getValoreTabella(txtLeng.getText()),getValoreTabella(cmbQmar.getSelectedItem().toString()),getValoreTabella(cmbConf.getSelectedItem().toString()),getValoreTabella(cmbCiao.getSelectedItem().toString()),getValoreTabella(cmbMe.getSelectedItem().toString()),getValoreTabella(cmbYou.getSelectedItem().toString()) });
+										tblLingEvidenzeModel.addRow(new String[]{getValoreTabella(cmbContx.getSelectedItem().toString()),getValoreTabella(cmbMtype.getSelectedItem().toString()),getValoreTabella(txtLeng.getText()),getValoreTabella(cmbQmar.getSelectedItem().toString()),getValoreTabella(cmbConf.getSelectedItem().toString()),getValoreTabella(cmbCiao.getSelectedItem().toString()),getValoreTabella(cmbMe.getSelectedItem().toString()),getValoreTabella(cmbYou.getSelectedItem().toString()) });
 										
 										// Disegna il grafico
 										disegnaGrafici();
@@ -593,7 +624,7 @@ public class Finestra extends javax.swing.JFrame {
 								public void actionPerformed(ActionEvent evt) {
 									
 									//Rimuove l'ultima mossa dallo storico
-									tblEvidenzeModel.removeRow(tblEvidenzeModel.getRowCount()-1);
+									tblLingEvidenzeModel.removeRow(tblLingEvidenzeModel.getRowCount()-1);
 									
 									//Rimuove gli ultimi valori di SA memorizzati
 									sa_ling_history.remove(sa_ling_history.size()-1);
@@ -625,10 +656,218 @@ public class Finestra extends javax.swing.JFrame {
 						disegnaGrafici();
 					}
 				}
-				{
-					pnlAudio = new JPanel();
+////////////////////////////////////////////AUDIO////////////////////////////////////////
+{
+pnlAudioEvidenze = new JPanel();
+pnlAudioEvidenze.setBorder(BorderFactory.createTitledBorder(null,"Evidenze",TitledBorder.LEADING,TitledBorder.DEFAULT_POSITION,new java.awt.Font("Segoe UI",3,12),new java.awt.Color(0,0,0)));
+pnlAudioEvidenze.setBounds(0, 12, 505, 545);
+pnlAudioEvidenze.setLayout(null);
+pnlAudioAV = new JPanel();
+pnlAudioAV.setBorder(BorderFactory.createTitledBorder(null,"A&V",TitledBorder.LEADING,TitledBorder.DEFAULT_POSITION,new java.awt.Font("Segoe UI",1,12)));
+pnlAudioAV.setBounds(5, 255, 487, 98);
+pnlAudioAV.setLayout(null);
+lblVal = new JLabel();
+lblVal.setText("Valore Valenza:");
+lblVal.setFont(new java.awt.Font("Arial",0,12));
+lblVal.setBounds(17, 27, 84, 15);
+pnlAudioAV.add(lblVal);
+lblAr = new JLabel();
+lblAr.setText("Valore Arousal:");
+lblAr.setFont(new java.awt.Font("Arial",0,12));
+lblAr.setBounds(17, 66, 99, 15);
+pnlAudioAV.add(lblAr);
+ComboBoxModel cmbValModel = 
+new DefaultComboBoxModel(
+new String[] { "Incerto", "Positivo", "Neutro", "Negativo", "Molto Negativo" });
+cmbVal = new JComboBox();
+cmbVal.setModel(cmbValModel);
+cmbVal.setToolTipText("<html>Identifica la tipologia dell'ultima mossa del <br>dialogo eseguita dal sistema</html>");
+cmbVal.setBounds(123, 23, 103, 23);
+cmbVal.addItemListener(new ItemListener(){
+
+	@Override
+	public void itemStateChanged(ItemEvent arg0) {
+		// TODO Auto-generated method stub
+		
+		int index = cmbVal.getSelectedIndex();
+		if(index!=0){
+			btnAudioAggiungi.setEnabled(true);
+			}
+		else
+		{
+		 btnAudioAggiungi.setEnabled(false);
+		}
+		
+	}});
+pnlAudioAV.add(cmbVal);
+ComboBoxModel cmbArModel = 
+new DefaultComboBoxModel(
+new String[] { "Incerto","Alto", "Medio", "Basso" });
+cmbAr = new JComboBox();
+cmbAr.setModel(cmbArModel);
+cmbAr.setToolTipText("<html>Identifica la tipologia della mossa del <br>dialogo eseguita dall'utente</html>");
+cmbAr.setBounds(123, 62, 103, 23);
+cmbAr.addItemListener(new ItemListener(){
+
+	@Override
+	public void itemStateChanged(ItemEvent arg0) {
+		// TODO Auto-generated method stub
+		
+		int index = cmbAr.getSelectedIndex();
+		if(index!=0){
+			btnAudioAggiungi.setEnabled(true);
+			}
+		else
+		{
+		 btnAudioAggiungi.setEnabled(false);
+		}
+		
+	}});
+pnlAudioAV.add(cmbAr);
+
+pnlAudioEvidenze.add(pnlAudioAV);
+btnAudioReset = new JButton();
+btnAudioReset.setEnabled(false);
+btnAudioReset.setText("Reset Dialogo");
+btnAudioReset.setToolTipText("Resetta il dialogo, eliminando tutte le mosse definite.");
+btnAudioReset.setBounds(7, 500, 130, 28);
+btnAudioReset.addActionListener(new ActionListener() {
+public void actionPerformed(ActionEvent evt) {
+
+int risp = JOptionPane.showConfirmDialog(null, "Si è sicuri di voler resettare lo storico del dialogo?", "Reset", JOptionPane.YES_NO_OPTION);
+if(risp == JOptionPane.YES_OPTION)
+{
+// Attiva/disattiva i pulsanti appropriati
+btnReset.setEnabled(false);
+btnRimuovi.setEnabled(false);
+
+// Resetta lo storico della Social Attitude
+sa_ling_history = new ArrayList<double[]>();
+
+// Svuota la tabella dello storico
+for (int i=tblLingEvidenzeModel.getRowCount()-1;i>=0;i--)
+tblLingEvidenzeModel.removeRow(i);
+
+// Resetta le opzioni di default delle evidenze
+cmbContx.setSelectedIndex(0);
+cmbMtype.setSelectedIndex(0);
+txtLeng.setText("");
+cmbQmar.setSelectedIndex(0);
+cmbConf.setSelectedIndex(0);
+cmbCiao.setSelectedIndex(0);
+cmbMe.setSelectedIndex(0);
+cmbYou.setSelectedIndex(0);
+
+// Resetta la rete
+hi.reset();
+
+// Ridisegna i grafici
+disegnaGrafici();
+}
+}
+});
+
+pnlAudioEvidenze.add(btnAudioReset);
+jScrollPane3 = new JScrollPane();
+jScrollPane3.setBounds(7, 170, 485, 77);
+tblAudioEvidenzeModel = 
+new DefaultTableModel(
+new String[][] {},
+new String[] { "#Frase", "Arousal", "Valenza" });
+tblAudioEvidenze = new JTable();
+tblAudioEvidenze.setModel(tblAudioEvidenzeModel);
+tblAudioEvidenze.setEnabled(false);
+tblAudioEvidenze.setBounds(11, 28, 481, 199);
+jScrollPane3.setViewportView(tblAudioEvidenze);
+pnlAudioEvidenze.add(jScrollPane3);
+jLabel10 = new JLabel();
+jLabel10.setText("Storico evidenze mosse del dialogo");
+jLabel10.setBounds(7, 145, 221, 18);
+pnlAudioEvidenze.add(jLabel10);
+btnAudioAggiungi = new JButton();
+btnAudioAggiungi.setEnabled(false);
+btnAudioAggiungi.setText("Aggiungi Mossa");
+btnAudioAggiungi.setToolTipText("Imposta le evidenze definite in una nuova mossa del dialogo.");
+btnAudioAggiungi.setBounds(362, 500, 130, 28);
+btnAudioAggiungi.addActionListener(new ActionListener() {
+public void actionPerformed(ActionEvent evt) {
+
+try
+{
+
+// Attiva/disattiva i pulsanti appropriati
+btnReset.setEnabled(true);
+btnRimuovi.setEnabled(true);
+
+if(sa_audio_history.size()>0)
+hi.addNodo();//modificare con rete audio
+
+// Setta le evidenze
+//modificare con rete audio
+hi.setEvidenza(Nodes.MOSSA_PREC_SISTEMA, cmbContx.getSelectedItem().toString());
+hi.setEvidenza(Nodes.MOSSA_UTENTE, cmbMtype.getSelectedItem().toString());
+hi.setEvidenza(Nodes.LUNGHEZZA,txtLeng.getText());
+hi.setEvidenza(Nodes.P_INTERROGATIVO, cmbQmar.getSelectedItem().toString());
+hi.setEvidenza(Nodes.ESPR_CONFIDENZIALI, cmbConf.getSelectedItem().toString());
+hi.setEvidenza(Nodes.ESPR_SALUTO, cmbCiao.getSelectedItem().toString());
+hi.setEvidenza(Nodes.ESPR_1PERSONA, cmbMe.getSelectedItem().toString());
+hi.setEvidenza(Nodes.ESPR_2PERSONA, cmbYou.getSelectedItem().toString());
+
+// Ottiene il valore di Social Attitude
+double[] sa = hi.getSA();
+sa_ling_history.add(sa);
+
+// Scrive la riga sulla tabella
+//prendere i valori da Voice Classifier
+tblAudioEvidenzeModel.addRow(new String[]{"",cmbAr.getSelectedItem().toString(),cmbVal.getSelectedItem().toString()});
+
+// Disegna il grafico
+disegnaGrafici();
+}
+catch(NumberFormatException e)
+{
+JOptionPane.showMessageDialog(null, "La lunghezza del messaggio deve essere un numero intero maggiore di 0");
+}
+}
+});
+pnlAudioEvidenze.add(btnAudioAggiungi);
+btnAudioRimuovi = new JButton();
+btnAudioRimuovi.setEnabled(false);
+btnAudioRimuovi.setText("Rimuovi Mossa");
+btnAudioRimuovi.setToolTipText("Rimuove l'ultima mossa del dialogo.");
+btnAudioRimuovi.setBounds(214, 500, 130, 28);
+btnAudioRimuovi.addActionListener(new ActionListener() {
+public void actionPerformed(ActionEvent evt) {
+
+//Rimuove l'ultima mossa dallo storico
+tblLingEvidenzeModel.removeRow(tblLingEvidenzeModel.getRowCount()-1);
+
+//Rimuove gli ultimi valori di SA memorizzati
+sa_ling_history.remove(sa_ling_history.size()-1);
+
+// Attiva/disattiva i pulsanti appropriati
+if(sa_ling_history.size()==0)
+{
+btnRimuovi.setEnabled(false);
+btnReset.setEnabled(false);
+}
+
+//Aggiorna i grafici
+disegnaGrafici();
+}
+});
+
+pnlAudioEvidenze.add(btnAudioRimuovi);
+pnlAudioEvidenze.add(getJScrollPane2());
+
+pnlAudio = new JPanel();
 					jTabbedPane.addTab("Audio", null, pnlAudio, null);
-				}
+					pnlAudio.setLayout(null);
+					pnlAudio.add(pnlAudioEvidenze);
+}
+					
+				
+////////////////////////////////////////GESTI///////////////////////////////////////////////////
 				{
 					pnlGesti = new JPanel();
 					//FlowLayout pnlGestiLayout = new FlowLayout();
@@ -643,7 +882,7 @@ public class Finestra extends javax.swing.JFrame {
 						pnlGestiEvidenze.setLayout(null);
 						pnlGestiEvidenze.setBounds(12, 0, 505, 545);
 						//gestione lista frasi caricate dal file .txt 
-							setFrasiList();
+							//setFrasiList();
 						{
 							pnlSegniLing = new JPanel();
 							pnlGestiEvidenze.add(pnlSegniLing);
@@ -703,103 +942,8 @@ public class Finestra extends javax.swing.JFrame {
 								cmbHands.setBounds(158, 33, 81, 23);
 							}
 						}
-						/*{
-							//jButton1 = new JButton();
-							//pnlGestiEvidenze.add(jButton1);
-							btnAggiungi.setText("Aggiungi Mossa");
-							btnAggiungi.setToolTipText("Imposta le evidenze definite in una nuova mossa del dialogo.");
-							btnAggiungi.setBounds(361, 496, 129, 28);
-							btnAggiungi.addActionListener(new ActionListener() {
-								public void actionPerformed(ActionEvent evt) {
-									
-									try
-									{
-										if (!txtLeng.getText().equals(""))
-										{
-											if(Integer.parseInt(txtLeng.getText())<=0)
-												throw new NumberFormatException();
-										}
-										
-										// Attiva/disattiva i pulsanti appropriati
-										btnReset.setEnabled(true);
-										btnRimuovi.setEnabled(true);
-										
-										if(sa_ling_history.size()>0)
-											hi.addNodo();
-										
-										// Setta le evidenze
-										hi.setEvidenza(Nodes.MOSSA_PREC_SISTEMA, cmbContx.getSelectedItem().toString());
-										hi.setEvidenza(Nodes.MOSSA_UTENTE, cmbMtype.getSelectedItem().toString());
-										hi.setEvidenza(Nodes.LUNGHEZZA,txtLeng.getText());
-										hi.setEvidenza(Nodes.P_INTERROGATIVO, cmbQmar.getSelectedItem().toString());
-										hi.setEvidenza(Nodes.ESPR_CONFIDENZIALI, cmbConf.getSelectedItem().toString());
-										hi.setEvidenza(Nodes.ESPR_SALUTO, cmbCiao.getSelectedItem().toString());
-										hi.setEvidenza(Nodes.ESPR_1PERSONA, cmbMe.getSelectedItem().toString());
-										hi.setEvidenza(Nodes.ESPR_2PERSONA, cmbYou.getSelectedItem().toString());
-										
-										// Ottiene il valore di Social Attitude
-										double[] sa = hi.getSA();
-										sa_ling_history.add(sa);
-										
-										// Scrive la riga sulla tabella
-										tblEvidenzeModel.addRow(new String[]{getValoreTabella(cmbContx.getSelectedItem().toString()),getValoreTabella(cmbMtype.getSelectedItem().toString()),getValoreTabella(txtLeng.getText()),getValoreTabella(cmbQmar.getSelectedItem().toString()),getValoreTabella(cmbConf.getSelectedItem().toString()),getValoreTabella(cmbCiao.getSelectedItem().toString()),getValoreTabella(cmbMe.getSelectedItem().toString()),getValoreTabella(cmbYou.getSelectedItem().toString()) });
-										 int index = jListFrasi.getSelectedIndex();
-										    //jListFrasiModel.remove(index);
-										
-										// Disegna il grafico
-										disegnaGrafici();
-										
-									}
-									catch(NumberFormatException e)
-									{
-										JOptionPane.showMessageDialog(null, "La lunghezza del messaggio deve essere un numero intero maggiore di 0");
-									}
-								}
-							});
-						}*/
-					/*	{
-							jButton2 = new JButton();
-							pnlGestiEvidenze.add(jButton2);
-							jButton2.setEnabled(false);
-							jButton2.setText("Reset Dialogo");
-							jButton2.setToolTipText("Resetta il dialogo, eliminando tutte le mosse definite.");
-							jButton2.setBounds(7, 496, 136, 28);
-							jButton2.addActionListener(new ActionListener() {
-								public void actionPerformed(ActionEvent evt) {
-									
-									int risp = JOptionPane.showConfirmDialog(null, "Si è sicuri di voler resettare lo storico del dialogo?", "Reset", JOptionPane.YES_NO_OPTION);
-									if(risp == JOptionPane.YES_OPTION)
-									{
-										// Attiva/disattiva i pulsanti appropriati
-										btnReset.setEnabled(false);
-										btnRimuovi.setEnabled(false);
-										
-										// Resetta lo storico della Social Attitude
-										sa_ling_history = new ArrayList<double[]>();
-										
-										// Svuota la tabella dello storico
-										for (int i=tblEvidenzeModel.getRowCount()-1;i>=0;i--)
-											tblEvidenzeModel.removeRow(i);
-										
-										// Resetta le opzioni di default delle evidenze
-										cmbContx.setSelectedIndex(0);
-										cmbMtype.setSelectedIndex(0);
-										txtLeng.setText("");
-										cmbQmar.setSelectedIndex(0);
-										cmbConf.setSelectedIndex(0);
-										cmbCiao.setSelectedIndex(0);
-										cmbMe.setSelectedIndex(0);
-										cmbYou.setSelectedIndex(0);
-										
-										// Resetta la rete
-										hi.reset();
-										
-										// Ridisegna i grafici
-										disegnaGrafici();
-									}
-								}
-							});
-						}*/
+						
+					
 						{
 							jButton3 = new JButton();
 							pnlGestiEvidenze.add(jButton3);
@@ -811,7 +955,7 @@ public class Finestra extends javax.swing.JFrame {
 								public void actionPerformed(ActionEvent evt) {
 									
 									//Rimuove l'ultima mossa dallo storico
-									tblEvidenzeModel.removeRow(tblEvidenzeModel.getRowCount()-1);
+									tblLingEvidenzeModel.removeRow(tblLingEvidenzeModel.getRowCount()-1);
 									
 									//Rimuove gli ultimi valori di SA memorizzati
 									sa_ling_history.remove(sa_ling_history.size()-1);
@@ -947,7 +1091,6 @@ public class Finestra extends javax.swing.JFrame {
 		pnlAnd.setBounds(17, 25, 453, 204);
 	}
 	
-	
 	private void jbtALGActionPerformed(ActionEvent evt,int i) {
 		switch(i){
 		case 1:
@@ -974,7 +1117,9 @@ public class Finestra extends javax.swing.JFrame {
 							
 							}
 						jListFrasi.setModel(jListFrasiModel);
+						jListAudioFrasi.setModel(jListFrasiModel);
 						jListFrasi.setSelectedIndex(0);
+						jListAudioFrasi.setSelectedIndex(0);
 						
 				  } catch (FileNotFoundException e) {
 						
@@ -995,9 +1140,9 @@ public class Finestra extends javax.swing.JFrame {
 		      System.out.println("Error");
 		      break;
 		    }
-		case 2: System.out.println("Bottone Audio");break;
+		case 2: System.out.println("Bottone Audio");jTabbedPane.setSelectedIndex(i);break;
 				
-		case 3: System.out.println("Bottone Gesti");break;
+		case 3: System.out.println("Bottone Gesti");jTabbedPane.setSelectedIndex(i);break;
 		case 4: {System.out.println("Radio Bottone Linguaggio");
 				jbtLing.setEnabled(true);
 				jbtAudio.setEnabled(false);
@@ -1023,7 +1168,8 @@ public class Finestra extends javax.swing.JFrame {
 		
 		//TODO add your code for jbtAudio.actionPerformed
 	}
-	private void setFrasiList(){
+	
+	private void setFrasiList(int choose){
 		lblFrasi = new JLabel();
 		pnlLingEvidenze.add(lblFrasi);
 		lblFrasi.setText("Lista frasi utente");
@@ -1032,7 +1178,6 @@ public class Finestra extends javax.swing.JFrame {
 		pnlLingEvidenze.add(jscrollpFrasi);
 		jscrollpFrasi.setBounds(7, 45, 485, 98);
 		{
-			
 			jListFrasi = new JList();
 			jListFrasi.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			jscrollpFrasi.setViewportView(jListFrasi);
@@ -1073,6 +1218,23 @@ public class Finestra extends javax.swing.JFrame {
 			btnGrp = new ButtonGroup();
 		}
 		return btnGrp;
+	}
+	
+	private JScrollPane getJScrollPane2() {
+		if(jScrollPane2 == null) {
+			jScrollPane2 = new JScrollPane();
+			jScrollPane2.setBounds(7, 23, 481, 122);
+			jScrollPane2.setViewportView(getJListAudioFrasi());
+		}
+		return jScrollPane2;
+	}
+	
+	private JList getJListAudioFrasi() {
+		if(jListAudioFrasi == null) {
+			jListAudioFrasi = new JList();
+
+		}
+		return jListAudioFrasi;
 	}
 
 }
