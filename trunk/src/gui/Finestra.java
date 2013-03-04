@@ -117,6 +117,8 @@ public class Finestra extends javax.swing.JFrame {
 	private JLabel lblAr;
 	private JLabel lblVal;
 	private JPanel pnlAudioAV;
+	private ChartPanel chartPanel4;
+	private JPanel jPanel1;
 	private JList jListAudioFrasi;
 	private JList jList1;
 	private JScrollPane jScrollPane2;
@@ -211,7 +213,7 @@ public class Finestra extends javax.swing.JFrame {
 				
 				{
 					pnlGenerale = new JPanel();
-					jTabbedPane.addTab("Generale", null, pnlGenerale, null);
+					jTabbedPane.addTab("General", null, pnlGenerale, null);
 					pnlGenerale.setPreferredSize(new java.awt.Dimension(939, 556));
 					pnlGenerale.setSize(1015, 592);
 					{
@@ -233,9 +235,9 @@ public class Finestra extends javax.swing.JFrame {
 								jrbLing = new JRadioButton();
 								btnGrp.add(jrbLing);
 								jpnlLingImp.add(jrbLing);
-								jrbLing.setText("Impostazioni Linguaggio");
+								jrbLing.setText("Language Settings");
 								
-								jrbLing.setBounds(14, 12, 218, 25);
+								jrbLing.setBounds(14, 2, 171, 46);
 								jrbLing.setFont(new java.awt.Font("Segoe UI",0,16));
 								jrbLing.addActionListener(new ActionListener(){
 
@@ -247,7 +249,7 @@ public class Finestra extends javax.swing.JFrame {
 							{
 								jbtLing = new JButton();
 								jpnlLingImp.add(jbtLing);
-								jbtLing.setText("Vai");
+								jbtLing.setText("Go");
 								jbtLing.setBounds(405, 15, 55, 25);
 								jbtLing.setEnabled(false);
 								jbtLing.addActionListener(new ActionListener() {
@@ -262,13 +264,13 @@ public class Finestra extends javax.swing.JFrame {
 							pnlGenSA.add(jpnlAudioImp);
 							jpnlAudioImp.setBorder(BorderFactory.createEtchedBorder(BevelBorder.LOWERED));
 							jpnlAudioImp.setLayout(null);
-							jpnlAudioImp.setBounds(10, 95, 472, 50);
+							jpnlAudioImp.setBounds(10, 120, 472, 50);
 							{
 								jrbAudio = new JRadioButton();
 								btnGrp.add(jrbAudio);
 								jpnlAudioImp.add(jrbAudio);
-								jrbAudio.setText("Impostazioni Audio");
-								jrbAudio.setBounds(14, 13, 191, 23);
+								jrbAudio.setText("Audio Settings");
+								jrbAudio.setBounds(14, 4, 191, 44);
 								jrbAudio.setFont(new java.awt.Font("Segoe UI",0,16));
 								jrbAudio.addActionListener(new ActionListener(){
 
@@ -280,7 +282,7 @@ public class Finestra extends javax.swing.JFrame {
 							{
 								jbtAudio = new JButton();
 								jpnlAudioImp.add(jbtAudio);
-								jbtAudio.setText("Vai");
+								jbtAudio.setText("Go");
 								jbtAudio.setBounds(405, 14, 55, 25);
 								jbtAudio.setEnabled(false);
 								jbtAudio.addActionListener(new ActionListener() {
@@ -295,13 +297,13 @@ public class Finestra extends javax.swing.JFrame {
 							pnlGenSA.add(jpnlGestiImp);
 							jpnlGestiImp.setBorder(BorderFactory.createEtchedBorder(BevelBorder.LOWERED));
 							jpnlGestiImp.setLayout(null);
-							jpnlGestiImp.setBounds(10, 165, 472, 50);
+							jpnlGestiImp.setBounds(10, 210, 472, 50);
 							{
 								jrbGesti = new JRadioButton();
 								btnGrp.add(jrbGesti);
 								jpnlGestiImp.add(jrbGesti);
-								jrbGesti.setText("Impostazioni Gesti");
-								jrbGesti.setBounds(14, 12, 155, 20);
+								jrbGesti.setText("Gesture Settings");
+								jrbGesti.setBounds(14, 5, 155, 43);
 								jrbGesti.setFont(new java.awt.Font("Segoe UI",0,16));
 								jrbGesti.addActionListener(new ActionListener(){
 
@@ -313,7 +315,7 @@ public class Finestra extends javax.swing.JFrame {
 							{
 								jbtGesti = new JButton();
 								jpnlGestiImp.add(jbtGesti);
-								jbtGesti.setText("Vai");
+								jbtGesti.setText("Go");
 								jbtGesti.setBounds(405, 12, 55, 25);
 								jbtGesti.setEnabled(false);
 								jbtGesti.addActionListener(new ActionListener() {
@@ -334,7 +336,7 @@ public class Finestra extends javax.swing.JFrame {
 				}
 				{
 					pnlLinguaggio = new JPanel();
-					jTabbedPane.addTab("Linguaggio", null, pnlLinguaggio, null);
+					jTabbedPane.addTab("Language", null, pnlLinguaggio, null);
 					pnlLinguaggio.setBounds(0, 0, 545, 548);
 					pnlLinguaggio.setSize(1044, 616);
 					pnlLinguaggio.setPreferredSize(new java.awt.Dimension(1044, 494));
@@ -353,26 +355,26 @@ public class Finestra extends javax.swing.JFrame {
 							pnlContesto = new JPanel();
 							pnlLingEvidenze.add(pnlContesto);
 							pnlContesto.setBounds(5, 255, 487, 98);
-							pnlContesto.setBorder(BorderFactory.createTitledBorder(null, "Contesto", TitledBorder.LEADING, TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI",1,12)));
+							pnlContesto.setBorder(BorderFactory.createTitledBorder(null, "Context", TitledBorder.LEADING, TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI",1,12)));
 							pnlContesto.setLayout(null);
 							{
 								lblContx = new JLabel();
 								pnlContesto.add(lblContx);
-								lblContx.setText("Mossa precedente del sistema:");
+								lblContx.setText("Previous System Move");
 								lblContx.setBounds(11, 26, 184, 16);
 								lblContx.setFont(new java.awt.Font("Arial",0,12));
 							}
 							{
 								lblMtype = new JLabel();
 								pnlContesto.add(lblMtype);
-								lblMtype.setText("Mossa dell'utente:");
+								lblMtype.setText("User Move");
 								lblMtype.setBounds(11, 58, 166, 16);
 								lblMtype.setFont(new java.awt.Font("Arial",0,12));
 							}
 							{
 								ComboBoxModel cmbContxModel = 
 										new DefaultComboBoxModel(
-												new String[] { Nodes.VALORE_NONSO, Nodes.MOSSA_SP, Nodes.MOSSA_AN, Nodes.MOSSA_CO, Nodes.MOSSA_QU, Nodes.MOSSA_SU, Nodes.MOSSA_NA, Nodes.MOSSA_FA  });
+												new String[] { "Undecided", "Self Presentation", "Answer", "Comment", "Question", "Suggestion", "No Answer", "See You Later"  });
 								cmbContx = new JComboBox();
 								pnlContesto.add(cmbContx);
 								cmbContx.setModel(cmbContxModel);
@@ -382,7 +384,7 @@ public class Finestra extends javax.swing.JFrame {
 							{
 								ComboBoxModel cmbMtypeModel = 
 										new DefaultComboBoxModel(
-												new String[] { Nodes.VALORE_NONSO, Nodes.MOSSA_SP, Nodes.MOSSA_AN, Nodes.MOSSA_CO, Nodes.MOSSA_QU, Nodes.MOSSA_FA });
+												new String[] { "Undecided", "Self Presentation", "Answer", "Comment", "Question", "See You Later" });
 								cmbMtype = new JComboBox();
 								pnlContesto.add(cmbMtype);
 								cmbMtype.setModel(cmbMtypeModel);
@@ -394,19 +396,19 @@ public class Finestra extends javax.swing.JFrame {
 							pnlSegni = new JPanel();
 							pnlLingEvidenze.add(pnlSegni);
 							pnlSegni.setBounds(5, 355, 487, 136);
-							pnlSegni.setBorder(BorderFactory.createTitledBorder(null, "Segni Linguistici", TitledBorder.LEADING, TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI",1,12)));
+							pnlSegni.setBorder(BorderFactory.createTitledBorder(null, "Lingustic Signs", TitledBorder.LEADING, TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI",1,12)));
 							pnlSegni.setLayout(null);
 							{
 								lblConf = new JLabel();
 								pnlSegni.add(lblConf);
-								lblConf.setText("Espressioni confidenziali:");
+								lblConf.setText("Friendly Expr");
 								lblConf.setBounds(9, 69, 149, 16);
 								lblConf.setFont(new java.awt.Font("Arial",0,12));
 							}
 							{
 								ComboBoxModel cmbConfModel = 
 										new DefaultComboBoxModel(
-												new String[] { Nodes.VALORE_NONSO,Nodes.VALORE_YES,Nodes.VALORE_NO });
+												new String[] { "Undecided","Yes","No" });
 								cmbConf = new JComboBox();
 								pnlSegni.add(cmbConf);
 								cmbConf.setModel(cmbConfModel);
@@ -416,14 +418,14 @@ public class Finestra extends javax.swing.JFrame {
 							{
 								lblCiao = new JLabel();
 								pnlSegni.add(lblCiao);
-								lblCiao.setText("Espressioni di saluto:");
+								lblCiao.setText("Greeting Expr");
 								lblCiao.setBounds(263, 69, 123, 16);
 								lblCiao.setFont(new java.awt.Font("Arial",0,12));
 							}
 							{
 								ComboBoxModel cmbCiaoModel = 
 										new DefaultComboBoxModel(
-												new String[] { Nodes.VALORE_NONSO,Nodes.VALORE_YES,Nodes.VALORE_NO });
+												new String[] { "Undecided","Yes","No" });
 								cmbCiao = new JComboBox();
 								pnlSegni.add(cmbCiao);
 								cmbCiao.setModel(cmbCiaoModel);
@@ -433,21 +435,21 @@ public class Finestra extends javax.swing.JFrame {
 							{
 								lblMe = new JLabel();
 								pnlSegni.add(lblMe);
-								lblMe.setText("Forme in 1a persona:");
+								lblMe.setText("1st Person Form");
 								lblMe.setBounds(9, 105, 149, 16);
 								lblMe.setFont(new java.awt.Font("Arial",0,12));
 							}
 							{
 								lblYou = new JLabel();
 								pnlSegni.add(lblYou);
-								lblYou.setText("Forme in 2a persona:");
+								lblYou.setText("2nd Person Form");
 								lblYou.setBounds(263, 105, 142, 16);
 								lblYou.setFont(new java.awt.Font("Arial",0,12));
 							}
 							{
 								ComboBoxModel cmbMeModel = 
 										new DefaultComboBoxModel(
-												new String[] { Nodes.VALORE_NONSO,Nodes.VALORE_YES,Nodes.VALORE_NO });
+												new String[] { "Undecided","Yes","No"});
 								cmbMe = new JComboBox();
 								pnlSegni.add(cmbMe);
 								cmbMe.setModel(cmbMeModel);
@@ -457,7 +459,7 @@ public class Finestra extends javax.swing.JFrame {
 							{
 								ComboBoxModel cmbYouModel = 
 										new DefaultComboBoxModel(
-												new String[] { Nodes.VALORE_NONSO,Nodes.VALORE_YES,Nodes.VALORE_NO });
+												new String[] { "Undecided","Yes","No" });
 								cmbYou = new JComboBox();
 								pnlSegni.add(cmbYou);
 								cmbYou.setModel(cmbYouModel);
@@ -467,7 +469,7 @@ public class Finestra extends javax.swing.JFrame {
 							{
 								lblLeng = new JLabel();
 								pnlSegni.add(lblLeng);
-								lblLeng.setText("Lunghezza messaggio: ");
+								lblLeng.setText("Message Length");
 								lblLeng.setBounds(9, 33, 149, 16);
 								lblLeng.setFont(new java.awt.Font("Arial",0,12));
 							}
@@ -480,14 +482,14 @@ public class Finestra extends javax.swing.JFrame {
 							{
 								lblQmar = new JLabel();
 								pnlSegni.add(lblQmar);
-								lblQmar.setText("Punto interrogativo: ");
+								lblQmar.setText("Question Points");
 								lblQmar.setBounds(263, 33, 124, 16);
 								lblQmar.setFont(new java.awt.Font("Arial",0,12));
 							}
 							{
 								ComboBoxModel cmqQmarModel = 
 										new DefaultComboBoxModel(
-												new String[] { Nodes.VALORE_NONSO,Nodes.VALORE_YES,Nodes.VALORE_NO });
+												new String[] { "Undecided","Yes","No" });
 								cmbQmar = new JComboBox();
 								pnlSegni.add(cmbQmar);
 								cmbQmar.setModel(cmqQmarModel);
@@ -499,7 +501,7 @@ public class Finestra extends javax.swing.JFrame {
 						{
 							btnReset = new JButton();
 							pnlLingEvidenze.add(btnReset);
-							btnReset.setText("Reset Dialogo");
+							btnReset.setText("Reset Dialog");
 							btnReset.setBounds(7, 500, 130, 28);
 							btnReset.setEnabled(false);
 							btnReset.setToolTipText("Resetta il dialogo, eliminando tutte le mosse definite.");
@@ -558,13 +560,13 @@ public class Finestra extends javax.swing.JFrame {
 						{
 							lblStorico = new JLabel();
 							pnlLingEvidenze.add(lblStorico);
-							lblStorico.setText("Storico evidenze mosse del dialogo");
+							lblStorico.setText("Evidence History");
 							lblStorico.setBounds(7, 145, 221, 18);
 						}
 						{
 							btnAggiungi = new JButton();
 							pnlLingEvidenze.add(btnAggiungi);
-							btnAggiungi.setText("Aggiungi Mossa");
+							btnAggiungi.setText("Add Move");
 							btnAggiungi.setBounds(362, 500, 130, 28);
 							btnAggiungi.setToolTipText("Imposta le evidenze definite in una nuova mossa del dialogo.");
 							btnAggiungi.setEnabled(false);
@@ -616,7 +618,7 @@ public class Finestra extends javax.swing.JFrame {
 						{
 							btnRimuovi = new JButton();
 							pnlLingEvidenze.add(btnRimuovi);
-							btnRimuovi.setText("Rimuovi Mossa");
+							btnRimuovi.setText("Remove Move");
 							btnRimuovi.setBounds(214, 500, 130, 28);
 							btnRimuovi.setToolTipText("Rimuove l'ultima mossa del dialogo.");
 							btnRimuovi.setEnabled(false);
@@ -659,26 +661,26 @@ public class Finestra extends javax.swing.JFrame {
 ////////////////////////////////////////////AUDIO////////////////////////////////////////
 {
 pnlAudioEvidenze = new JPanel();
-pnlAudioEvidenze.setBorder(BorderFactory.createTitledBorder(null,"Evidenze",TitledBorder.LEADING,TitledBorder.DEFAULT_POSITION,new java.awt.Font("Segoe UI",3,12),new java.awt.Color(0,0,0)));
-pnlAudioEvidenze.setBounds(0, 12, 505, 545);
+pnlAudioEvidenze.setBorder(BorderFactory.createTitledBorder(null,"Evidences",TitledBorder.LEADING,TitledBorder.DEFAULT_POSITION,new java.awt.Font("Segoe UI",3,12),new java.awt.Color(0,0,0)));
+pnlAudioEvidenze.setBounds(12, 0, 505, 545);
 pnlAudioEvidenze.setLayout(null);
 pnlAudioAV = new JPanel();
 pnlAudioAV.setBorder(BorderFactory.createTitledBorder(null,"A&V",TitledBorder.LEADING,TitledBorder.DEFAULT_POSITION,new java.awt.Font("Segoe UI",1,12)));
 pnlAudioAV.setBounds(5, 255, 487, 98);
 pnlAudioAV.setLayout(null);
 lblVal = new JLabel();
-lblVal.setText("Valore Valenza:");
+lblVal.setText("Valence Value:");
 lblVal.setFont(new java.awt.Font("Arial",0,12));
 lblVal.setBounds(17, 27, 84, 15);
 pnlAudioAV.add(lblVal);
 lblAr = new JLabel();
-lblAr.setText("Valore Arousal:");
+lblAr.setText("Arousal Value:");
 lblAr.setFont(new java.awt.Font("Arial",0,12));
 lblAr.setBounds(17, 66, 99, 15);
 pnlAudioAV.add(lblAr);
 ComboBoxModel cmbValModel = 
 new DefaultComboBoxModel(
-new String[] { "Incerto", "Positivo", "Neutro", "Negativo", "Molto Negativo" });
+new String[] { "Undecided", "Positive", "Neutral", "Negative", "Very Negative" });
 cmbVal = new JComboBox();
 cmbVal.setModel(cmbValModel);
 cmbVal.setToolTipText("<html>Identifica la tipologia dell'ultima mossa del <br>dialogo eseguita dal sistema</html>");
@@ -702,7 +704,7 @@ cmbVal.addItemListener(new ItemListener(){
 pnlAudioAV.add(cmbVal);
 ComboBoxModel cmbArModel = 
 new DefaultComboBoxModel(
-new String[] { "Incerto","Alto", "Medio", "Basso" });
+new String[] { "Undecided","High", "Medium", "Low" });
 cmbAr = new JComboBox();
 cmbAr.setModel(cmbArModel);
 cmbAr.setToolTipText("<html>Identifica la tipologia della mossa del <br>dialogo eseguita dall'utente</html>");
@@ -728,7 +730,7 @@ pnlAudioAV.add(cmbAr);
 pnlAudioEvidenze.add(pnlAudioAV);
 btnAudioReset = new JButton();
 btnAudioReset.setEnabled(false);
-btnAudioReset.setText("Reset Dialogo");
+btnAudioReset.setText("Reset Dialog");
 btnAudioReset.setToolTipText("Resetta il dialogo, eliminando tutte le mosse definite.");
 btnAudioReset.setBounds(7, 500, 130, 28);
 btnAudioReset.addActionListener(new ActionListener() {
@@ -781,12 +783,12 @@ tblAudioEvidenze.setBounds(11, 28, 481, 199);
 jScrollPane3.setViewportView(tblAudioEvidenze);
 pnlAudioEvidenze.add(jScrollPane3);
 jLabel10 = new JLabel();
-jLabel10.setText("Storico evidenze mosse del dialogo");
+jLabel10.setText("Evidences history");
 jLabel10.setBounds(7, 145, 221, 18);
 pnlAudioEvidenze.add(jLabel10);
 btnAudioAggiungi = new JButton();
 btnAudioAggiungi.setEnabled(false);
-btnAudioAggiungi.setText("Aggiungi Mossa");
+btnAudioAggiungi.setText("Add Move");
 btnAudioAggiungi.setToolTipText("Imposta le evidenze definite in una nuova mossa del dialogo.");
 btnAudioAggiungi.setBounds(362, 500, 130, 28);
 btnAudioAggiungi.addActionListener(new ActionListener() {
@@ -833,7 +835,7 @@ JOptionPane.showMessageDialog(null, "La lunghezza del messaggio deve essere un n
 pnlAudioEvidenze.add(btnAudioAggiungi);
 btnAudioRimuovi = new JButton();
 btnAudioRimuovi.setEnabled(false);
-btnAudioRimuovi.setText("Rimuovi Mossa");
+btnAudioRimuovi.setText("Rimuove Move");
 btnAudioRimuovi.setToolTipText("Rimuove l'ultima mossa del dialogo.");
 btnAudioRimuovi.setBounds(214, 500, 130, 28);
 btnAudioRimuovi.addActionListener(new ActionListener() {
@@ -864,6 +866,7 @@ pnlAudio = new JPanel();
 					jTabbedPane.addTab("Audio", null, pnlAudio, null);
 					pnlAudio.setLayout(null);
 					pnlAudio.add(pnlAudioEvidenze);
+					pnlAudio.add(getJPanel1());
 }
 					
 				
@@ -871,7 +874,7 @@ pnlAudio = new JPanel();
 				{
 					pnlGesti = new JPanel();
 					//FlowLayout pnlGestiLayout = new FlowLayout();
-					jTabbedPane.addTab("Gesti", null, pnlGesti, null);
+					jTabbedPane.addTab("Gesture", null, pnlGesti, null);
 					pnlGesti.setLayout(null);
 					//pnlGesti.setPreferredSize(new java.awt.Dimension(1033, 744));
 					{
@@ -888,11 +891,11 @@ pnlAudio = new JPanel();
 							pnlGestiEvidenze.add(pnlSegniLing);
 							pnlSegniLing.setBorder(BorderFactory.createTitledBorder(null,"Segni Linguistici",TitledBorder.LEADING,TitledBorder.DEFAULT_POSITION,new java.awt.Font("Segoe UI",1,12)));
 							pnlSegniLing.setLayout(null);
-							pnlSegniLing.setBounds(13, 100, 482, 136);
+							pnlSegniLing.setBounds(13, 213, 482, 136);
 							{
 								lblArms = new JLabel();
 								pnlSegniLing.add(lblArms);
-								lblArms.setText("Braccia");
+								lblArms.setText("Arms");
 								lblArms.setFont(new java.awt.Font("Arial",0,12));
 								lblArms.setBounds(9, 69, 149, 16);
 							}
@@ -910,14 +913,14 @@ pnlAudio = new JPanel();
 							{
 								lblLegs = new JLabel();
 								pnlSegniLing.add(lblLegs);
-								lblLegs.setText("Gambe");
+								lblLegs.setText("Legs");
 								lblLegs.setFont(new java.awt.Font("Arial",0,12));
 								lblLegs.setBounds(9, 105, 149, 16);
 							}
 							{
 								lblHands = new JLabel();
 								pnlSegniLing.add(lblHands);
-								lblHands.setText("Mani");
+								lblHands.setText("Hands");
 								lblHands.setFont(new java.awt.Font("Arial",0,12));
 								lblHands.setBounds(9, 36, 143, 16);
 							}
@@ -984,12 +987,12 @@ pnlAudio = new JPanel();
 						{
 							chartPanel1 = new ChartPanel(istogramma, true);
 							pnlGestiSA.add(chartPanel1);
-							chartPanel1.setBounds(17, 295, 453, 261);
+							chartPanel1.setBounds(17, 251, 453, 261);
 						}
 						{
 							chartPanel2 = new ChartPanel(andamento, true);
 							pnlGestiSA.add(chartPanel2);
-							chartPanel2.setBounds(17, 33, 453, 234);
+							chartPanel2.setBounds(17, 25, 453, 204);
 						}
 					}
 				}
@@ -1025,17 +1028,17 @@ pnlAudio = new JPanel();
 		if(sa_ling_history.size()>0)
 		{
 			double last_sa[] = sa_ling_history.get(sa_ling_history.size()-1);
-			ds.addValue(last_sa[2],"Negativa","Social Attitude");
-			ds.addValue(last_sa[1],"Neutrale","Social Attitude");
-			ds.addValue(last_sa[0],"Positiva","Social Attitude");
+			ds.addValue(last_sa[2],"Negative","Social Attitude");
+			ds.addValue(last_sa[1],"Neutral","Social Attitude");
+			ds.addValue(last_sa[0],"Positive","Social Attitude");
 		}
 		else
 		{
-			ds.addValue(sa_iniziale[2],"Negativa","Social Attitude");
-			ds.addValue(sa_iniziale[1],"Neutrale","Social Attitude");
-			ds.addValue(sa_iniziale[0],"Positiva","Social Attitude");
+			ds.addValue(sa_iniziale[2],"Negative","Social Attitude");
+			ds.addValue(sa_iniziale[1],"Neutral","Social Attitude");
+			ds.addValue(sa_iniziale[0],"Positive","Social Attitude");
 		}
-		istogramma = ChartFactory.createBarChart("Social Attitude corrente", "", "Probabilità", ds, PlotOrientation.VERTICAL, true, true, false);
+		istogramma = ChartFactory.createBarChart("Current Social Attitude", "Move", "Probability", ds, PlotOrientation.VERTICAL, true, true, false);
 		pnlIst = new ChartPanel(istogramma, true);
 		
 		CategoryPlot plotIst = (CategoryPlot)istogramma.getPlot();
@@ -1061,17 +1064,17 @@ pnlAudio = new JPanel();
 		DefaultCategoryDataset dsNeutral = new DefaultCategoryDataset();
 		DefaultCategoryDataset dsBad = new DefaultCategoryDataset();
 
-		dsPositive.addValue(sa_iniziale[0], "Positiva", "0");
-		dsNeutral.addValue(sa_iniziale[1], "Neutrale", "0");
-		dsBad.addValue(sa_iniziale[2], "Negativa", "0");
+		dsPositive.addValue(sa_iniziale[0], "Positive", "0");
+		dsNeutral.addValue(sa_iniziale[1], "Neutral", "0");
+		dsBad.addValue(sa_iniziale[2], "Negative", "0");
 
 		for (Integer i=1; i <= sa_ling_history.size(); i++)
 		{
-			dsPositive.addValue(sa_ling_history.get(i-1)[0],"Positiva",i.toString());
-			dsNeutral.addValue(sa_ling_history.get(i-1)[1],"Neutrale",i.toString());
-			dsBad.addValue(sa_ling_history.get(i-1)[2],"Negativa",i.toString());
+			dsPositive.addValue(sa_ling_history.get(i-1)[0],"Positive",i.toString());
+			dsNeutral.addValue(sa_ling_history.get(i-1)[1],"Neutral",i.toString());
+			dsBad.addValue(sa_ling_history.get(i-1)[2],"Negative",i.toString());
 		}
-		andamento = ChartFactory.createLineChart("Andamento Social Attitude", "Mossa", "Probabilità", dsBad, PlotOrientation.VERTICAL, true, true, false);
+		andamento = ChartFactory.createLineChart("Social Attitude Trend", "Move", "Probability", dsBad, PlotOrientation.VERTICAL, true, true, false);
 		
 		CategoryPlot plotAnd = (CategoryPlot)andamento.getPlot();
 		plotAnd.setDataset(1,dsNeutral);
@@ -1172,7 +1175,7 @@ pnlAudio = new JPanel();
 	private void setFrasiList(int choose){
 		lblFrasi = new JLabel();
 		pnlLingEvidenze.add(lblFrasi);
-		lblFrasi.setText("Lista frasi utente");
+		lblFrasi.setText("User phrases");
 		lblFrasi.setBounds(7, 23, 90, 17);
 		jscrollpFrasi = new JScrollPane();
 		pnlLingEvidenze.add(jscrollpFrasi);
@@ -1235,6 +1238,28 @@ pnlAudio = new JPanel();
 
 		}
 		return jListAudioFrasi;
+	}
+
+	private JPanel getJPanel1() {
+		if(jPanel1 == null) {
+			jPanel1 = new JPanel();
+			jPanel1.setFont(new java.awt.Font("Dialog",0,12));
+			jPanel1.setPreferredSize(new java.awt.Dimension(493,568));
+			jPanel1.setBorder(BorderFactory.createTitledBorder("Social Attitude"));
+			
+			jPanel1.setBounds(528, 0, 505, 545);
+			jPanel1.setLayout(null);
+			jPanel1.add(getChartPanel4());
+		}
+		return jPanel1;
+	}
+	
+	private ChartPanel getChartPanel4() {
+		if(chartPanel4 == null) {
+			chartPanel4 = new ChartPanel(andamento, true);
+			chartPanel4.setBounds(17, 25, 453, 204);
+		}
+		return chartPanel4;
 	}
 
 }
