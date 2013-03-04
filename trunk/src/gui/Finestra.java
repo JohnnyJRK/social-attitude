@@ -24,6 +24,7 @@ import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -47,6 +48,8 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileFilter;
@@ -102,10 +105,11 @@ public class Finestra extends javax.swing.JFrame {
 	private JList jListFrasi;
 	private JPanel jpnlGestiImp;
 	private JPanel jpnlAudioImp;
-	private JRadioButton jrbGesti;
-	private JRadioButton jrbLing;
-	private JRadioButton jrbAudio;
+	private JCheckBox jrbGesti;
+	private JCheckBox jrbLing;
+	private JCheckBox jrbAudio;
 	private JPanel jpnlLingImp;
+	private ChartPanel chartPanel3;
 	private JButton btnAudioRimuovi;
 	private JButton btnAudioAggiungi;
 	private JLabel jLabel10;
@@ -117,15 +121,19 @@ public class Finestra extends javax.swing.JFrame {
 	private JLabel lblAr;
 	private JLabel lblVal;
 	private JPanel pnlAudioAV;
+	private JButton jButton1;
+	private JLabel lblGestiFrasi;
+	private JLabel lblAudioFrasi;
+	private JScrollPane jScrollPane4;
 	private ChartPanel chartPanel4;
 	private JPanel jPanel1;
 	private JList jListAudioFrasi;
-	private JList jList1;
+	private JList jListGestiFrasi;
 	private JScrollPane jScrollPane2;
 	private JLabel jLabel1;
 	private JPanel pnlAudioEvidenze;
 	private ButtonGroup btnGrp;
-	private JLabel lblFrasi;
+	private JLabel lblLingFrasi;
 	private DefaultListModel jListFrasiModel;
 	private JScrollPane jscrollpFrasi;
 	ListModel jList1Model;
@@ -232,19 +240,29 @@ public class Finestra extends javax.swing.JFrame {
 							jpnlLingImp.setBorder(BorderFactory.createEtchedBorder(BevelBorder.LOWERED));
 							jpnlLingImp.setLayout(null);
 							{
-								jrbLing = new JRadioButton();
-								btnGrp.add(jrbLing);
+								jrbLing = new JCheckBox();
+								//btnGrp.add(jrbLing);
 								jpnlLingImp.add(jrbLing);
 								jrbLing.setText("Language Settings");
 								
-								jrbLing.setBounds(14, 2, 171, 46);
+								jrbLing.setBounds(14, 2, 164, 46);
 								jrbLing.setFont(new java.awt.Font("Segoe UI",0,16));
-								jrbLing.addActionListener(new ActionListener(){
+								jrbLing.addChangeListener(new ChangeListener(){
+
+									@Override
+									public void stateChanged(ChangeEvent arg0) {
+										if(jrbLing.isSelected())
+											jbtLing.setEnabled(true);
+										else
+											jbtLing.setEnabled(false);
+										
+									}});
+								/*jrbLing.addActionListener(new ActionListener(){
 
 									public void actionPerformed(ActionEvent evt) {
 										jbtALGActionPerformed(evt,4);
 										
-									}});
+									}});*/
 							}
 							{
 								jbtLing = new JButton();
@@ -264,26 +282,36 @@ public class Finestra extends javax.swing.JFrame {
 							pnlGenSA.add(jpnlAudioImp);
 							jpnlAudioImp.setBorder(BorderFactory.createEtchedBorder(BevelBorder.LOWERED));
 							jpnlAudioImp.setLayout(null);
-							jpnlAudioImp.setBounds(10, 120, 472, 50);
+							jpnlAudioImp.setBounds(10, 121, 472, 50);
 							{
-								jrbAudio = new JRadioButton();
-								btnGrp.add(jrbAudio);
+								jrbAudio = new JCheckBox();
+								//btnGrp.add(jrbAudio);
 								jpnlAudioImp.add(jrbAudio);
 								jrbAudio.setText("Audio Settings");
-								jrbAudio.setBounds(14, 4, 191, 44);
+								jrbAudio.setBounds(14, 4, 141, 44);
 								jrbAudio.setFont(new java.awt.Font("Segoe UI",0,16));
-								jrbAudio.addActionListener(new ActionListener(){
+								jrbAudio.addChangeListener(new ChangeListener(){
+
+									@Override
+									public void stateChanged(ChangeEvent arg0) {
+										if(jrbAudio.isSelected())
+											jbtAudio.setEnabled(true);
+										else
+											jbtAudio.setEnabled(false);
+										
+									}});
+								/*jrbAudio.addActionListener(new ActionListener(){
 
 									public void actionPerformed(ActionEvent evt) {
 										jbtALGActionPerformed(evt,5);
 										
-									}});
+									}});*/
 							}
 							{
 								jbtAudio = new JButton();
 								jpnlAudioImp.add(jbtAudio);
 								jbtAudio.setText("Go");
-								jbtAudio.setBounds(405, 14, 55, 25);
+								jbtAudio.setBounds(405, 15, 55, 25);
 								jbtAudio.setEnabled(false);
 								jbtAudio.addActionListener(new ActionListener() {
 									public void actionPerformed(ActionEvent evt) {
@@ -295,28 +323,39 @@ public class Finestra extends javax.swing.JFrame {
 						{
 							jpnlGestiImp = new JPanel();
 							pnlGenSA.add(jpnlGestiImp);
+							pnlGenSA.add(getJButton1());
 							jpnlGestiImp.setBorder(BorderFactory.createEtchedBorder(BevelBorder.LOWERED));
 							jpnlGestiImp.setLayout(null);
 							jpnlGestiImp.setBounds(10, 210, 472, 50);
 							{
-								jrbGesti = new JRadioButton();
-								btnGrp.add(jrbGesti);
+								jrbGesti = new JCheckBox();
+								//btnGrp.add(jrbGesti);
 								jpnlGestiImp.add(jrbGesti);
 								jrbGesti.setText("Gesture Settings");
-								jrbGesti.setBounds(14, 5, 155, 43);
+								jrbGesti.setBounds(14, 5, 146, 43);
 								jrbGesti.setFont(new java.awt.Font("Segoe UI",0,16));
-								jrbGesti.addActionListener(new ActionListener(){
+								jrbGesti.addChangeListener(new ChangeListener(){
+
+									@Override
+									public void stateChanged(ChangeEvent arg0) {
+										if(jrbGesti.isSelected())
+											jbtGesti.setEnabled(true);
+										else
+											jbtGesti.setEnabled(false);
+										
+									}});
+								/*jrbGesti.addActionListener(new ActionListener(){
 
 									public void actionPerformed(ActionEvent evt) {
 										jbtALGActionPerformed(evt,6);
 										
-									}});
+									}});*/
 							}
 							{
 								jbtGesti = new JButton();
 								jpnlGestiImp.add(jbtGesti);
 								jbtGesti.setText("Go");
-								jbtGesti.setBounds(405, 12, 55, 25);
+								jbtGesti.setBounds(405, 15, 55, 25);
 								jbtGesti.setEnabled(false);
 								jbtGesti.addActionListener(new ActionListener() {
 									public void actionPerformed(ActionEvent evt) {
@@ -330,7 +369,7 @@ public class Finestra extends javax.swing.JFrame {
 						pnlGenResult = new JPanel();
 						pnlGenerale.add(pnlGenResult);
 						pnlGenResult.setPreferredSize(new java.awt.Dimension(499, 543));
-						pnlGenResult.setBorder(BorderFactory.createTitledBorder("Risultato"));
+						pnlGenResult.setBorder(BorderFactory.createTitledBorder("Results"));
 						pnlGenResult.setLayout(null);
 					}
 				}
@@ -666,7 +705,7 @@ pnlAudioEvidenze.setBounds(12, 0, 505, 545);
 pnlAudioEvidenze.setLayout(null);
 pnlAudioAV = new JPanel();
 pnlAudioAV.setBorder(BorderFactory.createTitledBorder(null,"A&V",TitledBorder.LEADING,TitledBorder.DEFAULT_POSITION,new java.awt.Font("Segoe UI",1,12)));
-pnlAudioAV.setBounds(5, 255, 487, 98);
+pnlAudioAV.setBounds(5, 270, 487, 98);
 pnlAudioAV.setLayout(null);
 lblVal = new JLabel();
 lblVal.setText("Valence Value:");
@@ -771,11 +810,11 @@ disegnaGrafici();
 
 pnlAudioEvidenze.add(btnAudioReset);
 jScrollPane3 = new JScrollPane();
-jScrollPane3.setBounds(7, 170, 485, 77);
+jScrollPane3.setBounds(7, 187, 485, 77);
 tblAudioEvidenzeModel = 
 new DefaultTableModel(
 new String[][] {},
-new String[] { "#Frase", "Arousal", "Valenza" });
+new String[] { "#Phrase", "Arousal", "Valence" });
 tblAudioEvidenze = new JTable();
 tblAudioEvidenze.setModel(tblAudioEvidenzeModel);
 tblAudioEvidenze.setEnabled(false);
@@ -784,7 +823,7 @@ jScrollPane3.setViewportView(tblAudioEvidenze);
 pnlAudioEvidenze.add(jScrollPane3);
 jLabel10 = new JLabel();
 jLabel10.setText("Evidences history");
-jLabel10.setBounds(7, 145, 221, 18);
+jLabel10.setBounds(5, 163, 221, 18);
 pnlAudioEvidenze.add(jLabel10);
 btnAudioAggiungi = new JButton();
 btnAudioAggiungi.setEnabled(false);
@@ -835,7 +874,7 @@ JOptionPane.showMessageDialog(null, "La lunghezza del messaggio deve essere un n
 pnlAudioEvidenze.add(btnAudioAggiungi);
 btnAudioRimuovi = new JButton();
 btnAudioRimuovi.setEnabled(false);
-btnAudioRimuovi.setText("Rimuove Move");
+btnAudioRimuovi.setText("Remove Move");
 btnAudioRimuovi.setToolTipText("Rimuove l'ultima mossa del dialogo.");
 btnAudioRimuovi.setBounds(214, 500, 130, 28);
 btnAudioRimuovi.addActionListener(new ActionListener() {
@@ -861,6 +900,7 @@ disegnaGrafici();
 
 pnlAudioEvidenze.add(btnAudioRimuovi);
 pnlAudioEvidenze.add(getJScrollPane2());
+pnlAudioEvidenze.add(getLblAudioFrasi());
 
 pnlAudio = new JPanel();
 					jTabbedPane.addTab("Audio", null, pnlAudio, null);
@@ -881,7 +921,7 @@ pnlAudio = new JPanel();
 						pnlGestiEvidenze = new JPanel();
 						pnlGesti.add(pnlGestiEvidenze);
 						BoxLayout jPanel1Layout = new BoxLayout(pnlGestiEvidenze, javax.swing.BoxLayout.Y_AXIS);
-						pnlGestiEvidenze.setBorder(BorderFactory.createTitledBorder(null,"Evidenze",TitledBorder.LEADING,TitledBorder.DEFAULT_POSITION,new java.awt.Font("Segoe UI",3,12),new java.awt.Color(0,0,0)));
+						pnlGestiEvidenze.setBorder(BorderFactory.createTitledBorder(null,"Evidences",TitledBorder.LEADING,TitledBorder.DEFAULT_POSITION,new java.awt.Font("Segoe UI",3,12),new java.awt.Color(0,0,0)));
 						pnlGestiEvidenze.setLayout(null);
 						pnlGestiEvidenze.setBounds(12, 0, 505, 545);
 						//gestione lista frasi caricate dal file .txt 
@@ -889,9 +929,9 @@ pnlAudio = new JPanel();
 						{
 							pnlSegniLing = new JPanel();
 							pnlGestiEvidenze.add(pnlSegniLing);
-							pnlSegniLing.setBorder(BorderFactory.createTitledBorder(null,"Segni Linguistici",TitledBorder.LEADING,TitledBorder.DEFAULT_POSITION,new java.awt.Font("Segoe UI",1,12)));
+							pnlSegniLing.setBorder(BorderFactory.createTitledBorder(null,"Gesture",TitledBorder.LEADING,TitledBorder.DEFAULT_POSITION,new java.awt.Font("Segoe UI",1,12)));
 							pnlSegniLing.setLayout(null);
-							pnlSegniLing.setBounds(13, 213, 482, 136);
+							pnlSegniLing.setBounds(7, 172, 482, 136);
 							{
 								lblArms = new JLabel();
 								pnlSegniLing.add(lblArms);
@@ -950,6 +990,8 @@ pnlAudio = new JPanel();
 						{
 							jButton3 = new JButton();
 							pnlGestiEvidenze.add(jButton3);
+							pnlGestiEvidenze.add(getJScrollPane4());
+							pnlGestiEvidenze.add(getLblGestiFrasi());
 							jButton3.setEnabled(false);
 							jButton3.setText("Rimuovi Mossa");
 							jButton3.setToolTipText("Rimuove l'ultima mossa del dialogo.");
@@ -987,12 +1029,12 @@ pnlAudio = new JPanel();
 						{
 							chartPanel1 = new ChartPanel(istogramma, true);
 							pnlGestiSA.add(chartPanel1);
-							chartPanel1.setBounds(17, 251, 453, 261);
+							chartPanel1.setBounds(17, 253, 471, 261);
 						}
 						{
 							chartPanel2 = new ChartPanel(andamento, true);
 							pnlGestiSA.add(chartPanel2);
-							chartPanel2.setBounds(17, 25, 453, 204);
+							chartPanel2.setBounds(17, 25, 471, 204);
 						}
 					}
 				}
@@ -1057,7 +1099,7 @@ pnlAudio = new JPanel();
 		renderLabel.setBaseItemLabelsVisible(true);
 
 		pnlLingSA.add(pnlIst);
-		pnlIst.setBounds(17, 254, 453, 252);
+		pnlIst.setBounds(17, 253, 471, 261);
 
 		
 		DefaultCategoryDataset dsPositive = new DefaultCategoryDataset();
@@ -1091,7 +1133,7 @@ pnlAudio = new JPanel();
 		
 		
 		pnlLingSA.add(pnlAnd);
-		pnlAnd.setBounds(17, 25, 453, 204);
+		pnlAnd.setBounds(17, 25, 471, 204);
 	}
 	
 	private void jbtALGActionPerformed(ActionEvent evt,int i) {
@@ -1122,6 +1164,7 @@ pnlAudio = new JPanel();
 						jListFrasi.setModel(jListFrasiModel);
 						jListAudioFrasi.setModel(jListFrasiModel);
 						jListFrasi.setSelectedIndex(0);
+						jListGestiFrasi.setModel(jListFrasiModel);
 						jListAudioFrasi.setSelectedIndex(0);
 						
 				  } catch (FileNotFoundException e) {
@@ -1146,21 +1189,22 @@ pnlAudio = new JPanel();
 		case 2: System.out.println("Bottone Audio");jTabbedPane.setSelectedIndex(i);break;
 				
 		case 3: System.out.println("Bottone Gesti");jTabbedPane.setSelectedIndex(i);break;
-		case 4: {System.out.println("Radio Bottone Linguaggio");
+		
+		case 4: {System.out.println("Checkbox Linguaggio");
 				jbtLing.setEnabled(true);
-				jbtAudio.setEnabled(false);
-				jbtGesti.setEnabled(false);
+				//jbtAudio.setEnabled(false);
+				//jbtGesti.setEnabled(false);
 				break;}
 				
-		case 5: {System.out.println("Radio Bottone Audio");
-				jbtLing.setEnabled(false);
+		case 5: {System.out.println("Checkbox Audio");
+				//jbtLing.setEnabled(false);
 				jbtAudio.setEnabled(true);
-				jbtGesti.setEnabled(false);
+				//jbtGesti.setEnabled(false);
 				break;}
 				
-		case 6: {System.out.println("Radio Bottone Gesti");
-				jbtLing.setEnabled(false);
-				jbtAudio.setEnabled(false);
+		case 6: {System.out.println("Checkbox Gesti");
+				//jbtLing.setEnabled(false);
+				//jbtAudio.setEnabled(false);
 				jbtGesti.setEnabled(true);
 				break;}
 		
@@ -1173,10 +1217,10 @@ pnlAudio = new JPanel();
 	}
 	
 	private void setFrasiList(int choose){
-		lblFrasi = new JLabel();
-		pnlLingEvidenze.add(lblFrasi);
-		lblFrasi.setText("User phrases");
-		lblFrasi.setBounds(7, 23, 90, 17);
+		lblLingFrasi = new JLabel();
+		pnlLingEvidenze.add(lblLingFrasi);
+		lblLingFrasi.setText("User phrases");
+		lblLingFrasi.setBounds(7, 23, 90, 17);
 		jscrollpFrasi = new JScrollPane();
 		pnlLingEvidenze.add(jscrollpFrasi);
 		jscrollpFrasi.setBounds(7, 45, 485, 98);
@@ -1226,7 +1270,7 @@ pnlAudio = new JPanel();
 	private JScrollPane getJScrollPane2() {
 		if(jScrollPane2 == null) {
 			jScrollPane2 = new JScrollPane();
-			jScrollPane2.setBounds(7, 23, 481, 122);
+			jScrollPane2.setBounds(7, 45, 485, 110);
 			jScrollPane2.setViewportView(getJListAudioFrasi());
 		}
 		return jScrollPane2;
@@ -1250,6 +1294,7 @@ pnlAudio = new JPanel();
 			jPanel1.setBounds(528, 0, 505, 545);
 			jPanel1.setLayout(null);
 			jPanel1.add(getChartPanel4());
+			jPanel1.add(getChartPanel3());
 		}
 		return jPanel1;
 	}
@@ -1257,9 +1302,62 @@ pnlAudio = new JPanel();
 	private ChartPanel getChartPanel4() {
 		if(chartPanel4 == null) {
 			chartPanel4 = new ChartPanel(andamento, true);
-			chartPanel4.setBounds(17, 25, 453, 204);
+			chartPanel4.setBounds(17, 25, 471, 204);
 		}
 		return chartPanel4;
+	}
+	
+	private JScrollPane getJScrollPane4() {
+		if(jScrollPane4 == null) {
+			jScrollPane4 = new JScrollPane();
+			jScrollPane4.setBounds(7, 45, 485, 110);
+			jScrollPane4.setViewportView(getJList1());
+		}
+		return jScrollPane4;
+	}
+	
+	private JList getJList1() {
+		if(jListGestiFrasi == null) {
+			jListGestiFrasi = new JList();
+			
+		}
+		return jListGestiFrasi;
+	}
+	
+	private JLabel getLblAudioFrasi() {
+		if(lblAudioFrasi == null) {
+			lblAudioFrasi = new JLabel();
+			lblAudioFrasi.setText("User phrases");
+			lblAudioFrasi.setBounds(7, 23, 77, 16);
+		}
+		return lblAudioFrasi;
+	}
+	
+	private JLabel getLblGestiFrasi() {
+		if(lblGestiFrasi == null) {
+			lblGestiFrasi = new JLabel();
+			lblGestiFrasi.setText("User phrases");
+			lblGestiFrasi.setBounds(7, 23, 94, 16);
+		}
+		return lblGestiFrasi;
+	}
+
+	private JButton getJButton1() {
+		if(jButton1 == null) {
+			jButton1 = new JButton();
+			jButton1.setText("Get Social Attitude");
+			jButton1.setBounds(312, 492, 164, 31);
+			jButton1.setEnabled(false);
+		}
+		return jButton1;
+	}
+
+	private ChartPanel getChartPanel3() {
+		if(chartPanel3 == null) {
+			chartPanel3 = new ChartPanel(istogramma, true);
+			chartPanel3.setBounds(17, 253, 471, 261);
+		}
+		return chartPanel3;
 	}
 
 }
