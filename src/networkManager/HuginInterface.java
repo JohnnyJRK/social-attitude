@@ -10,7 +10,7 @@ import COM.hugin.HAPI.IntervalDCNode;
 /** Classe per l'interfacciamento alla RPC */
 public class HuginInterface
 {
-	static String path_rete = "reti/Rete.hkb";			// Path della rete
+	static String path_rete;			// Path della rete
 	Domain rete;										// Rete su cui è possibile effettuare ragionamenti
 	double valori_SA[];
 	
@@ -18,9 +18,17 @@ public class HuginInterface
 	
 	
 	/** Costruttore di classe. Crea il primo nodo. */
-	public HuginInterface()
+	public HuginInterface(int r)
 	{
-		addNodo();
+		switch(r){
+		
+		case 1:path_rete = "reti/Rete.hkb";addNodo(r);break;
+		case 2:path_rete = "reti/socialattitude_audio.hkb";addNodo(r);break;
+		case 3:path_rete = "reti/socialattitude_gesti.hkb";addNodo(r);break;
+		case 4:path_rete = "reti/socialattitude_generale.hkb";addNodo(r);break;
+		
+		
+		}
 	}
 	
 	
@@ -44,11 +52,12 @@ public class HuginInterface
 			try
 			{
 				if(nodo.equals(Nodes.LUNGHEZZA))
-				{
+				{System.out.println("Lunghezza");
 					if(!valore.equals(""))
 					{
 						IntervalDCNode temp = (IntervalDCNode)rete.getNodeByName(nodo);
 						temp.selectState(temp.getStateIndex(new Integer(valore)));
+						
 					}
 				}
 				else if(nodo.equals(Nodes.MOSSA_PREC_SISTEMA) || nodo.equals(Nodes.MOSSA_UTENTE))
@@ -57,6 +66,7 @@ public class HuginInterface
 					{
 						LabelledDCNode temp = (LabelledDCNode)rete.getNodeByName(nodo);
 						temp.selectState(temp.getStateIndex(Nodes.getMossa(valore)));
+						
 					}
 				}
 				else
@@ -109,7 +119,7 @@ public class HuginInterface
 
 	
 	/** Crea un nuovo nodo della rete dinamica*/
-	public void addNodo()
+	public void addNodo(int r)
 	{
 		try 
 		{
@@ -138,7 +148,7 @@ public class HuginInterface
 	public void reset()
 	{
 		valori_SA = null;
-		addNodo();
+		addNodo(0);
 	}
 }
 		
