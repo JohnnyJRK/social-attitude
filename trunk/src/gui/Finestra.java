@@ -16,6 +16,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.ListIterator;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -102,7 +103,8 @@ public class Finestra extends javax.swing.JFrame {
 	private JPanel pnlLingEvidenze;
 	private JLabel lblContx;
 	private JLabel lblLeng;
-	private JList jListFrasi;
+	private JList jListLingFrasi;
+	private JList jListAudioFrasi;
 	private JPanel jpnlGestiImp;
 	private JPanel jpnlAudioImp;
 	private JCheckBox jrbGesti;
@@ -114,36 +116,37 @@ public class Finestra extends javax.swing.JFrame {
 	private JButton btnAudioAggiungi;
 	private JLabel jLabel10;
 	private JTable tblAudioEvidenze;
-	private JScrollPane jScrollPane3;
+	private JScrollPane jspAudioTable;
 	private JButton btnAudioReset;
 	private JComboBox cmbAr;
 	private JComboBox cmbVal;
 	private JLabel lblAr;
 	private JLabel lblVal;
 	private JPanel pnlAudioAV;
-	private JButton jButton1;
+	private JButton btnLingOK;
+	private JButton btnAudioOK;
+	private JButton btnGestiOK;
+	private JButton btnGetSA;
 	private JLabel lblGestiFrasi;
 	private JLabel lblAudioFrasi;
-	private JScrollPane jScrollPane4;
+	private JScrollPane jspGestiTable;
 	private ChartPanel chartPanel4;
 	private JPanel jPanel1;
-	private JList jListAudioFrasi;
 	private JList jListGestiFrasi;
-	private JScrollPane jScrollPane2;
 	private JLabel jLabel1;
 	private JPanel pnlAudioEvidenze;
 	private ButtonGroup btnGrp;
 	private JLabel lblLingFrasi;
 	private DefaultListModel jListFrasiModel;
-	private JScrollPane jscrollpFrasi;
+	private JScrollPane jspLingFrasi;
+	private JScrollPane jspAudioFrasi;
+	private JScrollPane jspGestiFrasi;
 	ListModel jList1Model;
 	private JButton jbtGesti;
 	private JButton jbtLing;
 	private JButton jbtAudio;
-	private ChartPanel chartPanel2;
-	private ChartPanel chartPanel1;
 	private JPanel pnlGestiSA;
-	private JButton jButton3;
+	private JButton btnGestiRimuovi;
 	private JComboBox cmbHands;
 	private JComboBox cmbLegs;
 	private JLabel lblHands;
@@ -153,9 +156,11 @@ public class Finestra extends javax.swing.JFrame {
 	private JPanel pnlSegniLing;
 	private JPanel pnlGestiEvidenze;
 	private JScrollPane jScrollPane1;
-	private JTable tblEvidenze;
-	private JButton btnReset;
-	private JButton btnAggiungi;
+	private JTable tblLingEvidenze;
+	private JTable tblGestiEvidenze;
+	private JButton btnLingReset;
+	private JButton btnLingAggiungi;
+	private JButton btnGestiAggiungi;
 	private JComboBox cmbQmar;
 	private JLabel lblQmar;
 	private JTextField txtLeng;
@@ -173,10 +178,14 @@ public class Finestra extends javax.swing.JFrame {
 	private JLabel lblMtype;
 	private JPanel pnlContesto;
 	private JPanel pnlLingSA;
+	private JPanel pnlAudioSA;
 	private ChartPanel pnlAnd;
 	private ChartPanel pnlIst;
 
-	private HuginInterface hi;
+	private HuginInterface hi_ling;
+	private HuginInterface hi_audio;
+	private HuginInterface hi_gesti;
+	private HuginInterface hi_gen;
 	private ArrayList<double[]> sa_ling_history;
 	private ArrayList<double[]> sa_audio_history;
 	private ArrayList<double[]> sa_gesti_history;
@@ -187,11 +196,12 @@ public class Finestra extends javax.swing.JFrame {
 	private JPanel pnlAudio;
 	private JTabbedPane jTabbedPane;
 	private JPanel pnlLinguaggio;
-	private JButton btnRimuovi;
+	private JButton btnLingRimuovi;
 	private double[] sa_iniziale;
 	private JLabel lblStorico;
 	private DefaultTableModel tblLingEvidenzeModel;
 	private DefaultTableModel tblAudioEvidenzeModel;
+	private DefaultTableModel tblGestiEvidenzeModel;
 	private JFreeChart istogramma;
 	private JFreeChart andamento;
 
@@ -203,11 +213,11 @@ public class Finestra extends javax.swing.JFrame {
 	private void initGUI() {
 		try {
 			
-			hi = new HuginInterface(1);
+			hi_ling = new HuginInterface(1);
 			sa_ling_history = new ArrayList<double[]>();
 			sa_audio_history = new ArrayList<double[]>();
 			sa_gesti_history = new ArrayList<double[]>();
-			sa_iniziale = hi.getSA();
+			sa_iniziale = hi_ling.getSA();
 			setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			this.setResizable(false);
 			this.setTitle("Hugin Framework");
@@ -222,6 +232,7 @@ public class Finestra extends javax.swing.JFrame {
 				{
 					pnlGenerale = new JPanel();
 					jTabbedPane.addTab("General", null, pnlGenerale, null);
+					
 					pnlGenerale.setPreferredSize(new java.awt.Dimension(939, 556));
 					pnlGenerale.setSize(1015, 592);
 					{
@@ -254,7 +265,8 @@ public class Finestra extends javax.swing.JFrame {
 										if(jrbLing.isSelected())
 											jbtLing.setEnabled(true);
 										else
-											jbtLing.setEnabled(false);
+											{jbtLing.setEnabled(false);
+											jTabbedPane.setEnabledAt(1, false);}
 										
 									}});
 								/*jrbLing.addActionListener(new ActionListener(){
@@ -270,6 +282,7 @@ public class Finestra extends javax.swing.JFrame {
 								jbtLing.setText("Go");
 								jbtLing.setBounds(405, 15, 55, 25);
 								jbtLing.setEnabled(false);
+								
 								jbtLing.addActionListener(new ActionListener() {
 									public void actionPerformed(ActionEvent evt) {
 										jbtALGActionPerformed(evt,1);
@@ -297,8 +310,8 @@ public class Finestra extends javax.swing.JFrame {
 										if(jrbAudio.isSelected())
 											jbtAudio.setEnabled(true);
 										else
-											jbtAudio.setEnabled(false);
-										
+											{jbtAudio.setEnabled(false);
+											jTabbedPane.setEnabledAt(2, false);}
 									}});
 								/*jrbAudio.addActionListener(new ActionListener(){
 
@@ -319,11 +332,23 @@ public class Finestra extends javax.swing.JFrame {
 									}
 								});
 							}
+							btnGetSA = new JButton();
+							btnGetSA.setText("Get Social Attitude");
+							btnGetSA.setBounds(312, 492, 164, 31);
+							btnGetSA.setEnabled(false);
+							btnGetSA.addActionListener(new ActionListener(){
+
+								@Override
+								public void actionPerformed(ActionEvent e) {
+									//inserire istruzione per la rete generale
+									
+								}});
+							pnlGenSA.add(btnGetSA);
 						}
 						{
 							jpnlGestiImp = new JPanel();
 							pnlGenSA.add(jpnlGestiImp);
-							pnlGenSA.add(getJButton1());
+							
 							jpnlGestiImp.setBorder(BorderFactory.createEtchedBorder(BevelBorder.LOWERED));
 							jpnlGestiImp.setLayout(null);
 							jpnlGestiImp.setBounds(10, 210, 472, 50);
@@ -341,8 +366,8 @@ public class Finestra extends javax.swing.JFrame {
 										if(jrbGesti.isSelected())
 											jbtGesti.setEnabled(true);
 										else
-											jbtGesti.setEnabled(false);
-										
+											{jbtGesti.setEnabled(false);
+											jTabbedPane.setEnabledAt(3, false);}
 									}});
 								/*jrbGesti.addActionListener(new ActionListener(){
 
@@ -376,9 +401,10 @@ public class Finestra extends javax.swing.JFrame {
 				{
 					pnlLinguaggio = new JPanel();
 					jTabbedPane.addTab("Language", null, pnlLinguaggio, null);
+					jTabbedPane.setEnabledAt(1, false);
 					pnlLinguaggio.setBounds(0, 0, 545, 548);
 					pnlLinguaggio.setSize(1044, 616);
-					pnlLinguaggio.setPreferredSize(new java.awt.Dimension(1044, 494));
+					pnlLinguaggio.setPreferredSize(new java.awt.Dimension(1025, 762));
 					pnlLinguaggio.setAutoscrolls(true);
 					pnlLinguaggio.setLayout(null);
 					//pnlLinguaggio.setTabTitle("Linguaggio");
@@ -390,7 +416,46 @@ public class Finestra extends javax.swing.JFrame {
 						pnlLingEvidenze.setLayout(null);
 						
 						{//gestione lista frasi caricate dal file .txt 
-							setFrasiList(1);
+							lblLingFrasi = new JLabel();
+							pnlLingEvidenze.add(lblLingFrasi);
+							lblLingFrasi.setText("User phrases");
+							lblLingFrasi.setBounds(7, 23, 90, 17);
+							jspLingFrasi = new JScrollPane();
+							pnlLingEvidenze.add(jspLingFrasi);
+							jspLingFrasi.setBounds(7, 45, 485, 98);
+							
+								jListLingFrasi = new JList();
+								jListLingFrasi.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+								jspLingFrasi.setViewportView(jListLingFrasi);
+								
+								
+								//gestire la visibilità del pulsante aggiungi mossa
+								jListLingFrasi.addListSelectionListener(new ListSelectionListener(){
+							
+									public void valueChanged(ListSelectionEvent arg0) {
+										Integer length=0;
+										int i=0,space=0;
+										
+										String st=(String) jListLingFrasi.getSelectedValue();
+										length=st.length();
+										while(i<length){
+											if(st.charAt(i)== '?')
+												//cmbQmar.setSelectedIndex(1);
+												cmbQmar.setSelectedIndex(1);
+											else 
+												cmbQmar.setSelectedIndex(2);
+											//conta il numero di spazi da sottrarre al numero totale dei caratteri
+											if(st.charAt(i)==' ')
+												space++;
+											
+											i++;
+										}
+										length=length-space;
+										txtLeng.setText(length.toString());
+
+									}
+								});
+								
 							pnlContesto = new JPanel();
 							pnlLingEvidenze.add(pnlContesto);
 							pnlContesto.setBounds(5, 255, 487, 98);
@@ -413,7 +478,7 @@ public class Finestra extends javax.swing.JFrame {
 							{
 								ComboBoxModel cmbContxModel = 
 										new DefaultComboBoxModel(
-												new String[] { "Undecided", "Self Presentation", "Answer", "Comment", "Question", "Suggestion", "No Answer", "See You Later"  });
+												new String[] { "???", "Self Presentation", "Answer", "Comment", "Question", "Suggestion", "No Answer", "See You Later"  });
 								cmbContx = new JComboBox();
 								pnlContesto.add(cmbContx);
 								cmbContx.setModel(cmbContxModel);
@@ -423,7 +488,7 @@ public class Finestra extends javax.swing.JFrame {
 							{
 								ComboBoxModel cmbMtypeModel = 
 										new DefaultComboBoxModel(
-												new String[] { "Undecided", "Self Presentation", "Answer", "Comment", "Question", "See You Later" });
+												new String[] { "???", "Self Presentation", "Answer", "Comment", "Question", "See You Later" });
 								cmbMtype = new JComboBox();
 								pnlContesto.add(cmbMtype);
 								cmbMtype.setModel(cmbMtypeModel);
@@ -447,7 +512,7 @@ public class Finestra extends javax.swing.JFrame {
 							{
 								ComboBoxModel cmbConfModel = 
 										new DefaultComboBoxModel(
-												new String[] { "Undecided","Yes","No" });
+												new String[] { "???","Yes","No" });
 								cmbConf = new JComboBox();
 								pnlSegni.add(cmbConf);
 								cmbConf.setModel(cmbConfModel);
@@ -464,7 +529,7 @@ public class Finestra extends javax.swing.JFrame {
 							{
 								ComboBoxModel cmbCiaoModel = 
 										new DefaultComboBoxModel(
-												new String[] { "Undecided","Yes","No" });
+												new String[] { "???","Yes","No" });
 								cmbCiao = new JComboBox();
 								pnlSegni.add(cmbCiao);
 								cmbCiao.setModel(cmbCiaoModel);
@@ -488,7 +553,7 @@ public class Finestra extends javax.swing.JFrame {
 							{
 								ComboBoxModel cmbMeModel = 
 										new DefaultComboBoxModel(
-												new String[] { "Undecided","Yes","No"});
+												new String[] { "???","Yes","No"});
 								cmbMe = new JComboBox();
 								pnlSegni.add(cmbMe);
 								cmbMe.setModel(cmbMeModel);
@@ -498,7 +563,7 @@ public class Finestra extends javax.swing.JFrame {
 							{
 								ComboBoxModel cmbYouModel = 
 										new DefaultComboBoxModel(
-												new String[] { "Undecided","Yes","No" });
+												new String[] { "???","Yes","No" });
 								cmbYou = new JComboBox();
 								pnlSegni.add(cmbYou);
 								cmbYou.setModel(cmbYouModel);
@@ -528,7 +593,7 @@ public class Finestra extends javax.swing.JFrame {
 							{
 								ComboBoxModel cmqQmarModel = 
 										new DefaultComboBoxModel(
-												new String[] { "Undecided","Yes","No" });
+												new String[] { "???","Yes","No" });
 								cmbQmar = new JComboBox();
 								pnlSegni.add(cmbQmar);
 								cmbQmar.setModel(cmqQmarModel);
@@ -538,21 +603,21 @@ public class Finestra extends javax.swing.JFrame {
 						}
 
 						{
-							btnReset = new JButton();
-							pnlLingEvidenze.add(btnReset);
-							btnReset.setText("Reset Dialog");
-							btnReset.setBounds(7, 500, 130, 28);
-							btnReset.setEnabled(false);
-							btnReset.setToolTipText("Resetta il dialogo, eliminando tutte le mosse definite.");
-							btnReset.addActionListener(new ActionListener() {
+							btnLingReset = new JButton();
+							pnlLingEvidenze.add(btnLingReset);
+							btnLingReset.setText("Reset Dialog");
+							btnLingReset.setBounds(7, 500, 130, 28);
+							btnLingReset.setEnabled(false);
+							btnLingReset.setToolTipText("Resetta il dialogo, eliminando tutte le mosse definite.");
+							btnLingReset.addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent evt) {
 									
 									int risp = JOptionPane.showConfirmDialog(null, "Si è sicuri di voler resettare lo storico del dialogo?", "Reset", JOptionPane.YES_NO_OPTION);
 									if(risp == JOptionPane.YES_OPTION)
 									{
 										// Attiva/disattiva i pulsanti appropriati
-										btnReset.setEnabled(false);
-										btnRimuovi.setEnabled(false);
+										btnLingReset.setEnabled(false);
+										btnLingRimuovi.setEnabled(false);
 										
 										// Resetta lo storico della Social Attitude
 										sa_ling_history = new ArrayList<double[]>();
@@ -572,10 +637,10 @@ public class Finestra extends javax.swing.JFrame {
 										cmbYou.setSelectedIndex(0);
 										
 										// Resetta la rete
-										hi.reset();
+										hi_ling.reset();
 										
 										// Ridisegna i grafici
-										disegnaGrafici();
+										disegnaGrafici(sa_ling_history,1);
 									}
 								}
 							});
@@ -589,11 +654,11 @@ public class Finestra extends javax.swing.JFrame {
 										new DefaultTableModel(
 												new String[][] {},
 												new String[] { "M.Sys","M.Utente","Lung", "P.Interr.", "Conf.","Saluto","Forme 1a", "Forme 2a" });
-								tblEvidenze = new JTable();
-								jScrollPane1.setViewportView(tblEvidenze);
-								tblEvidenze.setModel(tblLingEvidenzeModel);
-								tblEvidenze.setBounds(11, 28, 481, 199);
-								tblEvidenze.setEnabled(false);
+								tblLingEvidenze = new JTable();
+								jScrollPane1.setViewportView(tblLingEvidenze);
+								tblLingEvidenze.setModel(tblLingEvidenzeModel);
+								tblLingEvidenze.setBounds(11, 28, 481, 199);
+								tblLingEvidenze.setEnabled(false);
 							}
 						}
 						{
@@ -603,13 +668,13 @@ public class Finestra extends javax.swing.JFrame {
 							lblStorico.setBounds(7, 145, 221, 18);
 						}
 						{
-							btnAggiungi = new JButton();
-							pnlLingEvidenze.add(btnAggiungi);
-							btnAggiungi.setText("Add Move");
-							btnAggiungi.setBounds(362, 500, 130, 28);
-							btnAggiungi.setToolTipText("Imposta le evidenze definite in una nuova mossa del dialogo.");
-							btnAggiungi.setEnabled(false);
-							btnAggiungi.addActionListener(new ActionListener() {
+							btnLingAggiungi = new JButton();
+							pnlLingEvidenze.add(btnLingAggiungi);
+							btnLingAggiungi.setText("Add Move");
+							btnLingAggiungi.setBounds(316, 499, 116, 28);
+							btnLingAggiungi.setToolTipText("Imposta le evidenze definite in una nuova mossa del dialogo.");
+							btnLingAggiungi.setEnabled(false);
+							btnLingAggiungi.addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent evt) {
 									
 									try
@@ -621,31 +686,31 @@ public class Finestra extends javax.swing.JFrame {
 										}
 										
 										// Attiva/disattiva i pulsanti appropriati
-										btnReset.setEnabled(true);
-										btnRimuovi.setEnabled(true);
+										btnLingReset.setEnabled(true);
+										btnLingRimuovi.setEnabled(true);
 										
 										if(sa_ling_history.size()>0)
-											hi.addNodo();
+											hi_ling.addNodo(1);
 										
 										// Setta le evidenze
-										hi.setEvidenza(Nodes.MOSSA_PREC_SISTEMA, cmbContx.getSelectedItem().toString());
-										hi.setEvidenza(Nodes.MOSSA_UTENTE, cmbMtype.getSelectedItem().toString());
-										hi.setEvidenza(Nodes.LUNGHEZZA,txtLeng.getText());
-										hi.setEvidenza(Nodes.P_INTERROGATIVO, cmbQmar.getSelectedItem().toString());
-										hi.setEvidenza(Nodes.ESPR_CONFIDENZIALI, cmbConf.getSelectedItem().toString());
-										hi.setEvidenza(Nodes.ESPR_SALUTO, cmbCiao.getSelectedItem().toString());
-										hi.setEvidenza(Nodes.ESPR_1PERSONA, cmbMe.getSelectedItem().toString());
-										hi.setEvidenza(Nodes.ESPR_2PERSONA, cmbYou.getSelectedItem().toString());
+										hi_ling.setEvidenza(Nodes.MOSSA_PREC_SISTEMA, cmbContx.getSelectedItem().toString());
+										hi_ling.setEvidenza(Nodes.MOSSA_UTENTE, cmbMtype.getSelectedItem().toString());
+										hi_ling.setEvidenza(Nodes.LUNGHEZZA,txtLeng.getText());
+										hi_ling.setEvidenza(Nodes.P_INTERROGATIVO, cmbQmar.getSelectedItem().toString());
+										hi_ling.setEvidenza(Nodes.ESPR_CONFIDENZIALI, cmbConf.getSelectedItem().toString());
+										hi_ling.setEvidenza(Nodes.ESPR_SALUTO, cmbCiao.getSelectedItem().toString());
+										hi_ling.setEvidenza(Nodes.ESPR_1PERSONA, cmbMe.getSelectedItem().toString());
+										hi_ling.setEvidenza(Nodes.ESPR_2PERSONA, cmbYou.getSelectedItem().toString());
 										
 										// Ottiene il valore di Social Attitude
-										double[] sa = hi.getSA();
+										double[] sa = hi_ling.getSA();
 										sa_ling_history.add(sa);
 										
 										// Scrive la riga sulla tabella
 										tblLingEvidenzeModel.addRow(new String[]{getValoreTabella(cmbContx.getSelectedItem().toString()),getValoreTabella(cmbMtype.getSelectedItem().toString()),getValoreTabella(txtLeng.getText()),getValoreTabella(cmbQmar.getSelectedItem().toString()),getValoreTabella(cmbConf.getSelectedItem().toString()),getValoreTabella(cmbCiao.getSelectedItem().toString()),getValoreTabella(cmbMe.getSelectedItem().toString()),getValoreTabella(cmbYou.getSelectedItem().toString()) });
 										
 										// Disegna il grafico
-										disegnaGrafici();
+										disegnaGrafici(sa_ling_history,1);
 									}
 									catch(NumberFormatException e)
 									{
@@ -655,13 +720,14 @@ public class Finestra extends javax.swing.JFrame {
 							});
 						}
 						{
-							btnRimuovi = new JButton();
-							pnlLingEvidenze.add(btnRimuovi);
-							btnRimuovi.setText("Remove Move");
-							btnRimuovi.setBounds(214, 500, 130, 28);
-							btnRimuovi.setToolTipText("Rimuove l'ultima mossa del dialogo.");
-							btnRimuovi.setEnabled(false);
-							btnRimuovi.addActionListener(new ActionListener() {
+							btnLingRimuovi = new JButton();
+							pnlLingEvidenze.add(btnLingRimuovi);
+							
+							btnLingRimuovi.setText("Remove Move");
+							btnLingRimuovi.setBounds(142, 500, 130, 28);
+							btnLingRimuovi.setToolTipText("Rimuove l'ultima mossa del dialogo.");
+							btnLingRimuovi.setEnabled(false);
+							btnLingRimuovi.addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent evt) {
 									
 									//Rimuove l'ultima mossa dallo storico
@@ -673,16 +739,38 @@ public class Finestra extends javax.swing.JFrame {
 									// Attiva/disattiva i pulsanti appropriati
 									if(sa_ling_history.size()==0)
 									{
-										btnRimuovi.setEnabled(false);
-										btnReset.setEnabled(false);
+										btnLingRimuovi.setEnabled(false);
+										btnLingReset.setEnabled(false);
 									}
 									
 									//Aggiorna i grafici
-									disegnaGrafici();
+									disegnaGrafici(sa_ling_history,1);
 								}
 							});
 						}
-						
+						btnLingOK = new JButton();
+						btnLingOK.setText("Ok");
+						btnLingOK.setBounds(437, 499, 52, 28);
+						btnLingOK.addActionListener(new ActionListener(){
+
+							@Override
+							public void actionPerformed(ActionEvent arg0) {
+								
+								int risp = JOptionPane.showConfirmDialog(null, "Are you sure?", "Laguage configuration completed", JOptionPane.YES_NO_OPTION);
+								if(risp == JOptionPane.YES_OPTION)
+								{
+									//meccanismi di controllo per il completamento delle frasi
+									
+									jTabbedPane.setSelectedIndex(0);
+									jTabbedPane.setEnabledAt(1, false);
+									jrbLing.setEnabled(false);
+									jListLingFrasi.setEnabled(false);
+									jbtLing.setEnabled(false);
+									btnGetSA.setEnabled(true);
+								}
+								
+							}});
+						pnlLingEvidenze.add(btnLingOK);
 						
 						
 					}
@@ -694,7 +782,7 @@ public class Finestra extends javax.swing.JFrame {
 						pnlLingSA.setFont(new java.awt.Font("Dialog",0,12));
 						pnlLingSA.setLayout(null);
 						//pnlLingSA.setTabTitle("");
-						disegnaGrafici();
+						disegnaGrafici(sa_ling_history,1);
 					}
 				}
 ////////////////////////////////////////////AUDIO////////////////////////////////////////
@@ -703,10 +791,18 @@ pnlAudioEvidenze = new JPanel();
 pnlAudioEvidenze.setBorder(BorderFactory.createTitledBorder(null,"Evidences",TitledBorder.LEADING,TitledBorder.DEFAULT_POSITION,new java.awt.Font("Segoe UI",3,12),new java.awt.Color(0,0,0)));
 pnlAudioEvidenze.setBounds(12, 0, 505, 545);
 pnlAudioEvidenze.setLayout(null);
+jspAudioFrasi = new JScrollPane();
+pnlAudioEvidenze.add(jspAudioFrasi);
+jspAudioFrasi.setBounds(7, 45, 485, 98);
+
+	jListAudioFrasi = new JList();
+	jListAudioFrasi.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+	jspAudioFrasi.setViewportView(jListAudioFrasi);
 pnlAudioAV = new JPanel();
 pnlAudioAV.setBorder(BorderFactory.createTitledBorder(null,"A&V",TitledBorder.LEADING,TitledBorder.DEFAULT_POSITION,new java.awt.Font("Segoe UI",1,12)));
 pnlAudioAV.setBounds(5, 270, 487, 98);
 pnlAudioAV.setLayout(null);
+
 lblVal = new JLabel();
 lblVal.setText("Valence Value:");
 lblVal.setFont(new java.awt.Font("Arial",0,12));
@@ -719,7 +815,7 @@ lblAr.setBounds(17, 66, 99, 15);
 pnlAudioAV.add(lblAr);
 ComboBoxModel cmbValModel = 
 new DefaultComboBoxModel(
-new String[] { "Undecided", "Positive", "Neutral", "Negative", "Very Negative" });
+new String[] { "???", "Positive", "Neutral", "Negative", "Very Negative" });
 cmbVal = new JComboBox();
 cmbVal.setModel(cmbValModel);
 cmbVal.setToolTipText("<html>Identifica la tipologia dell'ultima mossa del <br>dialogo eseguita dal sistema</html>");
@@ -743,7 +839,7 @@ cmbVal.addItemListener(new ItemListener(){
 pnlAudioAV.add(cmbVal);
 ComboBoxModel cmbArModel = 
 new DefaultComboBoxModel(
-new String[] { "Undecided","High", "Medium", "Low" });
+new String[] { "???","High", "Medium", "Low" });
 cmbAr = new JComboBox();
 cmbAr.setModel(cmbArModel);
 cmbAr.setToolTipText("<html>Identifica la tipologia della mossa del <br>dialogo eseguita dall'utente</html>");
@@ -779,48 +875,47 @@ int risp = JOptionPane.showConfirmDialog(null, "Si è sicuri di voler resettare l
 if(risp == JOptionPane.YES_OPTION)
 {
 // Attiva/disattiva i pulsanti appropriati
-btnReset.setEnabled(false);
-btnRimuovi.setEnabled(false);
+btnAudioReset.setEnabled(false);
+btnAudioRimuovi.setEnabled(false);
 
 // Resetta lo storico della Social Attitude
-sa_ling_history = new ArrayList<double[]>();
+sa_audio_history = new ArrayList<double[]>();
 
 // Svuota la tabella dello storico
-for (int i=tblLingEvidenzeModel.getRowCount()-1;i>=0;i--)
-tblLingEvidenzeModel.removeRow(i);
+for (int i=tblAudioEvidenzeModel.getRowCount()-1;i>=0;i--)
+tblAudioEvidenzeModel.removeRow(i);
 
 // Resetta le opzioni di default delle evidenze
-cmbContx.setSelectedIndex(0);
-cmbMtype.setSelectedIndex(0);
-txtLeng.setText("");
-cmbQmar.setSelectedIndex(0);
-cmbConf.setSelectedIndex(0);
-cmbCiao.setSelectedIndex(0);
-cmbMe.setSelectedIndex(0);
-cmbYou.setSelectedIndex(0);
+cmbVal.setSelectedIndex(0);
+cmbAr.setSelectedIndex(0);
 
 // Resetta la rete
-hi.reset();
+//hi.reset();
 
 // Ridisegna i grafici
-disegnaGrafici();
+disegnaGrafici2(sa_audio_history,2);
 }
 }
 });
-
+{
+	jspAudioTable = new JScrollPane();
+	jspAudioTable.setBounds(5, 187, 485, 77);
+	pnlAudioEvidenze.add(jspAudioTable);
+	
+	{
+		tblAudioEvidenzeModel = 
+				new DefaultTableModel(
+						new String[][] {},
+						new String[] { "#Phrase", "Arousal", "Valence" });
+		tblAudioEvidenze = new JTable();
+		jspAudioTable.setViewportView(tblAudioEvidenze);
+		tblAudioEvidenze.setModel(tblAudioEvidenzeModel);
+		tblAudioEvidenze.setBounds(11, 28, 481, 199);
+		tblAudioEvidenze.setEnabled(false);
+	}
+}
 pnlAudioEvidenze.add(btnAudioReset);
-jScrollPane3 = new JScrollPane();
-jScrollPane3.setBounds(7, 187, 485, 77);
-tblAudioEvidenzeModel = 
-new DefaultTableModel(
-new String[][] {},
-new String[] { "#Phrase", "Arousal", "Valence" });
-tblAudioEvidenze = new JTable();
-tblAudioEvidenze.setModel(tblAudioEvidenzeModel);
-tblAudioEvidenze.setEnabled(false);
-tblAudioEvidenze.setBounds(11, 28, 481, 199);
-jScrollPane3.setViewportView(tblAudioEvidenze);
-pnlAudioEvidenze.add(jScrollPane3);
+
 jLabel10 = new JLabel();
 jLabel10.setText("Evidences history");
 jLabel10.setBounds(5, 163, 221, 18);
@@ -829,7 +924,7 @@ btnAudioAggiungi = new JButton();
 btnAudioAggiungi.setEnabled(false);
 btnAudioAggiungi.setText("Add Move");
 btnAudioAggiungi.setToolTipText("Imposta le evidenze definite in una nuova mossa del dialogo.");
-btnAudioAggiungi.setBounds(362, 500, 130, 28);
+btnAudioAggiungi.setBounds(307, 499, 130, 28);
 btnAudioAggiungi.addActionListener(new ActionListener() {
 public void actionPerformed(ActionEvent evt) {
 
@@ -837,15 +932,15 @@ try
 {
 
 // Attiva/disattiva i pulsanti appropriati
-btnReset.setEnabled(true);
-btnRimuovi.setEnabled(true);
+btnAudioReset.setEnabled(true);
+btnAudioRimuovi.setEnabled(true);
 
-if(sa_audio_history.size()>0)
-hi.addNodo();//modificare con rete audio
+//if(sa_audio_history.size()>0)
+//hi.addNodo(1);//modificare con rete audio
 
 // Setta le evidenze
 //modificare con rete audio
-hi.setEvidenza(Nodes.MOSSA_PREC_SISTEMA, cmbContx.getSelectedItem().toString());
+/*hi.setEvidenza(Nodes.MOSSA_PREC_SISTEMA, cmbContx.getSelectedItem().toString());
 hi.setEvidenza(Nodes.MOSSA_UTENTE, cmbMtype.getSelectedItem().toString());
 hi.setEvidenza(Nodes.LUNGHEZZA,txtLeng.getText());
 hi.setEvidenza(Nodes.P_INTERROGATIVO, cmbQmar.getSelectedItem().toString());
@@ -853,17 +948,19 @@ hi.setEvidenza(Nodes.ESPR_CONFIDENZIALI, cmbConf.getSelectedItem().toString());
 hi.setEvidenza(Nodes.ESPR_SALUTO, cmbCiao.getSelectedItem().toString());
 hi.setEvidenza(Nodes.ESPR_1PERSONA, cmbMe.getSelectedItem().toString());
 hi.setEvidenza(Nodes.ESPR_2PERSONA, cmbYou.getSelectedItem().toString());
-
+*/
 // Ottiene il valore di Social Attitude
-double[] sa = hi.getSA();
-sa_ling_history.add(sa);
-
+double[] sa = {0.2,0.3,0.5};
+sa_audio_history.add(sa);
+for(int i=0;i<3;i++){
+	System.out.println(i+" "+sa[i]);
+}
 // Scrive la riga sulla tabella
 //prendere i valori da Voice Classifier
 tblAudioEvidenzeModel.addRow(new String[]{"",cmbAr.getSelectedItem().toString(),cmbVal.getSelectedItem().toString()});
 
 // Disegna il grafico
-disegnaGrafici();
+disegnaGrafici2(sa_audio_history,2);
 }
 catch(NumberFormatException e)
 {
@@ -876,37 +973,62 @@ btnAudioRimuovi = new JButton();
 btnAudioRimuovi.setEnabled(false);
 btnAudioRimuovi.setText("Remove Move");
 btnAudioRimuovi.setToolTipText("Rimuove l'ultima mossa del dialogo.");
-btnAudioRimuovi.setBounds(214, 500, 130, 28);
+btnAudioRimuovi.setBounds(142, 500, 130, 28);
 btnAudioRimuovi.addActionListener(new ActionListener() {
 public void actionPerformed(ActionEvent evt) {
-
-//Rimuove l'ultima mossa dallo storico
-tblLingEvidenzeModel.removeRow(tblLingEvidenzeModel.getRowCount()-1);
-
-//Rimuove gli ultimi valori di SA memorizzati
-sa_ling_history.remove(sa_ling_history.size()-1);
-
-// Attiva/disattiva i pulsanti appropriati
-if(sa_ling_history.size()==0)
-{
-btnRimuovi.setEnabled(false);
-btnReset.setEnabled(false);
-}
-
-//Aggiorna i grafici
-disegnaGrafici();
+	//Rimuove l'ultima mossa dallo storico
+	tblAudioEvidenzeModel.removeRow(tblAudioEvidenzeModel.getRowCount()-1);
+	
+	//Rimuove gli ultimi valori di SA memorizzati
+	sa_audio_history.remove(sa_audio_history.size()-1);
+	
+	// Attiva/disattiva i pulsanti appropriati
+	if(sa_audio_history.size()==0)
+	{
+		btnAudioRimuovi.setEnabled(false);
+		btnAudioReset.setEnabled(false);
+	}
+	
+	//Aggiorna i grafici
+	disegnaGrafici2(sa_audio_history,2);
 }
 });
+btnAudioOK = new JButton();
+btnAudioOK.setText("Ok");
+btnAudioOK.setBounds(442, 499, 50, 28);
+btnAudioOK.addActionListener(new ActionListener(){
 
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		
+		int risp = JOptionPane.showConfirmDialog(null, "Are you sure?", "Audio configuration completed", JOptionPane.YES_NO_OPTION);
+		if(risp == JOptionPane.YES_OPTION)
+		{
+			jTabbedPane.setSelectedIndex(0);
+			jrbAudio.setEnabled(false);
+			//jListAudioFrasi.setEnabled(false);
+			jbtAudio.setEnabled(false);
+		}
+		
+	}});
+
+pnlAudioEvidenze.add(btnAudioOK);
 pnlAudioEvidenze.add(btnAudioRimuovi);
-pnlAudioEvidenze.add(getJScrollPane2());
 pnlAudioEvidenze.add(getLblAudioFrasi());
 
 pnlAudio = new JPanel();
 					jTabbedPane.addTab("Audio", null, pnlAudio, null);
+					jTabbedPane.setEnabledAt(2, false);
 					pnlAudio.setLayout(null);
 					pnlAudio.add(pnlAudioEvidenze);
-					pnlAudio.add(getJPanel1());
+					pnlAudioSA = new JPanel();
+					pnlAudioSA.setBounds(528, 0, 505, 545);
+					pnlAudioSA.setBorder(BorderFactory.createTitledBorder("Social Attitude"));
+					pnlAudioSA.setFont(new java.awt.Font("Dialog",0,12));
+					pnlAudioSA.setLayout(null);
+					//pnlAudioSA.setTabTitle("");
+					disegnaGrafici2(sa_audio_history,1);
+					pnlAudio.add(pnlAudioSA);
 }
 					
 				
@@ -915,6 +1037,7 @@ pnlAudio = new JPanel();
 					pnlGesti = new JPanel();
 					//FlowLayout pnlGestiLayout = new FlowLayout();
 					jTabbedPane.addTab("Gesture", null, pnlGesti, null);
+					jTabbedPane.setEnabledAt(3, false);
 					pnlGesti.setLayout(null);
 					//pnlGesti.setPreferredSize(new java.awt.Dimension(1033, 744));
 					{
@@ -925,14 +1048,34 @@ pnlAudio = new JPanel();
 						pnlGestiEvidenze.setLayout(null);
 						pnlGestiEvidenze.setBounds(12, 0, 505, 545);
 						//gestione lista frasi caricate dal file .txt 
-							//setFrasiList();
+						jspGestiFrasi = new JScrollPane();
+						pnlGestiEvidenze.add(jspGestiFrasi);
+						jspGestiFrasi.setBounds(7, 45, 485, 98);
+
+							jListGestiFrasi = new JList();
+							jListGestiFrasi.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+							jspGestiFrasi.setViewportView(jListGestiFrasi);
+						jspGestiTable = new JScrollPane();
+						jspGestiTable.setBounds(6, 189, 485, 110);
+						//jspGestiTable.setViewportView(jListGestiFrasi);
 						{
 							pnlSegniLing = new JPanel();
 							pnlGestiEvidenze.add(pnlSegniLing);
 							pnlSegniLing.setBorder(BorderFactory.createTitledBorder(null,"Gesture",TitledBorder.LEADING,TitledBorder.DEFAULT_POSITION,new java.awt.Font("Segoe UI",1,12)));
 							pnlSegniLing.setLayout(null);
-							pnlSegniLing.setBounds(7, 172, 482, 136);
+							pnlSegniLing.setBounds(6, 305, 482, 136);
 							{
+								tblGestiEvidenzeModel = 
+										new DefaultTableModel(
+										new String[][] {},
+										new String[] { "#Phrase", "Hands", "Arms", "Legs" });
+										tblGestiEvidenze = new JTable();
+										tblGestiEvidenze.setModel(tblGestiEvidenzeModel);
+										tblGestiEvidenze.setEnabled(false);
+										tblGestiEvidenze.setBounds(11, 28, 481, 199);
+										jspGestiTable.setViewportView(tblGestiEvidenze);
+										pnlGestiEvidenze.add(jspGestiTable);
+										
 								lblArms = new JLabel();
 								pnlSegniLing.add(lblArms);
 								lblArms.setText("Arms");
@@ -943,12 +1086,24 @@ pnlAudio = new JPanel();
 								//modificare in defaultmodel
 								ComboBoxModel cmbArmsModel = 
 										new DefaultComboBoxModel(
-												new String[] { "Braccia1", "Braccia2", "Braccia3" });
+												new String[] { "???","Elbows Away From Body", "Crossed Arms", "Gripping Own Upper Arms" });
 								cmbArms = new JComboBox();
 								pnlSegniLing.add(cmbArms);
 								cmbArms.setModel(cmbArmsModel);
 								cmbArms.setToolTipText("<html>Identifica la posizione delle braccia dell'utente <br>es: incrociate, aperte, ecc..</html>");
-								cmbArms.setBounds(158, 66, 81, 23);
+								cmbArms.setBounds(158, 66, 96, 23);
+								cmbArms.addItemListener(new ItemListener(){
+
+									@Override
+									public void itemStateChanged(ItemEvent e) {
+										if(cmbArms.getSelectedIndex()==0)
+											btnGestiAggiungi.setEnabled(false);
+											else
+											btnGestiAggiungi.setEnabled(true);
+										
+									}
+									
+								});
 							}
 							{
 								lblLegs = new JLabel();
@@ -967,57 +1122,150 @@ pnlAudio = new JPanel();
 							{
 								ComboBoxModel cmbLegsModel = 
 										new DefaultComboBoxModel(
-												new String[] { "Gambe1", "Gambe2", "Gambe3" });
+												new String[] {"???", "Knees Apart", "Legs Uncrossed", "Crossed Legs", "Sitting Legs Apart" });
 								cmbLegs = new JComboBox();
 								pnlSegniLing.add(cmbLegs);
 								cmbLegs.setModel(cmbLegsModel);
 								cmbLegs.setToolTipText("<html>Identifica la posizione delle gambe dell'utente <br>es: divaricate, incrociate, ecc.. </html>");
-								cmbLegs.setBounds(158, 102, 81, 23);
+								cmbLegs.setBounds(158, 102, 96, 23);
+								cmbLegs.addItemListener(new ItemListener(){
+
+									@Override
+									public void itemStateChanged(ItemEvent e) {
+										
+										
+										if(cmbLegs.getSelectedIndex()==0)
+											btnGestiAggiungi.setEnabled(false);
+										else
+											btnGestiAggiungi.setEnabled(true);
+										
+									}});
 							}
 							{
 								ComboBoxModel cmbHandsModel = 
 										new DefaultComboBoxModel(
-												new String[] { "Mani1", "Mani2", "Mani3" });
+												new String[] { "???","Open Palms", "Hands Not Touching", "Hand(s) on Hip(s)" });
 								cmbHands = new JComboBox();
 								pnlSegniLing.add(cmbHands);
 								cmbHands.setModel(cmbHandsModel);
 								cmbHands.setToolTipText("<html>Identifica la posizione delle mani dell'utente <br>es: sul volto, sul naso, sulla bocca ecc..</html>");
-								cmbHands.setBounds(158, 33, 81, 23);
+								cmbHands.setBounds(158, 33, 96, 23);
+								cmbHands.addItemListener(new ItemListener(){
+
+									@Override
+									public void itemStateChanged(ItemEvent arg0) {
+										if(cmbHands.getSelectedIndex()==0)
+											btnGestiAggiungi.setEnabled(false);
+										else
+											btnGestiAggiungi.setEnabled(true);
+										
+									
+										
+									}
+									
+								});
 							}
 						}
 						
 					
 						{
-							jButton3 = new JButton();
-							pnlGestiEvidenze.add(jButton3);
-							pnlGestiEvidenze.add(getJScrollPane4());
+							btnGestiRimuovi = new JButton();
+							pnlGestiEvidenze.add(btnGestiRimuovi);
 							pnlGestiEvidenze.add(getLblGestiFrasi());
-							jButton3.setEnabled(false);
-							jButton3.setText("Rimuovi Mossa");
-							jButton3.setToolTipText("Rimuove l'ultima mossa del dialogo.");
-							jButton3.setBounds(223, 496, 133, 28);
-							jButton3.addActionListener(new ActionListener() {
+							btnGestiRimuovi.setEnabled(false);
+							btnGestiRimuovi.setText("Remove Move");
+							btnGestiRimuovi.setToolTipText("Rimuove l'ultima mossa del dialogo.");
+							btnGestiRimuovi.setBounds(133, 499, 133, 28);
+							btnGestiRimuovi.addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent evt) {
 									
 									//Rimuove l'ultima mossa dallo storico
-									tblLingEvidenzeModel.removeRow(tblLingEvidenzeModel.getRowCount()-1);
+									tblGestiEvidenzeModel.removeRow(tblGestiEvidenzeModel.getRowCount()-1);
 									
 									//Rimuove gli ultimi valori di SA memorizzati
-									sa_ling_history.remove(sa_ling_history.size()-1);
+									sa_gesti_history.remove(sa_gesti_history.size()-1);
 									
 									// Attiva/disattiva i pulsanti appropriati
-									if(sa_ling_history.size()==0)
+									if(sa_gesti_history.size()==0)
 									{
-										btnRimuovi.setEnabled(false);
-										btnReset.setEnabled(false);
+									btnGestiRimuovi.setEnabled(false);
+										//btnGestiReset.setEnabled(false);
 									}
 									
 									//Aggiorna i grafici
-									disegnaGrafici();
+								disegnaGrafici3(sa_gesti_history,3);
 								}
 							});
 						}
-					}
+					
+					btnGestiAggiungi = new JButton();
+					pnlGestiEvidenze.add(btnGestiAggiungi);
+					btnGestiAggiungi.setText("Add Move");
+					btnGestiAggiungi.setBounds(317, 499, 116, 28);
+					btnGestiAggiungi.setToolTipText("Imposta le evidenze definite in una nuova mossa del dialogo.");
+					btnGestiAggiungi.setEnabled(false);
+					btnGestiAggiungi.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent evt) {
+							
+							try
+							{
+								
+								// Attiva/disattiva i pulsanti appropriati
+								btnLingReset.setEnabled(true);
+								btnGestiRimuovi.setEnabled(true);
+								
+							//	if(sa_gesti_history.size()>0)
+								//	hi_gesti.addNodo(1);
+								
+								// Setta le evidenze
+								/*
+								hi_ling.setEvidenza(Nodes.MOSSA_PREC_SISTEMA, cmbContx.getSelectedItem().toString());
+								hi_ling.setEvidenza(Nodes.MOSSA_UTENTE, cmbMtype.getSelectedItem().toString());
+								hi_ling.setEvidenza(Nodes.LUNGHEZZA,txtLeng.getText());
+								hi_ling.setEvidenza(Nodes.P_INTERROGATIVO, cmbQmar.getSelectedItem().toString());
+								hi_ling.setEvidenza(Nodes.ESPR_CONFIDENZIALI, cmbConf.getSelectedItem().toString());
+								hi_ling.setEvidenza(Nodes.ESPR_SALUTO, cmbCiao.getSelectedItem().toString());
+								hi_ling.setEvidenza(Nodes.ESPR_1PERSONA, cmbMe.getSelectedItem().toString());
+								hi_ling.setEvidenza(Nodes.ESPR_2PERSONA, cmbYou.getSelectedItem().toString());
+								*/
+								// Ottiene il valore di Social Attitude
+								double[] sa = {0.4,0.25,0.35};
+								sa_gesti_history.add(sa);
+								for(int i=0;i<3;i++){
+									System.out.println(i+" "+sa[i]);
+								}
+								// Scrive la riga sulla tabella
+								tblGestiEvidenzeModel.addRow(new String[]{"",getValoreTabella(cmbHands.getSelectedItem().toString()),getValoreTabella(cmbArms.getSelectedItem().toString()),getValoreTabella(cmbLegs.getSelectedItem().toString())});
+								
+								// Disegna il grafico
+								disegnaGrafici3(sa_gesti_history,3);
+							}
+							catch(NumberFormatException e)
+							{
+								JOptionPane.showMessageDialog(null, "La lunghezza del messaggio deve essere un numero intero maggiore di 0");
+							}
+						}
+					});
+					btnGestiOK = new JButton();
+					btnGestiOK.setText("Ok");
+					btnGestiOK.setBounds(438, 499, 51, 28);
+					btnGestiOK.addActionListener(new ActionListener(){
+
+						@Override
+						public void actionPerformed(ActionEvent arg0) {
+							
+							int risp = JOptionPane.showConfirmDialog(null, "Are you sure?", "Gesture configuration completed", JOptionPane.YES_NO_OPTION);
+							if(risp == JOptionPane.YES_OPTION)
+							{
+								jTabbedPane.setSelectedIndex(0);
+								jrbGesti.setEnabled(false);
+								//jListGestiFrasi.setEnabled(false);
+								jbtGesti.setEnabled(false);
+							}
+							
+						}});
+					pnlGestiEvidenze.add(btnGestiOK);
+				}
 					{
 						pnlGestiSA = new JPanel();
 						pnlGesti.add(pnlGestiSA);
@@ -1026,16 +1274,7 @@ pnlAudio = new JPanel();
 						pnlGestiSA.setBorder(BorderFactory.createTitledBorder("Social Attitude"));
 					    pnlGestiSA.setLayout(null);
 						pnlGestiSA.setBounds(528, 0, 505, 545);
-						{
-							chartPanel1 = new ChartPanel(istogramma, true);
-							pnlGestiSA.add(chartPanel1);
-							chartPanel1.setBounds(17, 253, 471, 261);
-						}
-						{
-							chartPanel2 = new ChartPanel(andamento, true);
-							pnlGestiSA.add(chartPanel2);
-							chartPanel2.setBounds(17, 25, 471, 204);
-						}
+						disegnaGrafici3(sa_gesti_history,3);
 					}
 				}
 			}
@@ -1057,8 +1296,10 @@ pnlAudio = new JPanel();
 	}
 
 	// Metodo per il disegno dei grafici
-	private void disegnaGrafici()
+	private void disegnaGrafici(ArrayList<double[]>ar,int choose)
 	{
+		
+		JPanel pnlSA=pnlLingSA;
 		if(pnlAnd!=null)
 			pnlLingSA.remove(pnlAnd);
 		if(pnlIst!=null)
@@ -1067,9 +1308,9 @@ pnlAudio = new JPanel();
 		
 		// Crea e disegna l'istogramma
 		DefaultCategoryDataset ds = new DefaultCategoryDataset();
-		if(sa_ling_history.size()>0)
+		if(ar.size()>0)
 		{
-			double last_sa[] = sa_ling_history.get(sa_ling_history.size()-1);
+			double last_sa[] = ar.get(ar.size()-1);
 			ds.addValue(last_sa[2],"Negative","Social Attitude");
 			ds.addValue(last_sa[1],"Neutral","Social Attitude");
 			ds.addValue(last_sa[0],"Positive","Social Attitude");
@@ -1110,11 +1351,11 @@ pnlAudio = new JPanel();
 		dsNeutral.addValue(sa_iniziale[1], "Neutral", "0");
 		dsBad.addValue(sa_iniziale[2], "Negative", "0");
 
-		for (Integer i=1; i <= sa_ling_history.size(); i++)
+		for (Integer i=1; i <= ar.size(); i++)
 		{
-			dsPositive.addValue(sa_ling_history.get(i-1)[0],"Positive",i.toString());
-			dsNeutral.addValue(sa_ling_history.get(i-1)[1],"Neutral",i.toString());
-			dsBad.addValue(sa_ling_history.get(i-1)[2],"Negative",i.toString());
+			dsPositive.addValue(ar.get(i-1)[0],"Positive",i.toString());
+			dsNeutral.addValue(ar.get(i-1)[1],"Neutral",i.toString());
+			dsBad.addValue(ar.get(i-1)[2],"Negative",i.toString());
 		}
 		andamento = ChartFactory.createLineChart("Social Attitude Trend", "Move", "Probability", dsBad, PlotOrientation.VERTICAL, true, true, false);
 		
@@ -1133,6 +1374,167 @@ pnlAudio = new JPanel();
 		
 		
 		pnlLingSA.add(pnlAnd);
+		pnlAnd.setBounds(17, 25, 471, 204);
+	}
+	
+	private void disegnaGrafici3(ArrayList<double[]>ar,int choose)
+	{
+		
+		
+		if(pnlAnd!=null)
+			pnlGestiSA.remove(pnlAnd);
+		if(pnlIst!=null)
+			pnlGestiSA.remove(pnlIst);
+		
+		
+		// Crea e disegna l'istogramma
+		DefaultCategoryDataset ds = new DefaultCategoryDataset();
+		if(ar.size()>0)
+		{
+			double last_sa[] = ar.get(ar.size()-1);
+			ds.addValue(last_sa[2],"Negative","Social Attitude");
+			ds.addValue(last_sa[1],"Neutral","Social Attitude");
+			ds.addValue(last_sa[0],"Positive","Social Attitude");
+		}
+		else
+		{
+			ds.addValue(sa_iniziale[2],"Negative","Social Attitude");
+			ds.addValue(sa_iniziale[1],"Neutral","Social Attitude");
+			ds.addValue(sa_iniziale[0],"Positive","Social Attitude");
+		}
+		istogramma = ChartFactory.createBarChart("Current Social Attitude", "Move", "Probability", ds, PlotOrientation.VERTICAL, true, true, false);
+		pnlIst = new ChartPanel(istogramma, true);
+		
+		CategoryPlot plotIst = (CategoryPlot)istogramma.getPlot();
+		plotIst.getRangeAxis().setUpperBound(1);
+		plotIst.setBackgroundPaint(new Color(230,230,230));
+		plotIst.setRangeGridlinePaint(Color.black);
+		((BarRenderer)(plotIst.getRenderer())).setSeriesPaint(0, new Color(150,0,0));
+		((BarRenderer)(plotIst.getRenderer())).setSeriesPaint(1, new Color(80,150,220));
+		((BarRenderer)(plotIst.getRenderer())).setSeriesPaint(2, new Color(0,150,0));
+	
+		CategoryItemRenderer renderLabel = plotIst.getRenderer();
+		CategoryItemLabelGenerator generator = new StandardCategoryItemLabelGenerator("{2}", new DecimalFormat("0.00"));
+		renderLabel.setBasePositiveItemLabelPosition(new ItemLabelPosition(ItemLabelAnchor.CENTER,TextAnchor.CENTER));
+		renderLabel.setBaseItemLabelGenerator(generator);
+		renderLabel.setBaseItemLabelFont(new Font("TimesRoman",Font.BOLD,13));
+		renderLabel.setBaseItemLabelsVisible(true);
+
+		pnlGestiSA.add(pnlIst);
+		pnlIst.setBounds(17, 253, 471, 261);
+
+		
+		DefaultCategoryDataset dsPositive = new DefaultCategoryDataset();
+		DefaultCategoryDataset dsNeutral = new DefaultCategoryDataset();
+		DefaultCategoryDataset dsBad = new DefaultCategoryDataset();
+
+		dsPositive.addValue(sa_iniziale[0], "Positive", "0");
+		dsNeutral.addValue(sa_iniziale[1], "Neutral", "0");
+		dsBad.addValue(sa_iniziale[2], "Negative", "0");
+
+		for (Integer i=1; i <= ar.size(); i++)
+		{
+			dsPositive.addValue(ar.get(i-1)[0],"Positive",i.toString());
+			dsNeutral.addValue(ar.get(i-1)[1],"Neutral",i.toString());
+			dsBad.addValue(ar.get(i-1)[2],"Negative",i.toString());
+		}
+		andamento = ChartFactory.createLineChart("Social Attitude Trend", "Move", "Probability", dsBad, PlotOrientation.VERTICAL, true, true, false);
+		
+		CategoryPlot plotAnd = (CategoryPlot)andamento.getPlot();
+		plotAnd.setDataset(1,dsNeutral);
+		plotAnd.setDataset(2,dsPositive);
+		plotAnd.setRenderer(1,new LineAndShapeRenderer());
+		plotAnd.setRenderer(2,new LineAndShapeRenderer());
+		plotAnd.getRangeAxis().setUpperBound(1);
+		plotAnd.setBackgroundPaint(new Color(230,230,230));
+		plotAnd.setRangeGridlinePaint(Color.black);
+
+		pnlAnd = new ChartPanel(andamento, true);
+		((LineAndShapeRenderer)(plotAnd.getRenderer(1))).setSeriesPaint(0,new Color(80,150,220));
+		((LineAndShapeRenderer)(plotAnd.getRenderer(2))).setSeriesPaint(0, new Color(0,150,0));
+		
+		
+		pnlGestiSA.add(pnlAnd);
+		pnlAnd.setBounds(17, 25, 471, 204);
+	}
+	
+	private void disegnaGrafici2(ArrayList<double[]>ar,int choose)
+	{
+		
+		if(pnlAnd!=null)
+			pnlAudioSA.remove(pnlAnd);
+		if(pnlIst!=null)
+			pnlAudioSA.remove(pnlIst);
+		
+		
+		// Crea e disegna l'istogramma
+		DefaultCategoryDataset ds = new DefaultCategoryDataset();
+		if(ar.size()>0)
+		{
+			double last_sa[] = ar.get(ar.size()-1);
+			ds.addValue(last_sa[2],"Negative","Social Attitude");
+			ds.addValue(last_sa[1],"Neutral","Social Attitude");
+			ds.addValue(last_sa[0],"Positive","Social Attitude");
+		}
+		else
+		{
+			ds.addValue(sa_iniziale[2],"Negative","Social Attitude");
+			ds.addValue(sa_iniziale[1],"Neutral","Social Attitude");
+			ds.addValue(sa_iniziale[0],"Positive","Social Attitude");
+		}
+		istogramma = ChartFactory.createBarChart("Current Social Attitude", "Move", "Probability", ds, PlotOrientation.VERTICAL, true, true, false);
+		pnlIst = new ChartPanel(istogramma, true);
+		
+		CategoryPlot plotIst = (CategoryPlot)istogramma.getPlot();
+		plotIst.getRangeAxis().setUpperBound(1);
+		plotIst.setBackgroundPaint(new Color(230,230,230));
+		plotIst.setRangeGridlinePaint(Color.black);
+		((BarRenderer)(plotIst.getRenderer())).setSeriesPaint(0, new Color(150,0,0));
+		((BarRenderer)(plotIst.getRenderer())).setSeriesPaint(1, new Color(80,150,220));
+		((BarRenderer)(plotIst.getRenderer())).setSeriesPaint(2, new Color(0,150,0));
+	
+		CategoryItemRenderer renderLabel = plotIst.getRenderer();
+		CategoryItemLabelGenerator generator = new StandardCategoryItemLabelGenerator("{2}", new DecimalFormat("0.00"));
+		renderLabel.setBasePositiveItemLabelPosition(new ItemLabelPosition(ItemLabelAnchor.CENTER,TextAnchor.CENTER));
+		renderLabel.setBaseItemLabelGenerator(generator);
+		renderLabel.setBaseItemLabelFont(new Font("TimesRoman",Font.BOLD,13));
+		renderLabel.setBaseItemLabelsVisible(true);
+
+		pnlAudioSA.add(pnlIst);
+		pnlIst.setBounds(17, 253, 471, 261);
+
+		
+		DefaultCategoryDataset dsPositive = new DefaultCategoryDataset();
+		DefaultCategoryDataset dsNeutral = new DefaultCategoryDataset();
+		DefaultCategoryDataset dsBad = new DefaultCategoryDataset();
+
+		dsPositive.addValue(sa_iniziale[0], "Positive", "0");
+		dsNeutral.addValue(sa_iniziale[1], "Neutral", "0");
+		dsBad.addValue(sa_iniziale[2], "Negative", "0");
+
+		for (Integer i=1; i <= ar.size(); i++)
+		{
+			dsPositive.addValue(ar.get(i-1)[0],"Positive",i.toString());
+			dsNeutral.addValue(ar.get(i-1)[1],"Neutral",i.toString());
+			dsBad.addValue(ar.get(i-1)[2],"Negative",i.toString());
+		}
+		andamento = ChartFactory.createLineChart("Social Attitude Trend", "Move", "Probability", dsBad, PlotOrientation.VERTICAL, true, true, false);
+		
+		CategoryPlot plotAnd = (CategoryPlot)andamento.getPlot();
+		plotAnd.setDataset(1,dsNeutral);
+		plotAnd.setDataset(2,dsPositive);
+		plotAnd.setRenderer(1,new LineAndShapeRenderer());
+		plotAnd.setRenderer(2,new LineAndShapeRenderer());
+		plotAnd.getRangeAxis().setUpperBound(1);
+		plotAnd.setBackgroundPaint(new Color(230,230,230));
+		plotAnd.setRangeGridlinePaint(Color.black);
+
+		pnlAnd = new ChartPanel(andamento, true);
+		((LineAndShapeRenderer)(plotAnd.getRenderer(1))).setSeriesPaint(0,new Color(80,150,220));
+		((LineAndShapeRenderer)(plotAnd.getRenderer(2))).setSeriesPaint(0, new Color(0,150,0));
+		
+		
+		pnlAudioSA.add(pnlAnd);
 		pnlAnd.setBounds(17, 25, 471, 204);
 	}
 	
@@ -1161,12 +1563,15 @@ pnlAudio = new JPanel();
 							System.out.println(s);
 							
 							}
-						jListFrasi.setModel(jListFrasiModel);
+						jListLingFrasi.setModel(jListFrasiModel);
 						jListAudioFrasi.setModel(jListFrasiModel);
-						jListFrasi.setSelectedIndex(0);
 						jListGestiFrasi.setModel(jListFrasiModel);
+						jListLingFrasi.setSelectedIndex(0);
 						jListAudioFrasi.setSelectedIndex(0);
-						
+						jListGestiFrasi.setSelectedIndex(0);
+						jTabbedPane.setEnabledAt(1, true);
+						jTabbedPane.setSelectedIndex(i);
+						btnLingAggiungi.setEnabled(true);
 				  } catch (FileNotFoundException e) {
 						
 						e.printStackTrace();
@@ -1174,9 +1579,7 @@ pnlAudio = new JPanel();
 						
 						e.printStackTrace();
 					}
-				  System.out.println(i);
-					jTabbedPane.setSelectedIndex(i);
-					btnAggiungi.setEnabled(true);
+				  
 		      System.out.println("Approve (Open or Save) was clicked");
 		      break;
 		    case JFileChooser.CANCEL_OPTION:
@@ -1186,9 +1589,18 @@ pnlAudio = new JPanel();
 		      System.out.println("Error");
 		      break;
 		    }
-		case 2: System.out.println("Bottone Audio");jTabbedPane.setSelectedIndex(i);break;
+		break;
+		case 2: System.out.println("Bottone Audio");
+				jTabbedPane.setEnabledAt(2, true);
+				jTabbedPane.setSelectedIndex(i);
+				//btnAudioAggiungi.setEnabled(true);
+				break;
 				
-		case 3: System.out.println("Bottone Gesti");jTabbedPane.setSelectedIndex(i);break;
+		case 3: System.out.println("Bottone Gesti");
+				jTabbedPane.setEnabledAt(3, true);
+				jTabbedPane.setSelectedIndex(i);
+				//btnGestiAggiungi.setEnabled(true);
+				break;
 		
 		case 4: {System.out.println("Checkbox Linguaggio");
 				jbtLing.setEnabled(true);
@@ -1216,49 +1628,16 @@ pnlAudio = new JPanel();
 		//TODO add your code for jbtAudio.actionPerformed
 	}
 	
-	private void setFrasiList(int choose){
-		lblLingFrasi = new JLabel();
-		pnlLingEvidenze.add(lblLingFrasi);
-		lblLingFrasi.setText("User phrases");
-		lblLingFrasi.setBounds(7, 23, 90, 17);
-		jscrollpFrasi = new JScrollPane();
-		pnlLingEvidenze.add(jscrollpFrasi);
-		jscrollpFrasi.setBounds(7, 45, 485, 98);
-		{
-			jListFrasi = new JList();
-			jListFrasi.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-			jscrollpFrasi.setViewportView(jListFrasi);
-			
-			
-			//gestire la visibilità del pulsante aggiungi mossa
-			jListFrasi.addListSelectionListener(new ListSelectionListener(){
-		
-				public void valueChanged(ListSelectionEvent arg0) {
-					Integer length=0;
-					int i=0,space=0;
-					
-					String st=(String) jListFrasi.getSelectedValue();
-					length=st.length();
-					while(i<length){
-						if(st.charAt(i)== '?')
-							//cmbQmar.setSelectedIndex(1);
-							cmbQmar.setSelectedItem("SI");
-						else 
-							cmbQmar.setSelectedItem("NO");
-						//conta il numero di spazi da sottrarre al numero totale dei caratteri
-						if(st.charAt(i)==' ')
-							space++;
-						
-						i++;
-					}
-					length=length-space;
-					txtLeng.setText(length.toString());
-
-				}
-			});
-			
+	
+	
+	private void getALGvet(ListIterator<double[]> ar){
+		double[] vet=new double[20];
+		while (ar.hasNext()){
+			System.out.println(ar.next()[ar.previousIndex()+1]);
 		}
+		
 	}
+	
 	
 	private ButtonGroup getBtnGrp() {
 		if(btnGrp == null) {
@@ -1266,23 +1645,7 @@ pnlAudio = new JPanel();
 		}
 		return btnGrp;
 	}
-	
-	private JScrollPane getJScrollPane2() {
-		if(jScrollPane2 == null) {
-			jScrollPane2 = new JScrollPane();
-			jScrollPane2.setBounds(7, 45, 485, 110);
-			jScrollPane2.setViewportView(getJListAudioFrasi());
-		}
-		return jScrollPane2;
-	}
-	
-	private JList getJListAudioFrasi() {
-		if(jListAudioFrasi == null) {
-			jListAudioFrasi = new JList();
 
-		}
-		return jListAudioFrasi;
-	}
 
 	private JPanel getJPanel1() {
 		if(jPanel1 == null) {
@@ -1307,22 +1670,9 @@ pnlAudio = new JPanel();
 		return chartPanel4;
 	}
 	
-	private JScrollPane getJScrollPane4() {
-		if(jScrollPane4 == null) {
-			jScrollPane4 = new JScrollPane();
-			jScrollPane4.setBounds(7, 45, 485, 110);
-			jScrollPane4.setViewportView(getJList1());
-		}
-		return jScrollPane4;
-	}
 	
-	private JList getJList1() {
-		if(jListGestiFrasi == null) {
-			jListGestiFrasi = new JList();
-			
-		}
-		return jListGestiFrasi;
-	}
+	
+
 	
 	private JLabel getLblAudioFrasi() {
 		if(lblAudioFrasi == null) {
@@ -1342,15 +1692,6 @@ pnlAudio = new JPanel();
 		return lblGestiFrasi;
 	}
 
-	private JButton getJButton1() {
-		if(jButton1 == null) {
-			jButton1 = new JButton();
-			jButton1.setText("Get Social Attitude");
-			jButton1.setBounds(312, 492, 164, 31);
-			jButton1.setEnabled(false);
-		}
-		return jButton1;
-	}
 
 	private ChartPanel getChartPanel3() {
 		if(chartPanel3 == null) {
@@ -1359,5 +1700,7 @@ pnlAudio = new JPanel();
 		}
 		return chartPanel3;
 	}
+	
+
 
 }
