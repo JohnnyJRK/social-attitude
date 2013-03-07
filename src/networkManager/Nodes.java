@@ -66,6 +66,7 @@ public class Nodes
 	public static String VALORE_ALTO_VAL = "Alto";
 	public static String VALORE_MEDIO_VAL = "Medio";
 	public static String VALORE_BASSO_VAL = "Basso";
+	
 	public static String VALORE_ALTO = "High";
 	public static String VALORE_MEDIO = "Medium";
 	public static String VALORE_BASSO = "Low";
@@ -111,13 +112,14 @@ public class Nodes
 			return MOSSA_FA_VAL;
 		else if(descr_mossa.equals(MOSSA_CO))
 			return MOSSA_CO_VAL;
+		
 		else if(descr_mossa.equals(VALORE_POSITIVO))
 			return VALORE_POSITIVO_VAL;
 		else if(descr_mossa.equals(VALORE_NEUTRO))
 			return VALORE_NEUTRO_VAL;
 		else if(descr_mossa.equals(VALORE_NEGATIVO))
 			return VALORE_NEGATIVO_VAL;
-		else if(descr_mossa.equals(VALORE_POSITIVO))
+		else if(descr_mossa.equals(VALORE_MOLTO_NEGATIVO))
 			return VALORE_MOLTO_NEGATIVO_VAL;
 		else if(descr_mossa.equals(VALORE_ALTO))
 			return VALORE_ALTO_VAL;
