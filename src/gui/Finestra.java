@@ -221,7 +221,7 @@ public class Finestra extends javax.swing.JFrame {
 			
 			
 			
-			sa_audio_history = new ArrayList<double[]>();
+			//sa_audio_history = new ArrayList<double[]>();
 			sa_gesti_history = new ArrayList<double[]>();
 			sa_gen_history = new ArrayList<double[]>();
 			
@@ -904,10 +904,10 @@ cmbVal.setSelectedIndex(0);
 cmbAr.setSelectedIndex(0);
 
 // Resetta la rete
-//hi.reset();
+hi_audio.reset();
 
 // Ridisegna i grafici
-//disegnaAudioGrafici(sa_audio_history,2);
+disegnaAudioGrafici(sa_audio_history,2);
 }
 }
 });
@@ -949,8 +949,8 @@ try
 btnAudioReset.setEnabled(true);
 btnAudioRimuovi.setEnabled(true);
 
-//if(sa_audio_history.size()>0)
-//hi.addNodo(1);//modificare con rete audio
+if(sa_audio_history.size()>0)
+hi_audio.addNodo(1);//modificare con rete audio
 
 // Setta le evidenze
 //modificare con rete audio
@@ -959,12 +959,12 @@ hi.setEvidenza(Nodes.MOSSA_UTENTE, cmbMtype.getSelectedItem().toString());
 hi.setEvidenza(Nodes.LUNGHEZZA,txtLeng.getText());
 hi.setEvidenza(Nodes.P_INTERROGATIVO, cmbQmar.getSelectedItem().toString());
 hi.setEvidenza(Nodes.ESPR_CONFIDENZIALI, cmbConf.getSelectedItem().toString());
-hi.setEvidenza(Nodes.ESPR_SALUTO, cmbCiao.getSelectedItem().toString());
-hi.setEvidenza(Nodes.ESPR_1PERSONA, cmbMe.getSelectedItem().toString());
-hi.setEvidenza(Nodes.ESPR_2PERSONA, cmbYou.getSelectedItem().toString());
-*/
+hi.setEvidenza(Nodes.ESPR_SALUTO, cmbCiao.getSelectedItem().toString());*/
+hi_audio.setAudioEvidenza(Nodes.VALENZA, cmbVal.getSelectedItem().toString());
+hi_audio.setAudioEvidenza(Nodes.AROUSAL, cmbAr.getSelectedItem().toString());
+
 // Ottiene il valore di Social Attitude
-double[] sa = {0.2,0.3,0.5};
+double[] sa = hi_audio.getSA();
 sa_audio_history.add(sa);
 for(int i=0;i<3;i++){
 	System.out.println(i+" "+sa[i]);
@@ -974,7 +974,7 @@ for(int i=0;i<3;i++){
 tblAudioEvidenzeModel.addRow(new String[]{cmbAr.getSelectedItem().toString(),cmbVal.getSelectedItem().toString()});
 
 // Disegna il grafico
-//disegnaAudioGrafici(sa_audio_history,2);
+disegnaAudioGrafici(sa_audio_history,2);
 }
 catch(NumberFormatException e)
 {
@@ -1004,7 +1004,7 @@ public void actionPerformed(ActionEvent evt) {
 	}
 	
 	//Aggiorna i grafici
-	//disegnaAudioGrafici(sa_audio_history,2);
+	disegnaAudioGrafici(sa_audio_history,2);
 }
 });
 btnAudioOK = new JButton();
@@ -1617,9 +1617,9 @@ pnlAudio = new JPanel();
 		}
 		else
 		{
-			ds.addValue(sa_ling_iniziale[2],"Negative","Social Attitude");
-			ds.addValue(sa_ling_iniziale[1],"Neutral","Social Attitude");
-			ds.addValue(sa_ling_iniziale[0],"Positive","Social Attitude");
+			ds.addValue(sa_audio_iniziale[2],"Negative","Social Attitude");
+			ds.addValue(sa_audio_iniziale[1],"Neutral","Social Attitude");
+			ds.addValue(sa_audio_iniziale[0],"Positive","Social Attitude");
 		}
 		istogramma = ChartFactory.createBarChart("Audio Current Social Attitude", "Move", "Probability", ds, PlotOrientation.VERTICAL, true, true, false);
 		pnlIst = new ChartPanel(istogramma, true);
@@ -1647,9 +1647,9 @@ pnlAudio = new JPanel();
 		DefaultCategoryDataset dsNeutral = new DefaultCategoryDataset();
 		DefaultCategoryDataset dsBad = new DefaultCategoryDataset();
 
-		dsPositive.addValue(sa_ling_iniziale[0], "Positive", "0");
-		dsNeutral.addValue(sa_ling_iniziale[1], "Neutral", "0");
-		dsBad.addValue(sa_ling_iniziale[2], "Negative", "0");
+		dsPositive.addValue(sa_audio_iniziale[0], "Positive", "0");
+		dsNeutral.addValue(sa_audio_iniziale[1], "Neutral", "0");
+		dsBad.addValue(sa_audio_iniziale[2], "Negative", "0");
 
 		for (Integer i=1; i <= ar.size(); i++)
 		{
@@ -1734,9 +1734,16 @@ pnlAudio = new JPanel();
 		    }
 		break;
 		case 2: System.out.println("Bottone Audio");
+		hi_audio = new HuginInterface(2);
+		sa_audio_history = new ArrayList<double[]>();
+		sa_audio_iniziale = new double[3];
+		sa_audio_iniziale[0]=0.33333;
+		sa_audio_iniziale[1]=0.33333;
+		sa_audio_iniziale[2]=0.33333;
 				jTabbedPane.setEnabledAt(2, true);
 				jTabbedPane.setSelectedIndex(i);
 				//btnAudioAggiungi.setEnabled(true);
+				disegnaAudioGrafici(sa_audio_history,2);
 				break;
 				
 		case 3: System.out.println("Bottone Gesti");
