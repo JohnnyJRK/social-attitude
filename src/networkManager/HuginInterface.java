@@ -34,6 +34,73 @@ public class HuginInterface
 	
 	
 	
+	/** Crea un nuovo nodo della rete dinamica*/
+	public void addNodo(int r)
+	{
+		try 
+		{
+			System.out.println("Add Nodo");
+			rete = new Domain(path_rete);
+			System.out.println(path_rete);
+			
+			rete.triangulate(Domain.H_TM_FILL_IN_WEIGHT);
+			rete.compile();
+			if (valori_SA!=null)
+			{
+				LabelledDCNode sa_prev = (LabelledDCNode)rete.getNodeByName(Nodes.SOCIAL_ATTITUDE_PREC);
+				sa_prev.getTable().setDataItem(sa_prev.getStateIndex(Nodes.SA_POSITIVE), valori_SA[0]);
+				System.out.println("ad "+sa_prev.getTable().getDataItem(0));
+				sa_prev.getTable().setDataItem(sa_prev.getStateIndex(Nodes.SA_NEUTRAL), valori_SA[1]);
+				System.out.println("ad "+sa_prev.getTable().getDataItem(1));
+				sa_prev.getTable().setDataItem(sa_prev.getStateIndex(Nodes.SA_BAD), valori_SA[2]);
+				System.out.println("ad "+sa_prev.getTable().getDataItem(2));
+				
+			}
+		} 
+		catch (ExceptionHugin e) 
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
+	
+	
+	/** Restituisce le probabilità di Social Attitude ed imposta le attuali come ultimi valori rilevati.
+	 * 
+	 * @return Probabilità per la Social Attitude rilevate.
+	 */
+	public double[] getSA()
+	{
+		try 
+		{
+			System.out.println("getSA");
+			System.out.println(rete.getFileName());
+			rete.propagate(Domain.H_EQUILIBRIUM_SUM, Domain.H_EVIDENCE_MODE_NORMAL);
+			LabelledDCNode sa = (LabelledDCNode)rete.getNodeByName(Nodes.SOCIAL_ATTITUDE);
+			valori_SA = new double[3];
+			valori_SA[0] = sa.getBelief(sa.getStateIndex(Nodes.SA_POSITIVE));
+			System.out.println(valori_SA[0]);
+			valori_SA[1] = sa.getBelief(sa.getStateIndex(Nodes.SA_NEUTRAL));
+			System.out.println(valori_SA[1]);
+			valori_SA[2] = sa.getBelief(sa.getStateIndex(Nodes.SA_BAD));
+			System.out.println(valori_SA[2]);
+			return valori_SA;
+		} 
+		catch (ExceptionHugin e) 
+		{
+			System.out.println("eccezzione getSA");
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	
+	
+
+	
+	
 	
 	/** Imposta un'evidenza su un nodo previsto della rete
 	 * 
@@ -41,7 +108,7 @@ public class HuginInterface
 	 * @param valore Valore dell'evidenza da impostare
 	 * @return Esito. True = evidenza impostata correttamente. False = Errore nell'impostare l'evidenza
 	 */
-	public boolean setEvidenza(String nodo, String valore)
+	public boolean setLingEvidenza(String nodo, String valore)
 	{
 		boolean codRitorno;
 		
@@ -54,7 +121,7 @@ public class HuginInterface
 				if(nodo.equals(Nodes.LUNGHEZZA))
 				{System.out.println("Lunghezza");
 					if(!valore.equals(""))
-					{
+					{System.out.println("lunghezza settata");
 						IntervalDCNode temp = (IntervalDCNode)rete.getNodeByName(nodo);
 						temp.selectState(temp.getStateIndex(new Integer(valore)));
 						
@@ -63,7 +130,7 @@ public class HuginInterface
 				else if(nodo.equals(Nodes.MOSSA_PREC_SISTEMA) || nodo.equals(Nodes.MOSSA_UTENTE))
 				{
 					if(Nodes.getMossa(valore)!=null)
-					{
+					{System.out.println("mossa prec sist o mossa utente");
 						LabelledDCNode temp = (LabelledDCNode)rete.getNodeByName(nodo);
 						temp.selectState(temp.getStateIndex(Nodes.getMossa(valore)));
 						
@@ -80,7 +147,7 @@ public class HuginInterface
 				codRitorno = true;	
 			}
 			catch(Exception e)
-			{
+			{System.out.println("eccezione setlingevidenza");
 				e.printStackTrace();
 				codRitorno = false;
 			}
@@ -88,61 +155,28 @@ public class HuginInterface
 		return codRitorno;
 	}
 	
-	
-	
-	
-	/** Restituisce le probabilità di Social Attitude ed imposta le attuali come ultimi valori rilevati.
-	 * 
-	 * @return Probabilità per la Social Attitude rilevate.
-	 */
-	public double[] getSA()
+	public boolean setAudioEvidenza(String nodo, String valore)
 	{
-		try 
-		{
-			rete.propagate(Domain.H_EQUILIBRIUM_SUM, Domain.H_EVIDENCE_MODE_NORMAL);
-			LabelledDCNode sa = (LabelledDCNode)rete.getNodeByName(Nodes.SOCIAL_ATTITUDE);
-			valori_SA = new double[3];
-			valori_SA[0] = sa.getBelief(sa.getStateIndex(Nodes.SA_POSITIVE));
-			valori_SA[1] = sa.getBelief(sa.getStateIndex(Nodes.SA_NEUTRAL));
-			valori_SA[2] = sa.getBelief(sa.getStateIndex(Nodes.SA_BAD));
-			return valori_SA;
-		} 
-		catch (ExceptionHugin e) 
-		{
+		boolean codRitorno;
+		LabelledDCNode temp=null;
+		if(rete==null)
+			codRitorno = false;
+		else
+		{try {
+		temp=(LabelledDCNode)rete.getNodeByName(nodo);
+		temp.selectState(temp.getStateIndex(Nodes.getMossa(valore)));
+		System.out.println("setaudioevidenza");
+		codRitorno = true;
+		
+		} catch (ExceptionHugin e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return null;
+			System.out.println("eccezione setaudioevidenza");
+			codRitorno = false;
 		}
 	}
-	
-	
-	
-
-	
-	/** Crea un nuovo nodo della rete dinamica*/
-	public void addNodo(int r)
-	{
-		try 
-		{
-			rete = new Domain(path_rete);
-			rete.triangulate(Domain.H_TM_FILL_IN_WEIGHT);
-			rete.compile();
-			if (valori_SA!=null)
-			{
-				LabelledDCNode sa_prev = (LabelledDCNode)rete.getNodeByName(Nodes.SOCIAL_ATTITUDE_PREC);
-				sa_prev.getTable().setDataItem(sa_prev.getStateIndex(Nodes.SA_POSITIVE), valori_SA[0]);
-				sa_prev.getTable().setDataItem(sa_prev.getStateIndex(Nodes.SA_NEUTRAL), valori_SA[1]);
-				sa_prev.getTable().setDataItem(sa_prev.getStateIndex(Nodes.SA_BAD), valori_SA[2]);
-			}
-		} 
-		catch (ExceptionHugin e) 
-		{
-			e.printStackTrace();
-		}
+		return codRitorno;
 	}
-	
-	
-
-	
 	
 	/** Resetta la rete dinamica e ricrea il primo nodo. */
 	public void reset()
