@@ -49,7 +49,26 @@ public class Nodes
 	public static String VALORE_YES = "SI";
 	public static String VALORE_NO = "NO";
 	public static String VALORE_NONSO = "Incerto";
+	//rete audio
 	
+	public static String VALENZA = "Valenza";
+	public static String VALORE_POSITIVO_VAL = "Positivo";
+	public static String VALORE_NEUTRO_VAL = "Neutro";
+	public static String VALORE_NEGATIVO_VAL = "Negativo";
+	public static String VALORE_MOLTO_NEGATIVO_VAL = "Molto negativo";
+	
+	public static String VALORE_POSITIVO = "Positive";
+	public static String VALORE_NEUTRO= "Neutral";
+	public static String VALORE_NEGATIVO = "Negative";
+	public static String VALORE_MOLTO_NEGATIVO = "Very Negative";
+	
+	public static String AROUSAL = "Arousal";
+	public static String VALORE_ALTO_VAL = "Alto";
+	public static String VALORE_MEDIO_VAL = "Medio";
+	public static String VALORE_BASSO_VAL = "Basso";
+	public static String VALORE_ALTO = "High";
+	public static String VALORE_MEDIO = "Medium";
+	public static String VALORE_BASSO = "Low";
 	
 	
 //	Metodi da utilizzare in fase di test di un dataset	
@@ -92,6 +111,20 @@ public class Nodes
 			return MOSSA_FA_VAL;
 		else if(descr_mossa.equals(MOSSA_CO))
 			return MOSSA_CO_VAL;
+		else if(descr_mossa.equals(VALORE_POSITIVO))
+			return VALORE_POSITIVO_VAL;
+		else if(descr_mossa.equals(VALORE_NEUTRO))
+			return VALORE_NEUTRO_VAL;
+		else if(descr_mossa.equals(VALORE_NEGATIVO))
+			return VALORE_NEGATIVO_VAL;
+		else if(descr_mossa.equals(VALORE_POSITIVO))
+			return VALORE_MOLTO_NEGATIVO_VAL;
+		else if(descr_mossa.equals(VALORE_ALTO))
+			return VALORE_ALTO_VAL;
+		else if(descr_mossa.equals(VALORE_MEDIO))
+			return VALORE_MEDIO_VAL;
+		else if(descr_mossa.equals(VALORE_BASSO))
+			return VALORE_BASSO_VAL;
 		else
 			return null;
 	}
