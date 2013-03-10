@@ -111,6 +111,7 @@ public class Finestra extends javax.swing.JFrame {
 	private JCheckBox jrbLing;
 	private JCheckBox jrbAudio;
 	private JPanel jpnlLingImp;
+	private JButton btnGenReset;
 	private ChartPanel chartPanel3;
 	private JButton btnAudioRimuovi;
 	private JButton btnAudioAggiungi;
@@ -219,7 +220,7 @@ public class Finestra extends javax.swing.JFrame {
 	private void initGUI() {
 		try {
 			
-			
+			hi_gen=new HuginInterface(4);
 			
 			//sa_audio_history = new ArrayList<double[]>();
 			sa_gesti_history = new ArrayList<double[]>();
@@ -349,19 +350,91 @@ public class Finestra extends javax.swing.JFrame {
 								@Override
 								public void actionPerformed(ActionEvent e) {
 									//inserire istruzione per la rete generale
-									double[] sa = {0.15,0.3,0.55};
-									sa_gen_history.add(sa);
-									for(int i=0;i<3;i++){
-										System.out.println(i+" "+sa[i]);
+									if(jrbLing.isSelected()&&jrbAudio.isSelected()){
+										System.out.println("All selected");
+										getSActionPerformed();
 									}
-									//disegnaGenGrafici(sa_gen_history,4);
+									
+								
 								}});
 							pnlGenSA.add(btnGetSA);
 						}
 						{
 							jpnlGestiImp = new JPanel();
 							pnlGenSA.add(jpnlGestiImp);
+							btnGenReset = new JButton();
+							btnGenReset.setEnabled(false);
+							btnGenReset.setText("Reset");
+							btnGenReset.setBounds(17, 492, 74, 31);
+							btnGenReset.addActionListener(new ActionListener() {
+								public void actionPerformed(ActionEvent evt) {
+									
+									int risp = JOptionPane.showConfirmDialog(null, "Are you sure?", "Global Reset", JOptionPane.YES_NO_OPTION);
+									if(risp == JOptionPane.YES_OPTION)
+									{
+										if(jrbLing.isSelected()){
+											sa_ling_history = new ArrayList<double[]>();
+											for (int i=tblLingEvidenzeModel.getRowCount()-1;i>=0;i--)
+												tblLingEvidenzeModel.removeRow(i);
+											//linguaggio
+											cmbContx.setSelectedIndex(0);
+											cmbMtype.setSelectedIndex(0);
+											txtLeng.setText("");
+											cmbQmar.setSelectedIndex(0);
+											cmbConf.setSelectedIndex(0);
+											cmbCiao.setSelectedIndex(0);
+											cmbMe.setSelectedIndex(0);
+											cmbYou.setSelectedIndex(0);
+											hi_ling.reset();
+											disegnaGrafici(sa_ling_history,1);
+										}
+										
+										if(jrbAudio.isSelected()){
+											sa_audio_history = new ArrayList<double[]>();
+											for (int i=tblAudioEvidenzeModel.getRowCount()-1;i>=0;i--)
+												tblAudioEvidenzeModel.removeRow(i);
+											//audio
+											cmbAr.setSelectedIndex(0);
+											cmbVal.setSelectedIndex(0);
+											hi_audio.reset();
+											disegnaGrafici(sa_audio_history,2);
+										}
+										
+										if(jrbGesti.isSelected()){
+											// Resetta lo storico della Social Attitude
+											
+											
+											sa_gesti_history = new ArrayList<double[]>();
+											
+											// Svuota la tabella dello storico
+											for (int i=tblGestiEvidenzeModel.getRowCount()-1;i>=0;i--)
+												tblGestiEvidenzeModel.removeRow(i);
+											
+											
+											// Resetta le opzioni di default delle evidenze
+											//gesti
+											cmbHands.setSelectedIndex(0);
+											cmbArms.setSelectedIndex(0);
+											cmbLegs.setSelectedIndex(0);
+											
+											// Resetta la rete
+											hi_gesti.reset();	
+											
+											disegnaGrafici(sa_gesti_history,3);
+										}
+										// Attiva/disattiva i pulsanti appropriati
+										btnGetSA.setEnabled(false);
+										sa_gen_history = new ArrayList<double[]>();
+										hi_gen.reset();
+										
+										// Ridisegna i grafici
+										disegnaGrafici(sa_gen_history,4);
+									}
+								}
+							});
+							pnlGenSA.add(btnGenReset);
 							
+
 							jpnlGestiImp.setBorder(BorderFactory.createEtchedBorder(BevelBorder.LOWERED));
 							jpnlGestiImp.setLayout(null);
 							jpnlGestiImp.setBounds(10, 210, 472, 50);
@@ -409,10 +482,16 @@ public class Finestra extends javax.swing.JFrame {
 						pnlGenSA.setPreferredSize(new java.awt.Dimension(499, 543));
 						pnlGenSA.setBorder(BorderFactory.createTitledBorder("General Social Attitude"));
 						pnlGenSA.setLayout(null);
-						//disegnaGenGrafici(sa_gen_history,4);
+						sa_gen_history = new ArrayList<double[]>();
+						sa_gen_iniziale = new double[3];
+						sa_gen_iniziale[0]=0.33333;
+						sa_gen_iniziale[1]=0.33333;
+						sa_gen_iniziale[2]=0.33333;
+						disegnaGrafici(sa_gen_history,4);
 					}
 				}
 				{
+					
 					pnlLinguaggio = new JPanel();
 					jTabbedPane.addTab("Language", null, pnlLinguaggio, null);
 					jTabbedPane.setEnabledAt(1, false);
@@ -654,7 +733,7 @@ public class Finestra extends javax.swing.JFrame {
 										hi_ling.reset();
 										
 										// Ridisegna i grafici
-										disegnaLingGrafici(sa_ling_history,1);
+										disegnaGrafici(sa_ling_history,1);
 									}
 								}
 							});
@@ -716,15 +795,23 @@ public class Finestra extends javax.swing.JFrame {
 										hi_ling.setLingEvidenza(Nodes.ESPR_1PERSONA, cmbMe.getSelectedItem().toString());
 										hi_ling.setLingEvidenza(Nodes.ESPR_2PERSONA, cmbYou.getSelectedItem().toString());
 										
+										
 										// Ottiene il valore di Social Attitude
 										double[] sa = hi_ling.getSA();
 										sa_ling_history.add(sa);
 										
 										// Scrive la riga sulla tabella
 										tblLingEvidenzeModel.addRow(new String[]{getValoreTabella(cmbContx.getSelectedItem().toString()),getValoreTabella(cmbMtype.getSelectedItem().toString()),getValoreTabella(txtLeng.getText()),getValoreTabella(cmbQmar.getSelectedItem().toString()),getValoreTabella(cmbConf.getSelectedItem().toString()),getValoreTabella(cmbCiao.getSelectedItem().toString()),getValoreTabella(cmbMe.getSelectedItem().toString()),getValoreTabella(cmbYou.getSelectedItem().toString()) });
-										
+										System.out.println("max selection index "+jListLingFrasi.getModel().getSize());
+									    System.out.println(jListLingFrasi.getSelectedIndex());
+										if(jListLingFrasi.getSelectedIndex()!=jListLingFrasi.getModel().getSize()-1)
+										jListLingFrasi.setSelectedIndex(jListLingFrasi.getSelectedIndex()+1);
+										else{
+										btnLingAggiungi.setEnabled(false);
+										btnLingOK.setEnabled(true);
+										}
 										// Disegna il grafico
-										disegnaLingGrafici(sa_ling_history,1);
+										disegnaGrafici(sa_ling_history,1);
 									}
 									catch(NumberFormatException e)
 									{
@@ -756,15 +843,30 @@ public class Finestra extends javax.swing.JFrame {
 										btnLingRimuovi.setEnabled(false);
 										btnLingReset.setEnabled(false);
 									}
-									
+									if(jListLingFrasi.getModel().getSize()!=0)
+										{System.out.println("diverso da 0");
+											if(btnLingOK.isEnabled()&&jListLingFrasi.getSelectedIndex()==jListLingFrasi.getModel().getSize()-1)
+											{ 
+											   btnLingOK.setEnabled(false);
+											   System.out.println("uguale a ultimo");}
+											else if(!btnLingOK.isEnabled()){
+												System.out.println("ok disable");
+												jListLingFrasi.setSelectedIndex(jListLingFrasi.getSelectedIndex()-1);
+											}
+											
+												
+										 if(jListLingFrasi.getSelectedIndex()<jListLingFrasi.getModel().getSize())
+											 btnLingAggiungi.setEnabled(true);
+										}
 									//Aggiorna i grafici
-									disegnaLingGrafici(sa_ling_history,1);
+									disegnaGrafici(sa_ling_history,1);
 								}
 							});
 						}
 						btnLingOK = new JButton();
 						btnLingOK.setText("Ok");
 						btnLingOK.setBounds(437, 499, 52, 28);
+						btnLingOK.setEnabled(false);
 						btnLingOK.addActionListener(new ActionListener(){
 
 							@Override
@@ -796,7 +898,7 @@ public class Finestra extends javax.swing.JFrame {
 						pnlLingSA.setFont(new java.awt.Font("Dialog",0,12));
 						pnlLingSA.setLayout(null);
 						//pnlLingSA.setTabTitle("");
-						//disegnaLingGrafici(sa_ling_history,1);
+						//disegnaGrafici(sa_ling_history,1);
 					}
 				}
 ////////////////////////////////////////////AUDIO////////////////////////////////////////
@@ -907,7 +1009,7 @@ cmbAr.setSelectedIndex(0);
 hi_audio.reset();
 
 // Ridisegna i grafici
-disegnaAudioGrafici(sa_audio_history,2);
+disegnaGrafici(sa_audio_history,2);
 }
 }
 });
@@ -950,31 +1052,23 @@ btnAudioReset.setEnabled(true);
 btnAudioRimuovi.setEnabled(true);
 
 if(sa_audio_history.size()>0)
-hi_audio.addNodo(1);//modificare con rete audio
+hi_audio.addNodo(2);//modificare con rete audio
 
 // Setta le evidenze
-//modificare con rete audio
-/*hi.setEvidenza(Nodes.MOSSA_PREC_SISTEMA, cmbContx.getSelectedItem().toString());
-hi.setEvidenza(Nodes.MOSSA_UTENTE, cmbMtype.getSelectedItem().toString());
-hi.setEvidenza(Nodes.LUNGHEZZA,txtLeng.getText());
-hi.setEvidenza(Nodes.P_INTERROGATIVO, cmbQmar.getSelectedItem().toString());
-hi.setEvidenza(Nodes.ESPR_CONFIDENZIALI, cmbConf.getSelectedItem().toString());
-hi.setEvidenza(Nodes.ESPR_SALUTO, cmbCiao.getSelectedItem().toString());*/
 hi_audio.setAudioEvidenza(Nodes.VALENZA, cmbVal.getSelectedItem().toString());
 hi_audio.setAudioEvidenza(Nodes.AROUSAL, cmbAr.getSelectedItem().toString());
 
 // Ottiene il valore di Social Attitude
 double[] sa = hi_audio.getSA();
 sa_audio_history.add(sa);
-for(int i=0;i<3;i++){
-	System.out.println(i+" "+sa[i]);
-}
 // Scrive la riga sulla tabella
 //prendere i valori da Voice Classifier
 tblAudioEvidenzeModel.addRow(new String[]{cmbAr.getSelectedItem().toString(),cmbVal.getSelectedItem().toString()});
 
+if(jListAudioFrasi.getSelectedIndex()!=jListAudioFrasi.getModel().getSize())
+jListAudioFrasi.setSelectedIndex(jListAudioFrasi.getSelectedIndex()+1);
 // Disegna il grafico
-disegnaAudioGrafici(sa_audio_history,2);
+disegnaGrafici(sa_audio_history,2);
 }
 catch(NumberFormatException e)
 {
@@ -1002,9 +1096,10 @@ public void actionPerformed(ActionEvent evt) {
 		btnAudioRimuovi.setEnabled(false);
 		btnAudioReset.setEnabled(false);
 	}
-	
+	if(jListAudioFrasi.getModel().getSize()!=0)
+	jListAudioFrasi.setSelectedIndex(jListAudioFrasi.getSelectedIndex()-1);
 	//Aggiorna i grafici
-	disegnaAudioGrafici(sa_audio_history,2);
+	disegnaGrafici(sa_audio_history,2);
 }
 });
 btnAudioOK = new JButton();
@@ -1043,7 +1138,7 @@ pnlAudio = new JPanel();
 					pnlAudioSA.setFont(new java.awt.Font("Dialog",0,12));
 					pnlAudioSA.setLayout(null);
 					//pnlAudioSA.setTabTitle("");
-					//disegnaAudioGrafici(sa_audio_history,1);
+					//disegnaGrafici(sa_audio_history,1);
 					pnlAudio.add(pnlAudioSA);
 }
 					
@@ -1214,9 +1309,10 @@ pnlAudio = new JPanel();
 									btnGestiRimuovi.setEnabled(false);
 										//btnGestiReset.setEnabled(false);
 									}
-									
+									if(jListGestiFrasi.getModel().getSize()!=0)
+										jListGestiFrasi.setSelectedIndex(jListGestiFrasi.getSelectedIndex()-1);
 									//Aggiorna i grafici
-							//	disegnaGestiGrafici(sa_gesti_history,3);
+							disegnaGrafici(sa_gesti_history,3);
 								}
 							});
 						}
@@ -1248,7 +1344,7 @@ pnlAudio = new JPanel();
 						cmbAr.setSelectedIndex(0);
 
 						// Resetta la rete
-						//hi.reset();
+						//hi_gesti.reset();
 
 						// Ridisegna i grafici
 					//	disegnaAudioGrafici(sa_gesti_history,2);
@@ -1269,11 +1365,11 @@ pnlAudio = new JPanel();
 							{
 								
 								// Attiva/disattiva i pulsanti appropriati
-								btnLingReset.setEnabled(true);
+								btnGestiReset.setEnabled(true);
 								btnGestiRimuovi.setEnabled(true);
 								
 							//	if(sa_gesti_history.size()>0)
-								//	hi_gesti.addNodo(1);
+								//	hi_gesti.addNodo(3);
 								
 								// Setta le evidenze
 								/*
@@ -1295,8 +1391,10 @@ pnlAudio = new JPanel();
 								// Scrive la riga sulla tabella
 								tblGestiEvidenzeModel.addRow(new String[]{getValoreTabella(cmbHands.getSelectedItem().toString()),getValoreTabella(cmbArms.getSelectedItem().toString()),getValoreTabella(cmbLegs.getSelectedItem().toString())});
 								
+								if(jListGestiFrasi.getSelectedIndex()!=jListGestiFrasi.getModel().getSize())
+								jListGestiFrasi.setSelectedIndex(jListGestiFrasi.getSelectedIndex()+1);
 								// Disegna il grafico
-								//disegnaGestiGrafici(sa_gesti_history,3);
+								disegnaGrafici(sa_gesti_history,3);
 							}
 							catch(NumberFormatException e)
 							{
@@ -1334,7 +1432,7 @@ pnlAudio = new JPanel();
 						pnlGestiSA.setBorder(BorderFactory.createTitledBorder("Social Attitude"));
 					    pnlGestiSA.setLayout(null);
 						pnlGestiSA.setBounds(528, 0, 505, 545);
-					//	disegnaGestiGrafici(sa_gesti_history,3);
+					//	disegnaGrafici(sa_gesti_history,3);
 					}
 				}
 			}
@@ -1356,14 +1454,36 @@ pnlAudio = new JPanel();
 	}
 
 	// Metodo per il disegno dei grafici
-	private void disegnaLingGrafici(ArrayList<double[]>ar,int choose)
+	private void disegnaGrafici(ArrayList<double[]>ar,int choose)
 	{
+		String title=null;
+		JPanel pnlSA=null;
+		double[] sa_iniziale=null;
 		
-		JPanel pnlSA=pnlLingSA;
+		switch(choose){
+		case 1: title="Language";
+				pnlSA=pnlLingSA;
+				sa_iniziale=sa_ling_iniziale;
+				break;
+		case 2: title="Audio";
+				pnlSA=pnlAudioSA;
+				sa_iniziale=sa_audio_iniziale;
+				break;
+		case 3: title="Gestures";
+				pnlSA=pnlGestiSA;
+				sa_iniziale=sa_gesti_iniziale;
+				break;
+		case 4: title="General";
+				pnlSA=pnlGenSA;
+				sa_iniziale=sa_gen_iniziale;
+				break;
+		}
+		//variabile
+		
 		if(pnlAnd!=null)
-			pnlLingSA.remove(pnlAnd);
+			pnlSA.remove(pnlAnd);
 		if(pnlIst!=null)
-			pnlLingSA.remove(pnlIst);
+			pnlSA.remove(pnlIst);
 		
 		
 		// Crea e disegna l'istogramma
@@ -1376,12 +1496,13 @@ pnlAudio = new JPanel();
 			ds.addValue(last_sa[0],"Positive","Social Attitude");
 		}
 		else
-		{
-			ds.addValue(sa_ling_iniziale[2],"Negative","Social Attitude");
-			ds.addValue(sa_ling_iniziale[1],"Neutral","Social Attitude");
-			ds.addValue(sa_ling_iniziale[0],"Positive","Social Attitude");
+		{//variabile
+			ds.addValue(sa_iniziale[2],"Negative","Social Attitude");
+			ds.addValue(sa_iniziale[1],"Neutral","Social Attitude");
+			ds.addValue(sa_iniziale[0],"Positive","Social Attitude");
 		}
-		istogramma = ChartFactory.createBarChart("Phrase Current Social Attitude", "Move", "Probability", ds, PlotOrientation.VERTICAL, true, true, false);
+		//variabile
+		istogramma = ChartFactory.createBarChart("Social Attitude: "+title, "Move", "Probability", ds, PlotOrientation.VERTICAL, true, true, false);
 		pnlIst = new ChartPanel(istogramma, true);
 		
 		CategoryPlot plotIst = (CategoryPlot)istogramma.getPlot();
@@ -1399,7 +1520,7 @@ pnlAudio = new JPanel();
 		renderLabel.setBaseItemLabelFont(new Font("TimesRoman",Font.BOLD,13));
 		renderLabel.setBaseItemLabelsVisible(true);
 
-		pnlLingSA.add(pnlIst);
+		pnlSA.add(pnlIst);
 		pnlIst.setBounds(17, 253, 471, 261);
 
 		
@@ -1407,9 +1528,9 @@ pnlAudio = new JPanel();
 		DefaultCategoryDataset dsNeutral = new DefaultCategoryDataset();
 		DefaultCategoryDataset dsBad = new DefaultCategoryDataset();
 
-		dsPositive.addValue(sa_ling_iniziale[0], "Positive", "0");
-		dsNeutral.addValue(sa_ling_iniziale[1], "Neutral", "0");
-		dsBad.addValue(sa_ling_iniziale[2], "Negative", "0");
+		dsPositive.addValue(sa_iniziale[0], "Positive", "0");
+		dsNeutral.addValue(sa_iniziale[1], "Neutral", "0");
+		dsBad.addValue(sa_iniziale[2], "Negative", "0");
 
 		for (Integer i=1; i <= ar.size(); i++)
 		{
@@ -1417,7 +1538,7 @@ pnlAudio = new JPanel();
 			dsNeutral.addValue(ar.get(i-1)[1],"Neutral",i.toString());
 			dsBad.addValue(ar.get(i-1)[2],"Negative",i.toString());
 		}
-		andamento = ChartFactory.createLineChart("Language Social Attitude Trend", "Move", "Probability", dsBad, PlotOrientation.VERTICAL, true, true, false);
+		andamento = ChartFactory.createLineChart("Social Attitude Trend: "+title, "Move", "Probability", dsBad, PlotOrientation.VERTICAL, true, true, false);
 		
 		CategoryPlot plotAnd = (CategoryPlot)andamento.getPlot();
 		plotAnd.setDataset(1,dsNeutral);
@@ -1433,249 +1554,11 @@ pnlAudio = new JPanel();
 		((LineAndShapeRenderer)(plotAnd.getRenderer(2))).setSeriesPaint(0, new Color(0,150,0));
 		
 		
-		pnlLingSA.add(pnlAnd);
-		pnlAnd.setBounds(17, 25, 471, 204);
-	}
-	private void disegnaGenGrafici(ArrayList<double[]>ar,int choose)
-	{
-		
-		JPanel pnlSA=pnlLingSA;
-		if(pnlAnd!=null)
-			pnlGenSA.remove(pnlAnd);
-		if(pnlIst!=null)
-			pnlGenSA.remove(pnlIst);
-		
-		
-		// Crea e disegna l'istogramma
-		DefaultCategoryDataset ds = new DefaultCategoryDataset();
-		if(ar.size()>0)
-		{
-			double last_sa[] = ar.get(ar.size()-1);
-			ds.addValue(last_sa[2],"Negative","Social Attitude");
-			ds.addValue(last_sa[1],"Neutral","Social Attitude");
-			ds.addValue(last_sa[0],"Positive","Social Attitude");
-		}
-		else
-		{
-			ds.addValue(sa_ling_iniziale[2],"Negative","Social Attitude");
-			ds.addValue(sa_ling_iniziale[1],"Neutral","Social Attitude");
-			ds.addValue(sa_ling_iniziale[0],"Positive","Social Attitude");
-		}
-		istogramma = ChartFactory.createBarChart("General Social Attitude", "Move", "Probability", ds, PlotOrientation.VERTICAL, true, true, false);
-		pnlIst = new ChartPanel(istogramma, true);
-		
-		CategoryPlot plotIst = (CategoryPlot)istogramma.getPlot();
-		plotIst.getRangeAxis().setUpperBound(1);
-		plotIst.setBackgroundPaint(new Color(230,230,230));
-		plotIst.setRangeGridlinePaint(Color.black);
-		((BarRenderer)(plotIst.getRenderer())).setSeriesPaint(0, new Color(150,0,0));
-		((BarRenderer)(plotIst.getRenderer())).setSeriesPaint(1, new Color(80,150,220));
-		((BarRenderer)(plotIst.getRenderer())).setSeriesPaint(2, new Color(0,150,0));
-	
-		CategoryItemRenderer renderLabel = plotIst.getRenderer();
-		CategoryItemLabelGenerator generator = new StandardCategoryItemLabelGenerator("{2}", new DecimalFormat("0.00"));
-		renderLabel.setBasePositiveItemLabelPosition(new ItemLabelPosition(ItemLabelAnchor.CENTER,TextAnchor.CENTER));
-		renderLabel.setBaseItemLabelGenerator(generator);
-		renderLabel.setBaseItemLabelFont(new Font("TimesRoman",Font.BOLD,13));
-		renderLabel.setBaseItemLabelsVisible(true);
-
-		pnlGenSA.add(pnlIst);
-		pnlIst.setBounds(17, 253, 471, 261);
-
-		
-		DefaultCategoryDataset dsPositive = new DefaultCategoryDataset();
-		DefaultCategoryDataset dsNeutral = new DefaultCategoryDataset();
-		DefaultCategoryDataset dsBad = new DefaultCategoryDataset();
-
-		dsPositive.addValue(sa_ling_iniziale[0], "Positive", "0");
-		dsNeutral.addValue(sa_ling_iniziale[1], "Neutral", "0");
-		dsBad.addValue(sa_ling_iniziale[2], "Negative", "0");
-
-		for (Integer i=1; i <= ar.size(); i++)
-		{
-			dsPositive.addValue(ar.get(i-1)[0],"Positive",i.toString());
-			dsNeutral.addValue(ar.get(i-1)[1],"Neutral",i.toString());
-			dsBad.addValue(ar.get(i-1)[2],"Negative",i.toString());
-		}
-		andamento = ChartFactory.createLineChart("General Social Attitude Trend", "Move", "Probability", dsBad, PlotOrientation.VERTICAL, true, true, false);
-		
-		CategoryPlot plotAnd = (CategoryPlot)andamento.getPlot();
-		plotAnd.setDataset(1,dsNeutral);
-		plotAnd.setDataset(2,dsPositive);
-		plotAnd.setRenderer(1,new LineAndShapeRenderer());
-		plotAnd.setRenderer(2,new LineAndShapeRenderer());
-		plotAnd.getRangeAxis().setUpperBound(1);
-		plotAnd.setBackgroundPaint(new Color(230,230,230));
-		plotAnd.setRangeGridlinePaint(Color.black);
-
-		pnlAnd = new ChartPanel(andamento, true);
-		((LineAndShapeRenderer)(plotAnd.getRenderer(1))).setSeriesPaint(0,new Color(80,150,220));
-		((LineAndShapeRenderer)(plotAnd.getRenderer(2))).setSeriesPaint(0, new Color(0,150,0));
-		
-		
-		pnlGenSA.add(pnlAnd);
-		pnlAnd.setBounds(17, 25, 471, 204);
-	}
-	private void disegnaGestiGrafici(ArrayList<double[]>ar,int choose)
-	{
-		
-		
-		if(pnlAnd!=null)
-			pnlGestiSA.remove(pnlAnd);
-		if(pnlIst!=null)
-			pnlGestiSA.remove(pnlIst);
-		
-		
-		// Crea e disegna l'istogramma
-		DefaultCategoryDataset ds = new DefaultCategoryDataset();
-		if(ar.size()>0)
-		{
-			double last_sa[] = ar.get(ar.size()-1);
-			ds.addValue(last_sa[2],"Negative","Social Attitude");
-			ds.addValue(last_sa[1],"Neutral","Social Attitude");
-			ds.addValue(last_sa[0],"Positive","Social Attitude");
-		}
-		else
-		{
-			ds.addValue(sa_ling_iniziale[2],"Negative","Social Attitude");
-			ds.addValue(sa_ling_iniziale[1],"Neutral","Social Attitude");
-			ds.addValue(sa_ling_iniziale[0],"Positive","Social Attitude");
-		}
-		istogramma = ChartFactory.createBarChart("Gesture Current Social Attitude", "Move", "Probability", ds, PlotOrientation.VERTICAL, true, true, false);
-		pnlIst = new ChartPanel(istogramma, true);
-		
-		CategoryPlot plotIst = (CategoryPlot)istogramma.getPlot();
-		plotIst.getRangeAxis().setUpperBound(1);
-		plotIst.setBackgroundPaint(new Color(230,230,230));
-		plotIst.setRangeGridlinePaint(Color.black);
-		((BarRenderer)(plotIst.getRenderer())).setSeriesPaint(0, new Color(150,0,0));
-		((BarRenderer)(plotIst.getRenderer())).setSeriesPaint(1, new Color(80,150,220));
-		((BarRenderer)(plotIst.getRenderer())).setSeriesPaint(2, new Color(0,150,0));
-	
-		CategoryItemRenderer renderLabel = plotIst.getRenderer();
-		CategoryItemLabelGenerator generator = new StandardCategoryItemLabelGenerator("{2}", new DecimalFormat("0.00"));
-		renderLabel.setBasePositiveItemLabelPosition(new ItemLabelPosition(ItemLabelAnchor.CENTER,TextAnchor.CENTER));
-		renderLabel.setBaseItemLabelGenerator(generator);
-		renderLabel.setBaseItemLabelFont(new Font("TimesRoman",Font.BOLD,13));
-		renderLabel.setBaseItemLabelsVisible(true);
-
-		pnlGestiSA.add(pnlIst);
-		pnlIst.setBounds(17, 253, 471, 261);
-
-		
-		DefaultCategoryDataset dsPositive = new DefaultCategoryDataset();
-		DefaultCategoryDataset dsNeutral = new DefaultCategoryDataset();
-		DefaultCategoryDataset dsBad = new DefaultCategoryDataset();
-
-		dsPositive.addValue(sa_ling_iniziale[0], "Positive", "0");
-		dsNeutral.addValue(sa_ling_iniziale[1], "Neutral", "0");
-		dsBad.addValue(sa_ling_iniziale[2], "Negative", "0");
-
-		for (Integer i=1; i <= ar.size(); i++)
-		{
-			dsPositive.addValue(ar.get(i-1)[0],"Positive",i.toString());
-			dsNeutral.addValue(ar.get(i-1)[1],"Neutral",i.toString());
-			dsBad.addValue(ar.get(i-1)[2],"Negative",i.toString());
-		}
-		andamento = ChartFactory.createLineChart("Gestures Social Attitude Trend", "Move", "Probability", dsBad, PlotOrientation.VERTICAL, true, true, false);
-		
-		CategoryPlot plotAnd = (CategoryPlot)andamento.getPlot();
-		plotAnd.setDataset(1,dsNeutral);
-		plotAnd.setDataset(2,dsPositive);
-		plotAnd.setRenderer(1,new LineAndShapeRenderer());
-		plotAnd.setRenderer(2,new LineAndShapeRenderer());
-		plotAnd.getRangeAxis().setUpperBound(1);
-		plotAnd.setBackgroundPaint(new Color(230,230,230));
-		plotAnd.setRangeGridlinePaint(Color.black);
-
-		pnlAnd = new ChartPanel(andamento, true);
-		((LineAndShapeRenderer)(plotAnd.getRenderer(1))).setSeriesPaint(0,new Color(80,150,220));
-		((LineAndShapeRenderer)(plotAnd.getRenderer(2))).setSeriesPaint(0, new Color(0,150,0));
-		
-		
-		pnlGestiSA.add(pnlAnd);
+		pnlSA.add(pnlAnd);
 		pnlAnd.setBounds(17, 25, 471, 204);
 	}
 	
-	private void disegnaAudioGrafici(ArrayList<double[]>ar,int choose)
-	{
-		
-		if(pnlAnd!=null)
-			pnlAudioSA.remove(pnlAnd);
-		if(pnlIst!=null)
-			pnlAudioSA.remove(pnlIst);
-		
-		
-		// Crea e disegna l'istogramma
-		DefaultCategoryDataset ds = new DefaultCategoryDataset();
-		if(ar.size()>0)
-		{
-			double last_sa[] = ar.get(ar.size()-1);
-			ds.addValue(last_sa[2],"Negative","Social Attitude");
-			ds.addValue(last_sa[1],"Neutral","Social Attitude");
-			ds.addValue(last_sa[0],"Positive","Social Attitude");
-		}
-		else
-		{
-			ds.addValue(sa_audio_iniziale[2],"Negative","Social Attitude");
-			ds.addValue(sa_audio_iniziale[1],"Neutral","Social Attitude");
-			ds.addValue(sa_audio_iniziale[0],"Positive","Social Attitude");
-		}
-		istogramma = ChartFactory.createBarChart("Audio Current Social Attitude", "Move", "Probability", ds, PlotOrientation.VERTICAL, true, true, false);
-		pnlIst = new ChartPanel(istogramma, true);
-		
-		CategoryPlot plotIst = (CategoryPlot)istogramma.getPlot();
-		plotIst.getRangeAxis().setUpperBound(1);
-		plotIst.setBackgroundPaint(new Color(230,230,230));
-		plotIst.setRangeGridlinePaint(Color.black);
-		((BarRenderer)(plotIst.getRenderer())).setSeriesPaint(0, new Color(150,0,0));
-		((BarRenderer)(plotIst.getRenderer())).setSeriesPaint(1, new Color(80,150,220));
-		((BarRenderer)(plotIst.getRenderer())).setSeriesPaint(2, new Color(0,150,0));
 	
-		CategoryItemRenderer renderLabel = plotIst.getRenderer();
-		CategoryItemLabelGenerator generator = new StandardCategoryItemLabelGenerator("{2}", new DecimalFormat("0.00"));
-		renderLabel.setBasePositiveItemLabelPosition(new ItemLabelPosition(ItemLabelAnchor.CENTER,TextAnchor.CENTER));
-		renderLabel.setBaseItemLabelGenerator(generator);
-		renderLabel.setBaseItemLabelFont(new Font("TimesRoman",Font.BOLD,13));
-		renderLabel.setBaseItemLabelsVisible(true);
-
-		pnlAudioSA.add(pnlIst);
-		pnlIst.setBounds(17, 253, 471, 261);
-
-		
-		DefaultCategoryDataset dsPositive = new DefaultCategoryDataset();
-		DefaultCategoryDataset dsNeutral = new DefaultCategoryDataset();
-		DefaultCategoryDataset dsBad = new DefaultCategoryDataset();
-
-		dsPositive.addValue(sa_audio_iniziale[0], "Positive", "0");
-		dsNeutral.addValue(sa_audio_iniziale[1], "Neutral", "0");
-		dsBad.addValue(sa_audio_iniziale[2], "Negative", "0");
-
-		for (Integer i=1; i <= ar.size(); i++)
-		{
-			dsPositive.addValue(ar.get(i-1)[0],"Positive",i.toString());
-			dsNeutral.addValue(ar.get(i-1)[1],"Neutral",i.toString());
-			dsBad.addValue(ar.get(i-1)[2],"Negative",i.toString());
-		}
-		andamento = ChartFactory.createLineChart("Audio Social Attitude Trend", "Move", "Probability", dsBad, PlotOrientation.VERTICAL, true, true, false);
-		
-		CategoryPlot plotAnd = (CategoryPlot)andamento.getPlot();
-		plotAnd.setDataset(1,dsNeutral);
-		plotAnd.setDataset(2,dsPositive);
-		plotAnd.setRenderer(1,new LineAndShapeRenderer());
-		plotAnd.setRenderer(2,new LineAndShapeRenderer());
-		plotAnd.getRangeAxis().setUpperBound(1);
-		plotAnd.setBackgroundPaint(new Color(230,230,230));
-		plotAnd.setRangeGridlinePaint(Color.black);
-
-		pnlAnd = new ChartPanel(andamento, true);
-		((LineAndShapeRenderer)(plotAnd.getRenderer(1))).setSeriesPaint(0,new Color(80,150,220));
-		((LineAndShapeRenderer)(plotAnd.getRenderer(2))).setSeriesPaint(0, new Color(0,150,0));
-		
-		
-		pnlAudioSA.add(pnlAnd);
-		pnlAnd.setBounds(17, 25, 471, 204);
-	}
 	
 	private void jbtALGActionPerformed(ActionEvent evt,int i) {
 		switch(i){
@@ -1709,12 +1592,15 @@ pnlAudio = new JPanel();
 						jListAudioFrasi.setModel(jListFrasiModel);
 						jListGestiFrasi.setModel(jListFrasiModel);
 						jListLingFrasi.setSelectedIndex(0);
+						jListLingFrasi.setEnabled(false);
 						jListAudioFrasi.setSelectedIndex(0);
+						jListAudioFrasi.setEnabled(false);
 						jListGestiFrasi.setSelectedIndex(0);
+						jListGestiFrasi.setEnabled(false);
 						jTabbedPane.setEnabledAt(1, true);
 						jTabbedPane.setSelectedIndex(i);
 						btnLingAggiungi.setEnabled(true);
-						disegnaLingGrafici(sa_ling_history,1);
+						disegnaGrafici(sa_ling_history,1);
 				  } catch (FileNotFoundException e) {
 						
 						e.printStackTrace();
@@ -1743,7 +1629,7 @@ pnlAudio = new JPanel();
 				jTabbedPane.setEnabledAt(2, true);
 				jTabbedPane.setSelectedIndex(i);
 				//btnAudioAggiungi.setEnabled(true);
-				disegnaAudioGrafici(sa_audio_history,2);
+				disegnaGrafici(sa_audio_history,2);
 				break;
 				
 		case 3: System.out.println("Bottone Gesti");
@@ -1777,7 +1663,35 @@ pnlAudio = new JPanel();
 		
 		//TODO add your code for jbtAudio.actionPerformed
 	}
-	
+	private void getSActionPerformed(){
+	double[] ling,audio;
+	int c=0;
+	System.out.println(sa_ling_history.size());
+	while(c<sa_ling_history.size()){
+		System.out.println(c);
+		ling=sa_ling_history.get(c);
+		System.out.println("vet ling");
+		System.out.println(ling[0]);
+		System.out.println(ling[1]);
+		System.out.println(ling[2]);
+		audio=sa_audio_history.get(c);
+		System.out.println("vet audio");
+		System.out.println(audio[0]);
+		System.out.println(audio[1]);
+		System.out.println(audio[2]);
+		
+		if(sa_gen_history.size()>0)
+			hi_gen.addNodo(4);
+		hi_gen.setGenEvidenza(Nodes.SOCIAL_ATTITUDE_AUDIO,audio);
+		hi_gen.setGenEvidenza(Nodes.SOCIAL_ATTITUDE_LING,ling);
+		
+		
+		double[] sa = hi_gen.getSA();
+		sa_gen_history.add(sa);
+		c++;
+		}
+	disegnaGrafici(sa_gen_history,4);
+	}
 	
 	
 	private void getALGvet(ListIterator<double[]> ar){
@@ -1842,7 +1756,5 @@ pnlAudio = new JPanel();
 		}
 		return chartPanel3;
 	}
-	
-
 
 }
