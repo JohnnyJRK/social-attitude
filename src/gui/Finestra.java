@@ -353,6 +353,7 @@ public class Finestra extends javax.swing.JFrame {
 									if(jrbLing.isSelected()&&jrbAudio.isSelected()){
 										System.out.println("All selected");
 										getSActionPerformed();
+										btnGenReset.setEnabled(true);
 									}
 									
 								
@@ -385,7 +386,7 @@ public class Finestra extends javax.swing.JFrame {
 											cmbCiao.setSelectedIndex(0);
 											cmbMe.setSelectedIndex(0);
 											cmbYou.setSelectedIndex(0);
-											hi_ling.reset();
+											hi_ling.reset(1);
 											disegnaGrafici(sa_ling_history,1);
 										}
 										
@@ -396,7 +397,7 @@ public class Finestra extends javax.swing.JFrame {
 											//audio
 											cmbAr.setSelectedIndex(0);
 											cmbVal.setSelectedIndex(0);
-											hi_audio.reset();
+											hi_audio.reset(2);
 											disegnaGrafici(sa_audio_history,2);
 										}
 										
@@ -418,14 +419,14 @@ public class Finestra extends javax.swing.JFrame {
 											cmbLegs.setSelectedIndex(0);
 											
 											// Resetta la rete
-											hi_gesti.reset();	
+											hi_gesti.reset(3);	
 											
 											disegnaGrafici(sa_gesti_history,3);
 										}
 										// Attiva/disattiva i pulsanti appropriati
 										btnGetSA.setEnabled(false);
 										sa_gen_history = new ArrayList<double[]>();
-										hi_gen.reset();
+										hi_gen.reset(4);
 										
 										// Ridisegna i grafici
 										disegnaGrafici(sa_gen_history,4);
@@ -576,7 +577,7 @@ public class Finestra extends javax.swing.JFrame {
 								pnlContesto.add(cmbContx);
 								cmbContx.setModel(cmbContxModel);
 								cmbContx.setBounds(207, 23, 261, 23);
-								cmbContx.setToolTipText("<html>Identifica la tipologia dell'ultima mossa del <br>dialogo eseguita dal sistema</html>");
+								cmbContx.setToolTipText("<html>identifies the type of the last move of the<br> dialogue performed by the system</html>");
 							}
 							{
 								ComboBoxModel cmbMtypeModel = 
@@ -586,7 +587,7 @@ public class Finestra extends javax.swing.JFrame {
 								pnlContesto.add(cmbMtype);
 								cmbMtype.setModel(cmbMtypeModel);
 								cmbMtype.setBounds(207, 55, 261, 23);
-								cmbMtype.setToolTipText("<html>Identifica la tipologia della mossa del <br>dialogo eseguita dall'utente</html>");
+								cmbMtype.setToolTipText("<html>identifies the type of <br>dialogue move performed by the user</html>");
 							}
 						}
 						{
@@ -610,7 +611,7 @@ public class Finestra extends javax.swing.JFrame {
 								pnlSegni.add(cmbConf);
 								cmbConf.setModel(cmbConfModel);
 								cmbConf.setBounds(158, 66, 81, 23);
-								cmbConf.setToolTipText("<html>Identifica l'uso di espressioni confidenziali, <br>proverbiali, dialettali, ecc.. da parte dell'utente</html>");
+								cmbConf.setToolTipText("<html>identifies the use of expressions confidential, proverbial,<br> dialectal by the user</html>");
 							}
 							{
 								lblCiao = new JLabel();
@@ -627,7 +628,7 @@ public class Finestra extends javax.swing.JFrame {
 								pnlSegni.add(cmbCiao);
 								cmbCiao.setModel(cmbCiaoModel);
 								cmbCiao.setBounds(387, 66, 81, 23);
-								cmbCiao.setToolTipText("<html>Identifica il fatto che l'utente abbia <br>utilizzato espressioni di saluto (es. Ciao, Arrivederci)</html>");
+								cmbCiao.setToolTipText("<html>identifies the fact that the user has<br> used words of welcome(es. Ciao, Arrivederci)</html>");
 							}
 							{
 								lblMe = new JLabel();
@@ -651,7 +652,7 @@ public class Finestra extends javax.swing.JFrame {
 								pnlSegni.add(cmbMe);
 								cmbMe.setModel(cmbMeModel);
 								cmbMe.setBounds(158, 102, 81, 23);
-								cmbMe.setToolTipText("<html>Identifica l'uso di espressioni e <br>forme verbali in prima persona</html>");
+								cmbMe.setToolTipText("<html>identifies the use of expressions and<br> verbs in the first person</html>");
 							}
 							{
 								ComboBoxModel cmbYouModel = 
@@ -661,7 +662,7 @@ public class Finestra extends javax.swing.JFrame {
 								pnlSegni.add(cmbYou);
 								cmbYou.setModel(cmbYouModel);
 								cmbYou.setBounds(387, 102, 81, 23);
-								cmbYou.setToolTipText("<html>Identifica l'uso di espressioni e <br>forme verbali in seconda persona</html>");
+								cmbYou.setToolTipText("<html>identifies the use of expressions and<br> verbs in the second person</html>");
 							}
 							{
 								lblLeng = new JLabel();
@@ -674,7 +675,7 @@ public class Finestra extends javax.swing.JFrame {
 								txtLeng = new JTextField();
 								pnlSegni.add(txtLeng);
 								txtLeng.setBounds(158, 30, 81, 23);
-								txtLeng.setToolTipText("<html>Lunghezza del messaggio <br>dell'utente (espresso in caratteri)</html>");
+								txtLeng.setToolTipText("<html>length of the user's message<br>(in characters)</html>");
 							}
 							{
 								lblQmar = new JLabel();
@@ -691,7 +692,7 @@ public class Finestra extends javax.swing.JFrame {
 								pnlSegni.add(cmbQmar);
 								cmbQmar.setModel(cmqQmarModel);
 								cmbQmar.setBounds(387, 30, 81, 23);
-								cmbQmar.setToolTipText("<html>Identifica il fatto che l'utente abbia utilizzato o <br>meno il punto interrogativo nell'ultimo messaggio</html>");
+								cmbQmar.setToolTipText("<html>identifies the fact that the user has used or not<br> the question mark in the last message</html>");
 							}
 						}
 
@@ -701,7 +702,7 @@ public class Finestra extends javax.swing.JFrame {
 							btnLingReset.setText("Reset Dialog");
 							btnLingReset.setBounds(7, 500, 130, 28);
 							btnLingReset.setEnabled(false);
-							btnLingReset.setToolTipText("Resetta il dialogo, eliminando tutte le mosse definite.");
+							btnLingReset.setToolTipText("Reset the dialogue by removing all the moves defined");
 							btnLingReset.addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent evt) {
 									
@@ -730,8 +731,9 @@ public class Finestra extends javax.swing.JFrame {
 										cmbYou.setSelectedIndex(0);
 										
 										// Resetta la rete
-										hi_ling.reset();
+										hi_ling.reset(1);
 										
+										jListLingFrasi.setSelectedIndex(0);
 										// Ridisegna i grafici
 										disegnaGrafici(sa_ling_history,1);
 									}
@@ -765,7 +767,7 @@ public class Finestra extends javax.swing.JFrame {
 							pnlLingEvidenze.add(btnLingAggiungi);
 							btnLingAggiungi.setText("Add Move");
 							btnLingAggiungi.setBounds(316, 499, 116, 28);
-							btnLingAggiungi.setToolTipText("Imposta le evidenze definite in una nuova mossa del dialogo.");
+							btnLingAggiungi.setToolTipText("Sets the evidence defined in a new move of the dialogue.");
 							btnLingAggiungi.setEnabled(false);
 							btnLingAggiungi.addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent evt) {
@@ -826,7 +828,7 @@ public class Finestra extends javax.swing.JFrame {
 							
 							btnLingRimuovi.setText("Remove Move");
 							btnLingRimuovi.setBounds(142, 500, 130, 28);
-							btnLingRimuovi.setToolTipText("Rimuove l'ultima mossa del dialogo.");
+							btnLingRimuovi.setToolTipText("Removes the last move of the dialogue");
 							btnLingRimuovi.setEnabled(false);
 							btnLingRimuovi.addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent evt) {
@@ -867,6 +869,7 @@ public class Finestra extends javax.swing.JFrame {
 						btnLingOK.setText("Ok");
 						btnLingOK.setBounds(437, 499, 52, 28);
 						btnLingOK.setEnabled(false);
+						btnLingOK.setToolTipText("Complete language configuration");
 						btnLingOK.addActionListener(new ActionListener(){
 
 							@Override
@@ -934,7 +937,7 @@ new DefaultComboBoxModel(
 new String[] { "???", "Positive", "Neutral", "Negative", "Very Negative" });
 cmbVal = new JComboBox();
 cmbVal.setModel(cmbValModel);
-cmbVal.setToolTipText("<html>Identifica la tipologia dell'ultima mossa del <br>dialogo eseguita dal sistema</html>");
+cmbVal.setToolTipText("<html>Set of the valence values for the current move</html>");
 cmbVal.setBounds(123, 23, 103, 23);
 cmbVal.addItemListener(new ItemListener(){
 
@@ -958,7 +961,7 @@ new DefaultComboBoxModel(
 new String[] { "???","High", "Medium", "Low" });
 cmbAr = new JComboBox();
 cmbAr.setModel(cmbArModel);
-cmbAr.setToolTipText("<html>Identifica la tipologia della mossa del <br>dialogo eseguita dall'utente</html>");
+cmbAr.setToolTipText("<html>Set of the arousal values for the current move</html>");
 cmbAr.setBounds(123, 62, 103, 23);
 cmbAr.addItemListener(new ItemListener(){
 
@@ -982,7 +985,7 @@ pnlAudioEvidenze.add(pnlAudioAV);
 btnAudioReset = new JButton();
 btnAudioReset.setEnabled(false);
 btnAudioReset.setText("Reset Dialog");
-btnAudioReset.setToolTipText("Resetta il dialogo, eliminando tutte le mosse definite.");
+btnAudioReset.setToolTipText("Reset the dialogue by removing all the moves defined");
 btnAudioReset.setBounds(7, 500, 130, 28);
 btnAudioReset.addActionListener(new ActionListener() {
 public void actionPerformed(ActionEvent evt) {
@@ -1004,9 +1007,10 @@ tblAudioEvidenzeModel.removeRow(i);
 // Resetta le opzioni di default delle evidenze
 cmbVal.setSelectedIndex(0);
 cmbAr.setSelectedIndex(0);
-
+if(jListLingFrasi.getModel().getSize()!=0)
+jListAudioFrasi.setSelectedIndex(0);
 // Resetta la rete
-hi_audio.reset();
+hi_audio.reset(2);
 
 // Ridisegna i grafici
 disegnaGrafici(sa_audio_history,2);
@@ -1039,7 +1043,7 @@ pnlAudioEvidenze.add(jLabel10);
 btnAudioAggiungi = new JButton();
 btnAudioAggiungi.setEnabled(false);
 btnAudioAggiungi.setText("Add Move");
-btnAudioAggiungi.setToolTipText("Imposta le evidenze definite in una nuova mossa del dialogo.");
+btnAudioAggiungi.setToolTipText("Sets the evidence defined in a new move of the dialogue.");
 btnAudioAggiungi.setBounds(307, 499, 130, 28);
 btnAudioAggiungi.addActionListener(new ActionListener() {
 public void actionPerformed(ActionEvent evt) {
@@ -1065,8 +1069,18 @@ sa_audio_history.add(sa);
 //prendere i valori da Voice Classifier
 tblAudioEvidenzeModel.addRow(new String[]{cmbAr.getSelectedItem().toString(),cmbVal.getSelectedItem().toString()});
 
-if(jListAudioFrasi.getSelectedIndex()!=jListAudioFrasi.getModel().getSize())
-jListAudioFrasi.setSelectedIndex(jListAudioFrasi.getSelectedIndex()+1);
+if(jListLingFrasi.getModel().getSize()!=0){
+if(jListAudioFrasi.getSelectedIndex()!=jListAudioFrasi.getModel().getSize()-1)
+	jListAudioFrasi.setSelectedIndex(jListAudioFrasi.getSelectedIndex()+1);
+	else{
+	btnAudioAggiungi.setEnabled(false);
+	btnAudioOK.setEnabled(true);
+	}
+}else{
+	btnAudioAggiungi.setEnabled(true);
+	
+	btnAudioOK.setEnabled(true);
+}
 // Disegna il grafico
 disegnaGrafici(sa_audio_history,2);
 }
@@ -1080,7 +1094,7 @@ pnlAudioEvidenze.add(btnAudioAggiungi);
 btnAudioRimuovi = new JButton();
 btnAudioRimuovi.setEnabled(false);
 btnAudioRimuovi.setText("Remove Move");
-btnAudioRimuovi.setToolTipText("Rimuove l'ultima mossa del dialogo.");
+btnAudioRimuovi.setToolTipText("Removes the last move of the dialogue");
 btnAudioRimuovi.setBounds(142, 500, 130, 28);
 btnAudioRimuovi.addActionListener(new ActionListener() {
 public void actionPerformed(ActionEvent evt) {
@@ -1096,8 +1110,29 @@ public void actionPerformed(ActionEvent evt) {
 		btnAudioRimuovi.setEnabled(false);
 		btnAudioReset.setEnabled(false);
 	}
+	
+	if(jListLingFrasi.getModel().getSize()!=0){
 	if(jListAudioFrasi.getModel().getSize()!=0)
-	jListAudioFrasi.setSelectedIndex(jListAudioFrasi.getSelectedIndex()-1);
+	{System.out.println("diverso da 0");
+		if(btnAudioOK.isEnabled()&&jListAudioFrasi.getSelectedIndex()==jListAudioFrasi.getModel().getSize()-1)
+		{ 
+		   btnAudioOK.setEnabled(false);
+		   System.out.println("uguale a ultimo");}
+		else if(!btnAudioOK.isEnabled()){
+			System.out.println("ok disable");
+			jListAudioFrasi.setSelectedIndex(jListAudioFrasi.getSelectedIndex()-1);
+		}
+		
+			
+	 if(jListAudioFrasi.getSelectedIndex()<jListAudioFrasi.getModel().getSize())
+		 btnAudioAggiungi.setEnabled(true);
+	}		
+	}else
+	{
+		btnAudioAggiungi.setEnabled(true);
+		btnAudioOK.setEnabled(true);
+	}
+	
 	//Aggiorna i grafici
 	disegnaGrafici(sa_audio_history,2);
 }
@@ -1105,6 +1140,8 @@ public void actionPerformed(ActionEvent evt) {
 btnAudioOK = new JButton();
 btnAudioOK.setText("Ok");
 btnAudioOK.setBounds(442, 499, 50, 28);
+btnAudioOK.setEnabled(false);
+btnAudioOK.setToolTipText("Complete audio configuration");
 btnAudioOK.addActionListener(new ActionListener(){
 
 	@Override
@@ -1201,7 +1238,7 @@ pnlAudio = new JPanel();
 								cmbArms = new JComboBox();
 								pnlSegniLing.add(cmbArms);
 								cmbArms.setModel(cmbArmsModel);
-								cmbArms.setToolTipText("<html>Identifica la posizione delle braccia dell'utente <br>es: incrociate, aperte, ecc..</html>");
+								cmbArms.setToolTipText("<html>Identifies the position of the user's arms</html>");
 								cmbArms.setBounds(158, 66, 96, 23);
 								cmbArms.addItemListener(new ItemListener(){
 
@@ -1237,7 +1274,7 @@ pnlAudio = new JPanel();
 								cmbLegs = new JComboBox();
 								pnlSegniLing.add(cmbLegs);
 								cmbLegs.setModel(cmbLegsModel);
-								cmbLegs.setToolTipText("<html>Identifica la posizione delle gambe dell'utente <br>es: divaricate, incrociate, ecc.. </html>");
+								cmbLegs.setToolTipText("<html>Identifies the position of the user's legs</html>");
 								cmbLegs.setBounds(158, 102, 96, 23);
 								cmbLegs.addItemListener(new ItemListener(){
 
@@ -1259,7 +1296,7 @@ pnlAudio = new JPanel();
 								cmbHands = new JComboBox();
 								pnlSegniLing.add(cmbHands);
 								cmbHands.setModel(cmbHandsModel);
-								cmbHands.setToolTipText("<html>Identifica la posizione delle mani dell'utente <br>es: sul volto, sul naso, sulla bocca ecc..</html>");
+								cmbHands.setToolTipText("<html>Identifies the position of the user's hands</html>");
 								cmbHands.setBounds(158, 33, 96, 23);
 								cmbHands.addItemListener(new ItemListener(){
 
@@ -1288,7 +1325,7 @@ pnlAudio = new JPanel();
 							pnlGestiEvidenze.add(lblGestiFrasi);
 							btnGestiRimuovi.setEnabled(false);
 							btnGestiRimuovi.setText("Remove Move");
-							btnGestiRimuovi.setToolTipText("Rimuove l'ultima mossa del dialogo.");
+							btnGestiRimuovi.setToolTipText("Removes the last gesture of the dialogue");
 							btnGestiRimuovi.setBounds(142, 500, 130, 28);
 							lblGestiTable = new JLabel();
 							lblGestiTable.setText("Evidence History");
@@ -1307,10 +1344,26 @@ pnlAudio = new JPanel();
 									if(sa_gesti_history.size()==0)
 									{
 									btnGestiRimuovi.setEnabled(false);
-										//btnGestiReset.setEnabled(false);
+									btnGestiReset.setEnabled(false);
 									}
+									
+									if(jListLingFrasi.getModel().getSize()!=0){
 									if(jListGestiFrasi.getModel().getSize()!=0)
-										jListGestiFrasi.setSelectedIndex(jListGestiFrasi.getSelectedIndex()-1);
+									{System.out.println("diverso da 0");
+										if(btnGestiOK.isEnabled()&&jListGestiFrasi.getSelectedIndex()==jListGestiFrasi.getModel().getSize()-1)
+										{ 
+										   btnGestiOK.setEnabled(false);
+										   System.out.println("uguale a ultimo");}
+										else if(!btnGestiOK.isEnabled()){
+											System.out.println("ok disable");
+											jListGestiFrasi.setSelectedIndex(jListGestiFrasi.getSelectedIndex()-1);
+										}
+										
+											
+									 if(jListGestiFrasi.getSelectedIndex()<jListGestiFrasi.getModel().getSize())
+										 btnGestiAggiungi.setEnabled(true);
+									}
+									}
 									//Aggiorna i grafici
 							disegnaGrafici(sa_gesti_history,3);
 								}
@@ -1319,7 +1372,7 @@ pnlAudio = new JPanel();
 						btnGestiReset = new JButton();
 						btnGestiReset.setEnabled(false);
 						btnGestiReset.setText("Reset Dialog");
-						btnGestiReset.setToolTipText("Resetta il dialogo, eliminando tutte le mosse definite.");
+						btnGestiReset.setToolTipText("Reset the dialogue by removing all the moves defined");
 						btnGestiReset.setBounds(7, 500, 130, 28);
 						pnlGestiEvidenze.add(btnGestiReset);
 						btnGestiReset.addActionListener(new ActionListener() {
@@ -1342,12 +1395,13 @@ pnlAudio = new JPanel();
 						// Resetta le opzioni di default delle evidenze
 						cmbVal.setSelectedIndex(0);
 						cmbAr.setSelectedIndex(0);
-
+						if(jListLingFrasi.getModel().getSize()!=0)
+							jListGestiFrasi.setSelectedIndex(0);
 						// Resetta la rete
-						//hi_gesti.reset();
+						hi_gesti.reset(3);
 
 						// Ridisegna i grafici
-					//	disegnaAudioGrafici(sa_gesti_history,2);
+						disegnaGrafici(sa_gesti_history,3);
 						}
 						}
 						});
@@ -1356,7 +1410,7 @@ pnlAudio = new JPanel();
 					pnlGestiEvidenze.add(btnGestiAggiungi);
 					btnGestiAggiungi.setText("Add Move");
 					btnGestiAggiungi.setBounds(307, 499, 130, 28);
-					btnGestiAggiungi.setToolTipText("Imposta le evidenze definite in una nuova mossa del dialogo.");
+					btnGestiAggiungi.setToolTipText("Sets the evidence defined in a new gesture of the dialogue.");
 					btnGestiAggiungi.setEnabled(false);
 					btnGestiAggiungi.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent evt) {
@@ -1391,8 +1445,16 @@ pnlAudio = new JPanel();
 								// Scrive la riga sulla tabella
 								tblGestiEvidenzeModel.addRow(new String[]{getValoreTabella(cmbHands.getSelectedItem().toString()),getValoreTabella(cmbArms.getSelectedItem().toString()),getValoreTabella(cmbLegs.getSelectedItem().toString())});
 								
-								if(jListGestiFrasi.getSelectedIndex()!=jListGestiFrasi.getModel().getSize())
-								jListGestiFrasi.setSelectedIndex(jListGestiFrasi.getSelectedIndex()+1);
+								if(jListLingFrasi.getModel().getSize()!=0){
+								if(jListGestiFrasi.getSelectedIndex()!=jListGestiFrasi.getModel().getSize()-1)
+									jListGestiFrasi.setSelectedIndex(jListGestiFrasi.getSelectedIndex()+1);
+									else{
+									btnGestiAggiungi.setEnabled(false);
+									btnGestiOK.setEnabled(true);
+									}
+								}else
+								{btnGestiAggiungi.setEnabled(true);
+								btnGestiOK.setEnabled(true);}
 								// Disegna il grafico
 								disegnaGrafici(sa_gesti_history,3);
 							}
@@ -1405,6 +1467,8 @@ pnlAudio = new JPanel();
 					btnGestiOK = new JButton();
 					btnGestiOK.setText("Ok");
 					btnGestiOK.setBounds(442, 499, 50, 28);
+					btnGestiOK.setEnabled(false);
+					btnGestiOK.setToolTipText("Complete gestures configuration");
 					btnGestiOK.addActionListener(new ActionListener(){
 
 						@Override
@@ -1633,9 +1697,16 @@ pnlAudio = new JPanel();
 				break;
 				
 		case 3: System.out.println("Bottone Gesti");
+		hi_gesti = new HuginInterface(2);
+		sa_gesti_history = new ArrayList<double[]>();
+		sa_gesti_iniziale = new double[3];
+		sa_gesti_iniziale[0]=0.33333;
+		sa_gesti_iniziale[1]=0.33333;
+		sa_gesti_iniziale[2]=0.33333;
 				jTabbedPane.setEnabledAt(3, true);
 				jTabbedPane.setSelectedIndex(i);
 				//btnGestiAggiungi.setEnabled(true);
+				disegnaGrafici(sa_gesti_history,3);
 				break;
 		
 		case 4: {System.out.println("Checkbox Linguaggio");
