@@ -265,7 +265,7 @@ public class Finestra extends javax.swing.JFrame {
 								jpnlLingImp.add(jrbLing);
 								jrbLing.setText("Language");
 								
-								jrbLing.setBounds(14, 2, 164, 46);
+								jrbLing.setBounds(14, 2, 391, 46);
 								jrbLing.setFont(new java.awt.Font("Segoe UI",0,16));
 								jrbLing.addChangeListener(new ChangeListener(){
 
@@ -310,7 +310,7 @@ public class Finestra extends javax.swing.JFrame {
 								//btnGrp.add(jrbAudio);
 								jpnlAudioImp.add(jrbAudio);
 								jrbAudio.setText("Audio");
-								jrbAudio.setBounds(14, 4, 141, 44);
+								jrbAudio.setBounds(14, 2, 391, 46);
 								jrbAudio.setFont(new java.awt.Font("Segoe UI",0,16));
 								jrbAudio.addChangeListener(new ChangeListener(){
 
@@ -354,6 +354,7 @@ public class Finestra extends javax.swing.JFrame {
 										System.out.println("All selected");
 										getSActionPerformed();
 										btnGenReset.setEnabled(true);
+										btnGetSA.setEnabled(false);
 									}
 									
 								
@@ -387,7 +388,11 @@ public class Finestra extends javax.swing.JFrame {
 											cmbMe.setSelectedIndex(0);
 											cmbYou.setSelectedIndex(0);
 											hi_ling.reset(1);
+											jrbLing.setEnabled(true);
+											jrbLing.setSelected(false);
+									
 											disegnaGrafici(sa_ling_history,1);
+											
 										}
 										
 										if(jrbAudio.isSelected()){
@@ -398,6 +403,9 @@ public class Finestra extends javax.swing.JFrame {
 											cmbAr.setSelectedIndex(0);
 											cmbVal.setSelectedIndex(0);
 											hi_audio.reset(2);
+											jrbAudio.setEnabled(true);
+											jrbAudio.setSelected(false);
+											
 											disegnaGrafici(sa_audio_history,2);
 										}
 										
@@ -417,6 +425,8 @@ public class Finestra extends javax.swing.JFrame {
 											cmbHands.setSelectedIndex(0);
 											cmbArms.setSelectedIndex(0);
 											cmbLegs.setSelectedIndex(0);
+											jrbGesti.setEnabled(true);
+											jrbGesti.setSelected(false);
 											
 											// Resetta la rete
 											hi_gesti.reset(3);	
@@ -425,6 +435,7 @@ public class Finestra extends javax.swing.JFrame {
 										}
 										// Attiva/disattiva i pulsanti appropriati
 										btnGetSA.setEnabled(false);
+										btnGenReset.setEnabled(false);
 										sa_gen_history = new ArrayList<double[]>();
 										hi_gen.reset(4);
 										
@@ -444,7 +455,7 @@ public class Finestra extends javax.swing.JFrame {
 								//btnGrp.add(jrbGesti);
 								jpnlGestiImp.add(jrbGesti);
 								jrbGesti.setText("Gesture");
-								jrbGesti.setBounds(14, 5, 146, 43);
+								jrbGesti.setBounds(14, 2, 391, 46);
 								jrbGesti.setFont(new java.awt.Font("Segoe UI",0,16));
 								jrbGesti.addChangeListener(new ChangeListener(){
 
