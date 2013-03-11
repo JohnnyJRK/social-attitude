@@ -10,7 +10,10 @@ import COM.hugin.HAPI.IntervalDCNode;
 /** Classe per l'interfacciamento alla RPC */
 public class HuginInterface
 {
-	static String path_rete;			// Path della rete
+	static final String path_ling="reti/Rete.hkb"
+	,path_audio="reti/socialattitude_audio.hkb",
+	path_gesti="reti/socialattitude_gesti.hkb",
+	path_gen="reti/socialattitude_generale.hkb";			// Path della rete
 	Domain rete;										// Rete su cui è possibile effettuare ragionamenti
 	double valori_SA[];
 	
@@ -20,15 +23,9 @@ public class HuginInterface
 	/** Costruttore di classe. Crea il primo nodo. */
 	public HuginInterface(int r)
 	{
-		switch(r){
-		
-		case 1:path_rete = "reti/Rete.hkb";addNodo(r);break;
-		case 2:path_rete = "reti/socialattitude_audio.hkb";addNodo(r);break;
-		case 3:path_rete = "reti/socialattitude_gesti.hkb";addNodo(r);break;
-		case 4:path_rete = "reti/socialattitude_generale.hkb";addNodo(r);break;
+		addNodo(r);
 		
 		
-		}
 	}
 	
 	
@@ -39,9 +36,28 @@ public class HuginInterface
 	{
 		try 
 		{
-			System.out.println("Add Nodo");
-			rete = new Domain(path_rete);
-			System.out.println(path_rete);
+			switch(r){
+			case 1:System.out.println("Add Nodo");
+			rete = new Domain(path_ling);
+			System.out.println(path_ling);
+			break;
+			
+			case 2:System.out.println("Add Nodo");
+			rete = new Domain(path_audio);
+			System.out.println(path_audio);
+			break;
+			
+			case 3:System.out.println("Add Nodo");
+			rete = new Domain(path_gesti);
+			System.out.println(path_gesti);
+			break;
+			
+			case 4:System.out.println("Add Nodo");
+			rete = new Domain(path_gen);
+			System.out.println(path_gen);
+			break;
+			}
+			
 			
 			rete.triangulate(Domain.H_TM_FILL_IN_WEIGHT);
 			rete.compile();
@@ -177,12 +193,37 @@ public class HuginInterface
 	}
 		return codRitorno;
 	}
+	public boolean setGenEvidenza(String nodo, double[] val)
+	{System.out.println("setgeneralevidenza start");
+		boolean codRitorno;
+		LabelledDCNode temp=null;
+		if(rete==null)
+			codRitorno = false;
+		else
+		{
+			try {
+		temp=(LabelledDCNode)rete.getNodeByName(nodo);
+		temp.getTable().setDataItem(temp.getStateIndex(Nodes.SA_POSITIVE), val[0]);
+		temp.getTable().setDataItem(temp.getStateIndex(Nodes.SA_NEUTRAL), val[1]);
+		temp.getTable().setDataItem(temp.getStateIndex(Nodes.SA_BAD), val[2]);
+		System.out.println("setgeneralevidenza stop");
+		codRitorno = true;
+		
+		} catch (ExceptionHugin e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("eccezione setaudioevidenza");
+			codRitorno = false;
+		}
+	}
+		return codRitorno;
+	}
 	
 	/** Resetta la rete dinamica e ricrea il primo nodo. */
-	public void reset()
+	public void reset(int choose)
 	{
 		valori_SA = null;
-		addNodo(0);
+		addNodo(choose);
 	}
 }
 		
