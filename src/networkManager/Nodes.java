@@ -70,7 +70,9 @@ public class Nodes
 	public static String VALORE_ALTO = "High";
 	public static String VALORE_MEDIO = "Medium";
 	public static String VALORE_BASSO = "Low";
-	
+	public static String SOCIAL_ATTITUDE_LING = "Social_Attitude_ling";
+	public static String SOCIAL_ATTITUDE_AUDIO = "Social_Attitude_audio";
+	public static String SOCIAL_ATTITUDE_GESTI = "Social_Attitude_gesti";
 	
 //	Metodi da utilizzare in fase di test di un dataset	
 //	public static String getMossa(String descr_mossa)
