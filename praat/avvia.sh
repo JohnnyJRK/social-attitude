@@ -1,0 +1,1 @@
+C:\Users\nv\Desktop\VoiceClassifier_original\praat\praat C:\Users\nv\Desktop\VoiceClassifier_original\praat\script.praat "C:\Users\nv\Desktop\agenti\progetto_agenti\VideoIUM\audio\rossella\ur8.wav" "C:\Users\nv\Desktop\VoiceClassifier_original\xmlAudio\-1453503263\ur8.wav.xml"

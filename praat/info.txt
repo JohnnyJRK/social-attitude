@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<analisi>
+	<nome_file>iaibo.wav</nome_file>
+	<sound>
+		<media>-0.10830073696145125 Pascal</media>
+		<minimo>-0.1259765625 Pascal</minimo>
+		<massimo>-0.0751953125 Pascal</massimo>
+		<tempo_del_minimo>0.4117006802721089 seconds</tempo_del_minimo>
+		<tempo_del_massimo>0.3737868480725624 seconds</tempo_del_massimo>
+		<valore_efficace>0.10841220637423493 Pascal</valore_efficace>
+		<deviazione_standard>0.004915186246097918 Pascal</deviazione_standard>
+		<energia>0.011753206490929705 Pa2 sec</energia>
+		<potenza>0.011753206490929705 Pa2</potenza>
+		<energia_in_aria>2.9383016227324263e-05 Joule/m2</energia_in_aria>
+		<potenza_in_aria>2.9383016227324263e-05 Watt/m2</potenza_in_aria>
+		<intensita_db>74.6809637496844 dB</intensita_db>
+	</sound>
+	<pitch>
+		<media>164.08312133361704 Hz</media>
+		<minimo>93.39841427332655 Hz</minimo>
+		<massimo>187.3483806327649 Hz</massimo>
+		<tempo_del_minimo>0.8853000129900813 seconds</tempo_del_minimo>
+		<tempo_del_massimo>0.43499108153090693 seconds</tempo_del_massimo>
+		<deviazione_standard>31.107744273057843 Hz</deviazione_standard>
+		<numero_campioni>45 voiced frames</numero_campioni>
+	</pitch>
+	<intensity>
+		<media>42.709698698331124 dB</media>
+		<minimo>31.26542458674785 dB</minimo>
+		<massimo>55.047422032595236 dB</massimo>
+		<tempo_del_minimo>0.24958343482630344 seconds</tempo_del_minimo>
+		<tempo_del_massimo>0.6050397075224447 seconds</tempo_del_massimo>
+		<deviazione_standard>7.861365310626539 dB</deviazione_standard>
+	</intensity>
+</analisi>

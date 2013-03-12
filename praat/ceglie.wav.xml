@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<analisi>
+	<nome_file>C:\Users\Edivad\Desktop\ceglie.wav</nome_file>
+	<sound>
+		<media>0.00007 Pascal</media>
+		<medie_locali>-0.00003,0.00015,-0.00013,0.00031,0.00009,0.00040,-0.00013,0.00006,0.00025,0.00006,-0.00045,0.00010,-0.00059,0.00334,-0.00178,-0.00001,0.00026,0.00011,-0.00002,-0.00003,-0.00019,-0.00003,0.00013,-0.00004,0.00002</medie_locali>
+		<minimo>-1.04820 Pascal</minimo>
+		<minimi_locali>-0.06465,-0.07275,-0.08447,-0.07266,-0.12310,-0.16188,-0.16797,-0.12964,-0.16828,-0.08415,-0.62718,-0.90709,-1.04020,-0.95823,-1.04820,-0.42969,-0.17773,-0.03857,-0.03015,-0.02200,-0.02281,-0.01617,-0.04008,-0.07666,-0.07657</minimi_locali>
+		<massimo>1.11353 Pascal</massimo>
+		<massimi_locali>0.09229,0.07715,0.11523,0.07227,0.13043,0.17617,0.17643,0.13770,0.15243,0.10357,0.96539,0.96875,1.11353,0.98828,1.06463,0.38672,0.17676,0.04248,0.02101,0.03223,0.02490,0.01716,0.04460,0.06871,0.10352</massimi_locali>
+		<tempo_del_minimo>2.41273 seconds</tempo_del_minimo>
+		<tempi_minimi_locali>0.10991,0.22475,0.38775,0.66966,0.77094,0.89684,1.03569,1.21213,1.47418,1.56692,1.83088,2.03348,2.12148,2.26037,2.41273,2.59719,2.77300,2.91437,3.07400,3.32355,3.55825,3.60000,3.89020,4.04175,4.14859</tempi_minimi_locali>
+		<tempo_del_massimo>2.07374 seconds</tempo_del_massimo>
+		<tempi_massimi_locali>0.03600,0.19000,0.39131,0.60831,0.80248,0.89842,1.03346,1.19963,1.47194,1.55532,1.83167,2.03809,2.07374,2.37045,2.42823,2.59850,2.72262,2.94137,3.14493,3.34444,3.55719,3.58454,3.89840,3.96171,4.12894</tempi_massimi_locali>
+		<valore_efficace>0.20048 Pascal</valore_efficace>
+		<deviazione_standard>0.20048 Pascal</deviazione_standard>
+		<deviazioni_standard_locali>0.01819,0.02752,0.04230,0.02634,0.04335,0.05480,0.05278,0.04579,0.05119,0.02848,0.15268,0.26521,0.60749,0.44342,0.55093,0.14485,0.05425,0.01441,0.00781,0.00559,0.00339,0.00532,0.01035,0.02716,0.02774</deviazioni_standard_locali>
+		<energia>0.17081 Pa2 sec</energia>
+		<potenza>0.04019 Pa2</potenza>
+		<energia_in_aria>0.00043 Joule/m2</energia_in_aria>
+		<potenza_in_aria>0.00010 Watt/m2</potenza_in_aria>
+		<intensita_db>80.02061 dB</intensita_db>
+	</sound>
+	<pitch>
+		<media>169.96584 Hz</media>
+		<media_logaritmica>167.33964 Hz</media_logaritmica>
+		<medie_locali>--undefined--,187.37094,184.43577,182.22276,205.70672,153.68533,129.92003,170.73815,169.44606,--undefined--,116.63453,139.55593,175.42017,170.70304,176.96862,178.62557,174.89695,177.03570,--undefined--,--undefined--,--undefined--,--undefined--,179.19150,165.48898,161.92884</medie_locali>
+		<medie_logaritmiche_locali>--undefined--,187.35387,184.40452,182.17808,205.55947,143.98634,122.00163,167.11374,169.25947,--undefined--,115.90203,138.63226,175.35673,170.67378,176.93438,178.59678,174.88488,177.03395,--undefined--,--undefined--,--undefined--,--undefined--,179.16425,165.30575,161.91620</medie_logaritmiche_locali>
+		<minimo>91.09107 Hz</minimo>
+		<minimo_logaritmico>91.09113 Hz</minimo_logaritmico>
+		<minimi_locali>--undefined--,181.21463,177.06917,176.13276,187.15230,95.36933,91.09367,91.09107,152.59425,--undefined--,101.71197,127.34710,166.56651,165.75216,168.32510,172.48880,171.63971,176.03439,--undefined--,--undefined--,--undefined--,--undefined--,176.06658,152.70494,156.82730</minimi_locali>
+		<minimi_logaritmici_locali>--undefined--,181.21558,177.07063,176.13294,187.15230,95.36940,91.09367,91.09113,152.73719,--undefined--,101.71199,127.34896,166.56651,165.75267,168.32510,172.48911,171.64239,176.03439,--undefined--,--undefined--,--undefined--,--undefined--,176.06658,152.70556,156.82730</minimi_logaritmici_locali>
+		<massimo>215.19879 Hz</massimo>
+		<massimo_logaritmico>215.19939 Hz</massimo_logaritmico>
+		<massimi_locali>--undefined--,190.64190,188.96490,191.45930,215.19879,211.94768,209.11759,185.15352,178.16916,--undefined--,130.76183,166.56651,181.81126,177.24693,183.80258,184.80695,177.88737,178.19332,--undefined--,--undefined--,--undefined--,--undefined--,182.31643,179.71147,165.05549</massimi_locali>
+		<massimi_logaritmici_locali>--undefined--,190.64220,188.96500,191.45930,215.19939,211.94949,214.48473,185.15352,178.17091,--undefined--,130.76183,166.56651,181.81203,177.24725,183.80601,184.80812,177.88995,178.19348,--undefined--,--undefined--,--undefined--,--undefined--,182.31643,179.71147,165.05762</massimi_logaritmici_locali>
+		<tempo_del_minimo>1.18958 seconds</tempo_del_minimo>
+		<tempi_minimi_locali>--undefined--,0.20919,0.46101,0.64973,0.68000,0.98933,1.19000,1.19000,1.44518,--undefined--,1.74043,1.87588,2.04000,2.34847,2.38000,2.55953,2.80356,2.94000,--undefined--,--undefined--,--undefined--,--undefined--,3.89000,4.02951,4.09000</tempi_minimi_locali>
+		<tempo_del_massimo>0.78730 seconds</tempo_del_massimo>
+		<tempi_massimi_locali>--undefined--,0.31930,0.37121,0.59000,0.78730,0.85000,1.02485,1.25000,1.38781,--undefined--,1.81000,2.04000,2.16614,2.21000,2.46447,2.61148,2.83740,2.91886,--undefined--,--undefined--,--undefined--,--undefined--,3.90000,3.94000,4.19543</tempi_massimi_locali>
+		<deviazione_standard>26.98568 Hz</deviazione_standard>
+		<deviazioni_standard_locali>--undefined--,2.60491,3.49153,4.25561,7.97932,54.76142,51.67505,31.12567,8.20563,--undefined--,13.58286,17.32029,4.85105,3.25846,3.59044,3.30496,2.12138,0.90713,--undefined--,--undefined--,--undefined--,--undefined--,4.41932,8.15146,2.09852</deviazioni_standard_locali>
+		<slope>265.44542 Hertz/s</slope>
+		<numero_campioni>245 voiced frames</numero_campioni>
+	</pitch>
+	<intensity>
+		<media>64.90982 dB</media>
+		<medie_locali>59.49080,62.17754,64.55454,61.73568,66.62431,68.52197,68.02313,66.72164,67.89361,62.42193,68.85348,74.12753,89.59749,86.94406,88.42699,75.97716,67.33793,56.87589,50.40508,47.44804,43.44886,47.76322,51.51799,61.85346,62.70221</medie_locali>
+		<minimo>40.53964 dB</minimo>
+		<minimi_locali>55.48941,57.88782,57.28046,53.91849,63.92341,65.72865,63.59799,63.11331,63.82359,58.67983,58.90627,64.09946,87.87067,86.02898,82.24631,67.35912,55.79843,53.48324,44.00204,41.40526,40.53964,44.26540,46.00930,55.91225,58.73869</minimi_locali>
+		<massimo>90.18765 dB</massimo>
+		<massimi_locali>62.99590,66.19552,70.10509,64.68431,68.25074,70.91019,71.48153,70.31447,69.83401,65.73616,84.69388,89.60903,90.18765,88.43204,89.84917,81.76291,72.84634,59.76058,56.68231,54.07159,50.90343,52.27400,60.43199,64.98738,65.34998</massimi_locali>
+		<tempo_del_minimo>3.50982 seconds</tempo_del_minimo>
+		<tempi_minimi_locali>0.05745,0.31727,0.48672,0.56932,0.68100,0.92897,1.16912,1.31716,1.52182,1.69597,1.74755,1.94406,2.20900,2.33000,2.54500,2.68216,2.88900,2.96755,3.19526,3.27650,3.50982,3.67794,3.81814,3.92316,4.21700</tempi_minimi_locali>
+		<tempo_del_massimo>2.12386 seconds</tempo_del_massimo>
+		<tempi_massimi_locali>0.03740,0.20716,0.39746,0.52997,0.78310,0.89790,1.03050,1.20313,1.47216,1.56199,1.83256,2.03300,2.12386,2.37700,2.41107,2.59548,2.72100,2.91826,3.07736,3.34461,3.56900,3.58171,3.89796,3.96014,4.12711</tempi_massimi_locali>
+		<deviazione_standard>12.47129 dB</deviazione_standard>
+		<deviazioni_standard_locali>1.77947,2.48638,4.64080,2.81311,1.36872,1.32111,2.08313,1.99826,1.73068,2.38307,9.93511,8.71481,0.58459,0.70711,1.84823,3.84868,4.46473,1.66018,3.81168,3.78540,3.09126,2.16683,4.84089,3.15390,1.99485</deviazioni_standard_locali>
+	</intensity>
+	<spectrum>
+		<gravity_centre>421.79007 Hertz</gravity_centre>
+		<deviazione_standard>378.50433 Hertz</deviazione_standard>
+		<skewness>4.21266 skewness</skewness>
+		<kurtosis>21.02202 kurtosis</kurtosis>
+		<central_moment>228438077.70249 Hertz</central_moment>
+	</spectrum>
+	<harmonicity>
+		<media>11.02872 dB</media>
+		<medie_locali>--undefined--,--undefined--,18.91618,--undefined--,5.52614,4.72463,3.83972,1.71912,5.61627,--undefined--,6.07608,3.21937,16.26807,13.51693,13.85061,9.66751,9.69843,--undefined--,--undefined--,--undefined--,--undefined--,--undefined--,--undefined--,--undefined--,--undefined--</medie_locali>
+		<minimo>-227.15957 dB</minimo>
+		<minimi_locali>-200.00000,-200.00000,-227.15957,-200.00000,-225.67987,-225.72167,-225.33294,-225.21489,-226.08279,-200.00000,-200.00000,-225.42465,11.60506,9.06346,9.86889,-200.00012,-226.33530,-200.00000,-200.00000,-200.00000,-200.00000,-200.00000,-200.00000,-200.00000,-200.00000</minimi_locali>
+		<massimo>37.69511 dB</massimo>
+		<massimi_locali>-200.00000,-200.00000,20.64012,-200.00000,31.60853,7.25682,4.90973,1.71912,8.66230,-200.00000,8.94672,13.25566,20.09019,19.10662,22.13679,13.87560,37.69511,-200.00000,-200.00000,-200.00000,-200.00000,-200.00000,-200.00000,-200.00000,-200.00000</massimi_locali>
+		<tempo_del_minimo>0.42500 seconds</tempo_del_minimo>
+		<tempi_minimi_locali>0.06000,0.17000,0.42500,0.51000,0.81500,0.92500,1.05500,1.21500,1.40500,1.53000,1.70000,1.87500,2.10271,2.36754,2.38000,2.68001,2.84500,2.89000,3.06000,3.23000,3.40000,3.57000,3.74000,3.91000,4.08000</tempi_minimi_locali>
+		<tempo_del_massimo>2.73501 seconds</tempo_del_massimo>
+		<tempi_massimi_locali>0.06000,0.17000,0.38187,0.51000,0.77495,0.89645,1.02772,1.20000,1.39000,1.53000,1.82120,2.03000,2.15916,2.26767,2.42000,2.60924,2.73501,2.89000,3.06000,3.23000,3.40000,3.57000,3.74000,3.91000,4.08000</tempi_massimi_locali>
+		<deviazione_standard>5.44214 dB</deviazione_standard>
+		<deviazioni_standard_locali>--undefined--,--undefined--,1.28355,--undefined--,0.44785,2.65136,1.09591,--undefined--,4.70319,--undefined--,2.03260,7.15964,2.14405,2.74186,3.44574,2.95992,1.38874,--undefined--,--undefined--,--undefined--,--undefined--,--undefined--,--undefined--,--undefined--,--undefined--</deviazioni_standard_locali>
+	</harmonicity>
+</analisi>
