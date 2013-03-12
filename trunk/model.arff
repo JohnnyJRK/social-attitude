@@ -1,0 +1,32 @@
+
+@relation TrainingsetAROUSALeVALENZA
+
+@attribute Gender {m,f}
+@attribute PitchMin numeric
+@attribute PitchMed numeric
+@attribute PitchMax numeric
+@attribute PitchMinMaxDiffLog numeric
+@attribute PitchMinLog numeric
+@attribute PitchMedLog numeric
+@attribute PitchMaxLog numeric
+@attribute PitchDevSta numeric
+@attribute PitchSlope numeric
+@attribute EnergyMin numeric
+@attribute EnergyMed numeric
+@attribute EnergyMax numeric
+@attribute EnergyMinMaxDiff numeric
+@attribute EnergyDevSta numeric
+@attribute SpectrumCentralMoment numeric
+@attribute SpectrumDevSta numeric
+@attribute SpectrumGravityCentre numeric
+@attribute SpectrumKurtosis numeric
+@attribute SpectrumSkewness numeric
+@attribute HarmonicityDevSta numeric
+@attribute HarmonicityMax numeric
+@attribute HarmonicityMed numeric
+@attribute HarmonicityMin numeric
+@attribute Arousal {High,Medium,Low}
+@attribute Valenza {VeryNeg,Neutral,Positive,Negative}
+
+@data
+f,283.37498,418.77142,472.99177,188.22003,284.77187,414.63809,472.99192,57.15610,2425.24719,14.72369,50.17047,82.39035,67.66666,22.17591,17176290.28006,108.90002,453.93606,465.29194,13.29981,8.58552,28.25701,7.94728,-225.44613,Low,Neutral
