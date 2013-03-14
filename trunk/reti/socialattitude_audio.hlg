@@ -1,0 +1,76 @@
+Thu Mar 07 19:20:29 2013
+
+
+Moral links:
+
+    Marrying Arousal and Social_Attitude_prev
+    Marrying Valenza and Social_Attitude_prev
+    Marrying Valenza and Arousal
+
+
+Triangulating prime component with 4 members:
+    Social_Attitude_prev, Arousal, Valenza, Social_Attitude
+This component is a clique of cost 108
+
+
+Total cost of triangulation for all prime components is 108
+
+
+Elimination sequence:
+
+    Social_Attitude
+    Valenza
+    Arousal
+    Social_Attitude_prev
+
+
+Cliques:
+
+Clique 1, 4 members, table size = 108:
+    Social_Attitude_prev, Arousal, Valenza, Social_Attitude
+
+Total clique table size: 108
+
+
+The junction forest:
+
+Creating junction tree with clique 1 as root ...
+
+
+Assignment of potentials to cliques:
+
+    Node Social_Attitude_prev assigned to clique 1
+    Node Arousal assigned to clique 1
+    Node Valenza assigned to clique 1
+    Node Social_Attitude assigned to clique 1
+
+
+Checking conditional probability potentials:
+
+Warning: Conditional distributions for Social_Attitude sum to different values:
+    min = 1
+    max = 1.36
+
+
+Beliefs for chance nodes:
+
+    Social_Attitude_prev:
+	P          0.333333
+	N          0.333333
+	B          0.333333
+
+    Arousal:
+	Alto       0.333333
+	Medio      0.333333
+	Basso      0.333333
+
+    Valenza:
+	Positivo   0.25
+	Neutro     0.25
+	Negativo   0.25
+	Molto negativo 0.25
+
+    Social_Attitude:
+	P          0.24076
+	N          0.291781
+	B          0.467459
