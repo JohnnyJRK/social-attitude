@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry kind="lib" path="lib/javacsv.jar"/>
-	<classpathentry kind="lib" path="lib/jfreechart-1.0.13.jar"/>
-	<classpathentry kind="lib" path="lib/jcommon-1.0.16.jar"/>
-	<classpathentry kind="lib" path="lib/hapi73.jar"/>
 	<classpathentry kind="lib" path="lib/forms-1.1.0.jar"/>
+	<classpathentry kind="lib" path="lib/hapi73.jar"/>
+	<classpathentry kind="lib" path="lib/javacsv.jar"/>
+	<classpathentry kind="lib" path="lib/jcommon-1.0.16.jar"/>
+	<classpathentry kind="lib" path="lib/jfreechart-1.0.13.jar"/>
 	<classpathentry kind="lib" path="nanoXML/nanoxml-2.2.5.jar"/>
-	<classpathentry kind="lib" path="weka/weka.jar"/>
 	<classpathentry kind="lib" path="swing2swt.jar"/>
 	<classpathentry kind="lib" path="swt-grouplayout.jar"/>
+	<classpathentry kind="lib" path="weka/weka.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="C:/Users/nv/Desktop/eclipse/plugins/org.eclipse.osgi_3.7.2.v20120110-1415.jar" sourcepath="C:/Users/nv/Desktop/eclipse/plugins/org.eclipse.osgi_3.7.2.v20120110-1415.jar"/>
 	<classpathentry kind="lib" path="C:/Users/nv/Desktop/eclipse/plugins/org.eclipse.core.commands_3.6.0.I20110111-0800.jar" sourcepath="C:/Users/nv/Desktop/eclipse/plugins/org.eclipse.core.commands_3.6.0.I20110111-0800.jar"/>
 	<classpathentry kind="lib" path="C:/Users/nv/Desktop/eclipse/plugins/org.eclipse.equinox.common_3.6.0.v20110523.jar" sourcepath="C:/Users/nv/Desktop/eclipse/plugins/org.eclipse.equinox.common_3.6.0.v20110523.jar"/>

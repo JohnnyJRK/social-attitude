@@ -1161,6 +1161,7 @@ if(jListAudioFrasi.getSelectedIndex()!=jListAudioFrasi.getModel().getSize()-1)
 	jListAudioFrasi.setSelectedIndex(jListAudioFrasi.getSelectedIndex()+1);
 	else{
 	btnAudioAggiungi.setEnabled(false);
+	btnAudioClassify.setEnabled(false);
 	btnAudioOK.setEnabled(true);
 	}
 //}else{
