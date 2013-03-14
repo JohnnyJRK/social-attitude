@@ -7,6 +7,21 @@
 	<classpathentry kind="lib" path="lib/jcommon-1.0.16.jar"/>
 	<classpathentry kind="lib" path="lib/hapi73.jar"/>
 	<classpathentry kind="lib" path="lib/forms-1.1.0.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/VoiceClassifier_original"/>
+	<classpathentry kind="lib" path="nanoXML/nanoxml-2.2.5.jar"/>
+	<classpathentry kind="lib" path="weka/weka.jar"/>
+	<classpathentry kind="lib" path="swing2swt.jar"/>
+	<classpathentry kind="lib" path="swt-grouplayout.jar"/>
+	<classpathentry kind="lib" path="C:/Users/nv/Desktop/eclipse/plugins/org.eclipse.osgi_3.7.2.v20120110-1415.jar" sourcepath="C:/Users/nv/Desktop/eclipse/plugins/org.eclipse.osgi_3.7.2.v20120110-1415.jar"/>
+	<classpathentry kind="lib" path="C:/Users/nv/Desktop/eclipse/plugins/org.eclipse.core.commands_3.6.0.I20110111-0800.jar" sourcepath="C:/Users/nv/Desktop/eclipse/plugins/org.eclipse.core.commands_3.6.0.I20110111-0800.jar"/>
+	<classpathentry kind="lib" path="C:/Users/nv/Desktop/eclipse/plugins/org.eclipse.equinox.common_3.6.0.v20110523.jar" sourcepath="C:/Users/nv/Desktop/eclipse/plugins/org.eclipse.equinox.common_3.6.0.v20110523.jar"/>
+	<classpathentry kind="lib" path="C:/Users/nv/Desktop/eclipse/plugins/org.eclipse.equinox.registry_3.5.101.R37x_v20110810-1611.jar" sourcepath="C:/Users/nv/Desktop/eclipse/plugins/org.eclipse.equinox.registry_3.5.101.R37x_v20110810-1611.jar"/>
+	<classpathentry kind="lib" path="C:/Users/nv/Desktop/eclipse/plugins/org.eclipse.core.runtime_3.7.0.v20110110.jar" sourcepath="C:/Users/nv/Desktop/eclipse/plugins/org.eclipse.core.runtime_3.7.0.v20110110.jar"/>
+	<classpathentry kind="lib" path="C:/Users/nv/Desktop/eclipse/plugins/org.eclipse.text_3.5.101.v20110928-1504.jar" sourcepath="C:/Users/nv/Desktop/eclipse/plugins/org.eclipse.text_3.5.101.v20110928-1504.jar"/>
+	<classpathentry kind="lib" path="C:/Users/nv/Desktop/eclipse/plugins/org.eclipse.swt.win32.win32.x86_3.7.2.v3740f.jar" sourcepath="C:/Users/nv/Desktop/eclipse/plugins/org.eclipse.swt.win32.win32.x86_3.7.2.v3740f.jar"/>
+	<classpathentry kind="lib" path="C:/Users/nv/Desktop/eclipse/plugins/org.eclipse.jface_3.7.0.v20110928-1505.jar" sourcepath="C:/Users/nv/Desktop/eclipse/plugins/org.eclipse.jface_3.7.0.v20110928-1505.jar"/>
+	<classpathentry kind="lib" path="C:/Users/nv/Desktop/eclipse/plugins/org.eclipse.jface.text_3.7.2.v20111213-1208.jar" sourcepath="C:/Users/nv/Desktop/eclipse/plugins/org.eclipse.jface.text_3.7.2.v20111213-1208.jar"/>
+	<classpathentry kind="lib" path="C:/Users/nv/Desktop/eclipse/plugins/org.eclipse.ui.workbench_3.7.1.v20120104-1859.jar" sourcepath="C:/Users/nv/Desktop/eclipse/plugins/org.eclipse.ui.workbench_3.7.1.v20120104-1859.jar"/>
+	<classpathentry kind="lib" path="C:/Users/nv/Desktop/eclipse/plugins/com.ibm.icu_4.4.2.v20110823.jar" sourcepath="C:/Users/nv/Desktop/eclipse/plugins/com.ibm.icu_4.4.2.v20110823.jar"/>
+	<classpathentry kind="lib" path="C:/Users/nv/Desktop/eclipse/plugins/org.eclipse.ui.forms_3.5.101.v20111011-1919.jar" sourcepath="C:/Users/nv/Desktop/eclipse/plugins/org.eclipse.ui.forms_3.5.101.v20111011-1919.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
