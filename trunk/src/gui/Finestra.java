@@ -1706,6 +1706,7 @@ pnlAudio = new JPanel();
 		plotAnd.setDataset(2,dsPositive);
 		plotAnd.setRenderer(1,new LineAndShapeRenderer());
 		plotAnd.setRenderer(2,new LineAndShapeRenderer());
+		plotAnd.setRenderer(3,new LineAndShapeRenderer());
 		plotAnd.getRangeAxis().setUpperBound(1);
 		plotAnd.setBackgroundPaint(new Color(230,230,230));
 		plotAnd.setRangeGridlinePaint(Color.black);
@@ -1713,7 +1714,7 @@ pnlAudio = new JPanel();
 		pnlAnd = new ChartPanel(andamento, true);
 		((LineAndShapeRenderer)(plotAnd.getRenderer(1))).setSeriesPaint(0,new Color(80,150,220));
 		((LineAndShapeRenderer)(plotAnd.getRenderer(2))).setSeriesPaint(0, new Color(0,150,0));
-		
+		((LineAndShapeRenderer)(plotAnd.getRenderer(3))).setSeriesPaint(0, new Color(255,0,0));
 		
 		pnlSA.add(pnlAnd);
 		pnlAnd.setBounds(17, 25, 471, 204);
