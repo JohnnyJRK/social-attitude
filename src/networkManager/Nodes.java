@@ -60,7 +60,7 @@ public class Nodes
 	public static String VALORE_POSITIVO = "Positive";
 	public static String VALORE_NEUTRO= "Neutral";
 	public static String VALORE_NEGATIVO = "Negative";
-	public static String VALORE_MOLTO_NEGATIVO = "Very Negative";
+	public static String VALORE_MOLTO_NEGATIVO = "VeryNeg";
 	
 	public static String AROUSAL = "Arousal";
 	public static String VALORE_ALTO_VAL = "Alto";
