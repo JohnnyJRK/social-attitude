@@ -111,8 +111,8 @@ public class Finestra extends javax.swing.JFrame {
 	private JPanel pnlLingEvidenze;
 	private JLabel lblContx;
 	private JLabel lblLeng;
-	private JList jListLingFrasi;
-	private JList jListAudioFrasi;
+	private JList<String> jListLingFrasi;
+	private JList<String> jListAudioFrasi;
 	private JPanel jpnlGestiImp;
 	private JPanel jpnlAudioImp;
 	private JCheckBox jcbGesti;
@@ -301,7 +301,56 @@ public class Finestra extends javax.swing.JFrame {
 								
 								jbtLing.addActionListener(new ActionListener() {
 									public void actionPerformed(ActionEvent evt) {
-										jbtALGActionPerformed(evt,1);
+										if(!jTabbedPane.isEnabledAt(1)){
+											System.out.println("tab non abilitatoooo");
+											System.out.println("listener esistenteeeee num "+jListLingFrasi.getListSelectionListeners().length);
+											
+											if(jListLingFrasi.getListSelectionListeners().length!=0){
+												System.out.println("listener esistenteeeee num "+jListLingFrasi.getListSelectionListeners().length);
+											jListLingFrasi.removeListSelectionListener(jListLingFrasi.getListSelectionListeners()[0]);
+											System.out.println("listener esistenteeeee num "+jListLingFrasi.getListSelectionListeners().length);
+											}
+											
+											
+											jbtALGActionPerformed(evt,1);
+										//	if(jListLingFrasi.isSelectionEmpty()){
+											//	System.out.println(jListLingFrasi.isSelectionEmpty());
+												//		jListLingFrasi.setSelectedIndex(0);
+												//}
+											//gestire la visibilità del pulsante aggiungi mossa
+											jListLingFrasi.addListSelectionListener(new ListSelectionListener(){
+												
+												public void valueChanged(ListSelectionEvent arg0) {
+													Integer length=0;
+													String st=null;
+													int i=0,space=0;
+													
+													st=(String) jListLingFrasi.getSelectedValue();
+													System.out.println(st);
+													length=st.length();
+													while(i<length){
+														if(st.charAt(i)== '?')
+															//cmbQmar.setSelectedIndex(1);
+															cmbQmar.setSelectedIndex(1);
+														else 
+															cmbQmar.setSelectedIndex(2);
+														//conta il numero di spazi da sottrarre al numero totale dei caratteri
+														if(st.charAt(i)==' ')
+															space++;
+														
+														i++;
+													}
+													length=length-space;
+													txtLeng.setText(length.toString());
+
+												}
+											});
+											jListLingFrasi.setSelectedIndex(1);
+											jListLingFrasi.setSelectedIndex(0);
+										}
+										else{
+											jTabbedPane.setSelectedIndex(1);
+										}
 									}
 								});
 							}
@@ -315,7 +364,7 @@ public class Finestra extends javax.swing.JFrame {
 							{
 								jcbAudio = new JCheckBox();
 								jpnlAudioImp.add(jcbAudio);
-								jcbAudio.setText("Audio");
+								jcbAudio.setText("Speech");
 								jcbAudio.setBounds(14, 2, 391, 46);
 								jcbAudio.setFont(new java.awt.Font("Segoe UI",0,16));
 								jcbAudio.addChangeListener(new ChangeListener(){
@@ -343,8 +392,13 @@ public class Finestra extends javax.swing.JFrame {
 								jbtAudio.setEnabled(false);
 								jbtAudio.addActionListener(new ActionListener() {
 									public void actionPerformed(ActionEvent evt) {
-										jbtALGActionPerformed(evt,2);
-										jListAudioFrasi.setSelectedIndex(0);
+										if(!jTabbedPane.isEnabledAt(2)){
+											jbtALGActionPerformed(evt,2);
+										
+											}
+										else
+											jTabbedPane.setSelectedIndex(2);
+										
 										 
 									}
 								});
@@ -396,6 +450,8 @@ public class Finestra extends javax.swing.JFrame {
 											cmbCiao.setSelectedIndex(0);
 											cmbMe.setSelectedIndex(0);
 											cmbYou.setSelectedIndex(0);
+											//jListLingFrasi.removeListSelectionListener(jListLingFrasi.getListSelectionListeners()[0]);
+											
 											hi_ling.reset(1);
 											jcbLing.setEnabled(true);
 											jcbLing.setSelected(false);
@@ -414,7 +470,7 @@ public class Finestra extends javax.swing.JFrame {
 											hi_audio.reset(2);
 											jcbAudio.setEnabled(true);
 											jcbAudio.setSelected(false);
-											
+											jListAudioFrasi.removeAll();
 											disegnaGrafici(sa_audio_history,2);
 										}
 										
@@ -485,7 +541,12 @@ public class Finestra extends javax.swing.JFrame {
 								jbtGesti.setEnabled(false);
 								jbtGesti.addActionListener(new ActionListener() {
 									public void actionPerformed(ActionEvent evt) {
-										jbtALGActionPerformed(evt,3);
+										if(!jTabbedPane.isEnabledAt(3)){
+											jbtALGActionPerformed(evt,3);
+											}
+										else 
+										  jTabbedPane.setSelectedIndex(3);
+										
 									}
 								});
 							}
@@ -525,7 +586,7 @@ public class Finestra extends javax.swing.JFrame {
 						{//gestione lista frasi caricate dal file .txt 
 							lblLingFrasi = new JLabel();
 							pnlLingEvidenze.add(lblLingFrasi);
-							lblLingFrasi.setText("User phrases");
+							lblLingFrasi.setText("User dialog");
 							lblLingFrasi.setBounds(7, 23, 90, 17);
 							jspLingFrasi = new JScrollPane();
 							pnlLingEvidenze.add(jspLingFrasi);
@@ -537,32 +598,7 @@ public class Finestra extends javax.swing.JFrame {
 								jspLingFrasi.setAutoscrolls(true);
 								
 								
-								//gestire la visibilità del pulsante aggiungi mossa
-								jListLingFrasi.addListSelectionListener(new ListSelectionListener(){
-							
-									public void valueChanged(ListSelectionEvent arg0) {
-										Integer length=0;
-										int i=0,space=0;
-										
-										String st=(String) jListLingFrasi.getSelectedValue();
-										length=st.length();
-										while(i<length){
-											if(st.charAt(i)== '?')
-												//cmbQmar.setSelectedIndex(1);
-												cmbQmar.setSelectedIndex(1);
-											else 
-												cmbQmar.setSelectedIndex(2);
-											//conta il numero di spazi da sottrarre al numero totale dei caratteri
-											if(st.charAt(i)==' ')
-												space++;
-											
-											i++;
-										}
-										length=length-space;
-										txtLeng.setText(length.toString());
-
-									}
-								});
+								
 								
 							pnlContesto = new JPanel();
 							pnlLingEvidenze.add(pnlContesto);
@@ -898,7 +934,7 @@ public class Finestra extends javax.swing.JFrame {
 									jTabbedPane.setSelectedIndex(0);
 									jTabbedPane.setEnabledAt(1, false);
 									jcbLing.setEnabled(false);
-									jListLingFrasi.setEnabled(false);
+									//jListLingFrasi.setEnabled(false);
 									jbtLing.setEnabled(false);
 									btnGetSA.setEnabled(true);
 								}
@@ -1263,7 +1299,7 @@ lblAudioFrasi.setBounds(7, 23, 77, 16);
 pnlAudioEvidenze.add(lblAudioFrasi);
 
 pnlAudio = new JPanel();
-					jTabbedPane.addTab("Audio", null, pnlAudio, null);
+					jTabbedPane.addTab("Speech", null, pnlAudio, null);
 					jTabbedPane.setEnabledAt(2, false);
 					pnlAudio.setLayout(null);
 					pnlAudio.add(pnlAudioEvidenze);
@@ -1728,6 +1764,7 @@ pnlAudio = new JPanel();
 		//linguaggio
 		JFileChooser fileChooser = new JFileChooser();
 		String s=null;
+		
 		DefaultListModel jListFrasiModel = new DefaultListModel();
 		File f=null;
 		FileFilter filter1 = new ExtensionFileFilter("Testuale", new String[] { "txt"});
@@ -1751,8 +1788,8 @@ pnlAudio = new JPanel();
 						sa_ling_history = new ArrayList<double[]>();
 						sa_ling_iniziale = hi_ling.getSA();
 						jListLingFrasi.setModel(jListFrasiModel);
-						jListLingFrasi.setSelectedIndex(0);
-						jListLingFrasi.setEnabled(false);
+						//jListLingFrasi.setSelectedIndex(0);
+						//jListLingFrasi.setEnabled(false);
 						jListGestiFrasi.setModel(jListFrasiModel);
 						jListGestiFrasi.setSelectedIndex(0);
 						jListGestiFrasi.setEnabled(false);
@@ -1779,52 +1816,66 @@ pnlAudio = new JPanel();
 		    }
 		break;
 		case 2: System.out.println("Bottone Audio");
-		DefaultListModel jListAudioModel = new DefaultListModel();
-		hi_audio = new HuginInterface(2);
-		sa_audio_history = new ArrayList<double[]>();
-		sa_audio_iniziale = new double[3];
-		sa_audio_iniziale[0]=0.33333;
-		sa_audio_iniziale[1]=0.33333;
-		sa_audio_iniziale[2]=0.33333;
-				jTabbedPane.setEnabledAt(2, true);
-				jTabbedPane.setSelectedIndex(i);
-				
-				disegnaGrafici(sa_audio_history,2);
-				//voice classifier
-				//Selezione della directory contenente file audio da classificare
+								
 				JFileChooser chooser = new JFileChooser();
 				 String dir=null;
 				    chooser.setCurrentDirectory(new java.io.File("."));
 				    chooser.setDialogTitle("Choose Audio Directory");
 				    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 				    chooser.setAcceptAllFileFilterUsed(false);
-
-				    if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-				      dir=chooser.getSelectedFile().toString();
+				    int ch = chooser.showOpenDialog(Finestra.this);
+				    switch(ch){
+				    
+				    case JFileChooser.APPROVE_OPTION:
+				    	DefaultListModel jListAudioModel = new DefaultListModel();
+						hi_audio = new HuginInterface(2);
+						sa_audio_history = new ArrayList<double[]>();
+						sa_audio_iniziale = new double[3];
+						sa_audio_iniziale[0]=0.33333;
+						sa_audio_iniziale[1]=0.33333;
+						sa_audio_iniziale[2]=0.33333;
+								jTabbedPane.setEnabledAt(2, true);
+								jTabbedPane.setSelectedIndex(i);
+								
+								disegnaGrafici(sa_audio_history,2);
+								//voice classifier
+								//Selezione della directory contenente file audio da classificare
+	
+				    dir=chooser.getSelectedFile().toString();
 				    	System.out.println("getSelectedFile() : " + dir);
-				    } else {
-				      System.out.println("No Selection ");
+				    	MainView m=new MainView();
+						//arraylist dei nomi dei file
+						fileList.addAll(BusinessDelegate.getFileList(dir));
+						//arraylist della prosodia dei file
+						prosodiaList= new ArrayList<ProsodiaFileAudio>();
+						
+						for(int a=0;a<fileList.size();a++){
+						try {
+							   //inserimento degli elementi nell'arraylist e nel modello della lista
+					        	if (fileList.size() != 0){  
+					        		prosodiaList.add(a,BusinessDelegate.getAudio(fileList.get(a), gender));
+					        		jListAudioModel.addElement(fileList.get(a));
+					        		}
+					        	else
+					        		Thread.sleep(1000);
+					          } catch (Throwable e) {
+					          }
+						}
+						jListAudioFrasi.setModel(jListAudioModel);
+						jListAudioFrasi.setSelectedIndex(0);
+				    	break;
+				    	
+				    case JFileChooser.CANCEL_OPTION:
+				    	System.out.println("No Selection ");
+				    	break;
+				    	
+				    case JFileChooser.ERROR_OPTION:
+					      System.out.println("Error");
+					      break;
 				    }
+				    
 				
-				MainView m=new MainView();
-				//arraylist dei nomi dei file
-				fileList.addAll(BusinessDelegate.getFileList(dir));
-				//arraylist della prosodia dei file
-				prosodiaList= new ArrayList<ProsodiaFileAudio>();
 				
-				for(int a=0;a<fileList.size();a++){
-				try {
-					   //inserimento degli elementi nell'arraylist e nel modello della lista
-			        	if (fileList.size() != 0){  
-			        		prosodiaList.add(a,BusinessDelegate.getAudio(fileList.get(a), gender));
-			        		jListAudioModel.addElement(fileList.get(a));
-			        		}
-			        	else
-			        		Thread.sleep(1000);
-			          } catch (Throwable e) {
-			          }
-				}
-				jListAudioFrasi.setModel(jListAudioModel);
 				break;
 				
 		case 3: System.out.println("Bottone Gesti");
