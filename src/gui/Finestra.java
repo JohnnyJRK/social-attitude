@@ -627,7 +627,7 @@ public class Finestra extends javax.swing.JFrame {
 							{
 								ComboBoxModel cmbContxModel = 
 										new DefaultComboBoxModel(
-												new String[] { "Incerto", "Self Presentation", "Answer", "Comment", "Question", "Suggestion", "No Answer", "Goodbye"  });
+												new String[] { "???", "Self Presentation", "Answer", "Comment", "Question", "Suggestion", "No Answer", "Goodbye"  });
 								cmbContx = new JComboBox();
 								pnlContesto.add(cmbContx);
 								cmbContx.setModel(cmbContxModel);
@@ -637,7 +637,7 @@ public class Finestra extends javax.swing.JFrame {
 							{
 								ComboBoxModel cmbMtypeModel = 
 										new DefaultComboBoxModel(
-												new String[] { "Incerto", "Self Presentation", "Answer", "Comment", "Question", "Goodbye" });
+												new String[] { "???", "Self Presentation", "Answer", "Comment", "Question", "Goodbye" });
 								cmbMtype = new JComboBox();
 								pnlContesto.add(cmbMtype);
 								cmbMtype.setModel(cmbMtypeModel);
@@ -661,7 +661,7 @@ public class Finestra extends javax.swing.JFrame {
 							{
 								ComboBoxModel cmbConfModel = 
 										new DefaultComboBoxModel(
-												new String[] { "Incerto","Yes","No" });
+												new String[] { "???","Yes","No" });
 								cmbConf = new JComboBox();
 								pnlSegni.add(cmbConf);
 								cmbConf.setModel(cmbConfModel);
@@ -678,7 +678,7 @@ public class Finestra extends javax.swing.JFrame {
 							{
 								ComboBoxModel cmbCiaoModel = 
 										new DefaultComboBoxModel(
-												new String[] { "Incerto","Yes","No" });
+												new String[] { "???","Yes","No" });
 								cmbCiao = new JComboBox();
 								pnlSegni.add(cmbCiao);
 								cmbCiao.setModel(cmbCiaoModel);
@@ -702,7 +702,7 @@ public class Finestra extends javax.swing.JFrame {
 							{
 								ComboBoxModel cmbMeModel = 
 										new DefaultComboBoxModel(
-												new String[] { "Incerto","Yes","No"});
+												new String[] { "???","Yes","No"});
 								cmbMe = new JComboBox();
 								pnlSegni.add(cmbMe);
 								cmbMe.setModel(cmbMeModel);
@@ -712,7 +712,7 @@ public class Finestra extends javax.swing.JFrame {
 							{
 								ComboBoxModel cmbYouModel = 
 										new DefaultComboBoxModel(
-												new String[] { "Incerto","Yes","No" });
+												new String[] { "???","Yes","No" });
 								cmbYou = new JComboBox();
 								pnlSegni.add(cmbYou);
 								cmbYou.setModel(cmbYouModel);
@@ -742,7 +742,7 @@ public class Finestra extends javax.swing.JFrame {
 							{
 								ComboBoxModel cmqQmarModel = 
 										new DefaultComboBoxModel(
-												new String[] { "Incerto","Yes","No" });
+												new String[] { "???","Yes","No" });
 								cmbQmar = new JComboBox();
 								pnlSegni.add(cmbQmar);
 								cmbQmar.setModel(cmqQmarModel);
@@ -995,7 +995,7 @@ pnlAudioAV.add(lblAr);
 
 ComboBoxModel cmbValModel = 
 new DefaultComboBoxModel(
-new String[] { "Incerto", "Positive", "Neutral", "Negative", "Very Negative" });
+new String[] { "???", "Positive", "Neutral", "Negative", "Very Negative" });
 cmbVal = new JComboBox();
 cmbVal.setVisible(false);
 cmbVal.setModel(cmbValModel);
@@ -1021,7 +1021,7 @@ pnlAudioAV.add(cmbVal);
 
 ComboBoxModel cmbArModel = 
 new DefaultComboBoxModel(
-new String[] { "Incerto","High", "Medium", "Low" });
+new String[] { "???","High", "Medium", "Low" });
 cmbAr = new JComboBox();
 cmbAr.setVisible(false);
 cmbAr.setModel(cmbArModel);
@@ -1375,7 +1375,7 @@ pnlAudio = new JPanel();
 								//modificare in defaultmodel
 								ComboBoxModel cmbArmsModel = 
 										new DefaultComboBoxModel(
-												new String[] { "Incerto","Crossed","Gripping","Across body","Touch Body","Uncrossed" });
+												new String[] { "???","Crossed","Gripping","Across body","Touch Body","Uncrossed" });
 								cmbArms = new JComboBox();
 								pnlSegniLing.add(cmbArms);
 								cmbArms.setModel(cmbArmsModel);
@@ -1411,7 +1411,7 @@ pnlAudio = new JPanel();
 							{
 								ComboBoxModel cmbLegsModel = 
 										new DefaultComboBoxModel(
-												new String[] {"Incerto", "Crossed" });
+												new String[] {"???", "Crossed" });
 								cmbLegs = new JComboBox();
 								pnlSegniLing.add(cmbLegs);
 								cmbLegs.setModel(cmbLegsModel);
@@ -1433,7 +1433,7 @@ pnlAudio = new JPanel();
 							{
 								ComboBoxModel cmbHandsModel = 
 										new DefaultComboBoxModel(
-												new String[] { "Incerto","On Ears", "Nose", "Mouth","Neck","Wave","Hip", "TaSelf" });
+												new String[] { "???","On Ears", "Nose", "Mouth","Neck","Wave","Hip", "TaSelf" });
 								cmbHands = new JComboBox();
 								pnlSegniLing.add(cmbHands);
 								cmbHands.setModel(cmbHandsModel);
