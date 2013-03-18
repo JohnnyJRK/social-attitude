@@ -13,7 +13,7 @@ public class HuginInterface
 	static final String path_ling="reti/Rete.hkb"
 	,path_audio="reti/socialattitude_audio.hkb",
 	path_gesti="reti/socialattitude_gesti.hkb",
-	path_gen="reti/socialattitude_generale.hkb";			// Path della rete
+	path_gen="reti/socialattitude_generale2.hkb";			// Path della rete
 	Domain rete;										// Rete su cui è possibile effettuare ragionamenti
 	double valori_SA[];
 	
@@ -37,22 +37,22 @@ public class HuginInterface
 		try 
 		{
 			switch(r){
-			case 1:System.out.println("Add Nodo");
+			case 1:System.out.println("Add Nodo Ling");
 			rete = new Domain(path_ling);
 			System.out.println(path_ling);
 			break;
 			
-			case 2:System.out.println("Add Nodo");
+			case 2:System.out.println("Add Nodo Audio");
 			rete = new Domain(path_audio);
 			System.out.println(path_audio);
 			break;
 			
-			case 3:System.out.println("Add Nodo");
+			case 3:System.out.println("Add Nodo Gesti");
 			rete = new Domain(path_gesti);
 			System.out.println(path_gesti);
 			break;
 			
-			case 4:System.out.println("Add Nodo");
+			case 4:System.out.println("Add Nodo Gen");
 			rete = new Domain(path_gen);
 			System.out.println(path_gen);
 			break;
@@ -182,6 +182,31 @@ public class HuginInterface
 		temp=(LabelledDCNode)rete.getNodeByName(nodo);
 		temp.selectState(temp.getStateIndex(Nodes.getMossa(valore)));
 		System.out.println("setaudioevidenza");
+		codRitorno = true;
+		
+		} catch (ExceptionHugin e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("eccezione setaudioevidenza");
+			codRitorno = false;
+		}
+	}
+		return codRitorno;
+	}
+	public boolean setGestiEvidenza(String nodo, double[] val)
+	{System.out.println("setgeneralevidenza start");
+		boolean codRitorno;
+		LabelledDCNode temp=null;
+		if(rete==null)
+			codRitorno = false;
+		else
+		{
+			try {
+		temp=(LabelledDCNode)rete.getNodeByName(nodo);
+		temp.getTable().setDataItem(temp.getStateIndex(Nodes.SA_POSITIVE), val[0]);
+		temp.getTable().setDataItem(temp.getStateIndex(Nodes.SA_NEUTRAL), val[1]);
+		temp.getTable().setDataItem(temp.getStateIndex(Nodes.SA_BAD), val[2]);
+		System.out.println("setgeneralevidenza stop");
 		codRitorno = true;
 		
 		} catch (ExceptionHugin e) {
