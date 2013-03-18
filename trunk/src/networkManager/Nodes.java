@@ -35,20 +35,29 @@ public class Nodes
 	private static String MOSSA_FA_VAL = "FA";
 	private static String MOSSA_CO_VAL = "CO";
 	
-	public static String MOSSA_SP = "Presentazione di sè";
-	public static String MOSSA_QU = "Domanda";
-	public static String MOSSA_SU = "Suggerimento";
-	public static String MOSSA_NA = "Risposta non data";
-	public static String MOSSA_AN = "Risposta";
-	public static String MOSSA_FA = "Arrivederci";
-	public static String MOSSA_CO = "Commento";
+	public static String MOSSA_SP = "Self Presentation";
+	public static String MOSSA_QU = "Question";
+	public static String MOSSA_SU = "Suggestion";
+	public static String MOSSA_NA = "No Answer";
+	public static String MOSSA_AN = "Answer";
+	public static String MOSSA_FA = "Goodbye";
+	public static String MOSSA_CO = "Comment";
 	
 	private static String VALORE_YES_VAL = "Y";
 	private static String VALORE_NO_VAL = "N";
 
-	public static String VALORE_YES = "SI";
-	public static String VALORE_NO = "NO";
+	public static String VALORE_YES = "Yes";
+	public static String VALORE_NO = "No";
 	public static String VALORE_NONSO = "Incerto";
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	//rete audio
 	
 	public static String VALENZA = "Valenza";
