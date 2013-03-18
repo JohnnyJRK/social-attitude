@@ -421,6 +421,9 @@ public class Finestra extends javax.swing.JFrame {
 										getSActionPerformed(jcbLing.isSelected(),jcbAudio.isSelected(),jcbGesti.isSelected());
 										btnGenReset.setEnabled(true);
 										btnGetSA.setEnabled(false);
+										jcbLing.setEnabled(false);
+										jcbAudio.setEnabled(false);
+										jcbGesti.setEnabled(false);
 										
 									
 									
