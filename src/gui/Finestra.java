@@ -42,6 +42,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -119,6 +120,7 @@ public class Finestra extends javax.swing.JFrame {
 	private JCheckBox jcbLing;
 	private JCheckBox jcbAudio;
 	private JPanel jpnlLingImp;
+	private JProgressBar jpb;
 	private JButton btnAudioStop;
 	private JButton btnAudioPlay;
 	private JLabel jlbArousal;
@@ -302,13 +304,12 @@ public class Finestra extends javax.swing.JFrame {
 								jbtLing.addActionListener(new ActionListener() {
 									public void actionPerformed(ActionEvent evt) {
 										if(!jTabbedPane.isEnabledAt(1)){
-											System.out.println("tab non abilitatoooo");
-											System.out.println("listener esistenteeeee num "+jListLingFrasi.getListSelectionListeners().length);
-											
-											if(jListLingFrasi.getListSelectionListeners().length!=0){
-												System.out.println("listener esistenteeeee num "+jListLingFrasi.getListSelectionListeners().length);
+								
+										
+										if(jListLingFrasi.getListSelectionListeners().length!=0){
+												
 											jListLingFrasi.removeListSelectionListener(jListLingFrasi.getListSelectionListeners()[0]);
-											System.out.println("listener esistenteeeee num "+jListLingFrasi.getListSelectionListeners().length);
+										
 											}
 											
 											
@@ -390,9 +391,13 @@ public class Finestra extends javax.swing.JFrame {
 								jbtAudio.setText("Go");
 								jbtAudio.setBounds(405, 15, 55, 25);
 								jbtAudio.setEnabled(false);
+								
+
 								jbtAudio.addActionListener(new ActionListener() {
 									public void actionPerformed(ActionEvent evt) {
 										if(!jTabbedPane.isEnabledAt(2)){
+											
+											
 											jbtALGActionPerformed(evt,2);
 										
 											}
@@ -411,14 +416,13 @@ public class Finestra extends javax.swing.JFrame {
 
 								@Override
 								public void actionPerformed(ActionEvent e) {
-									//inserire istruzione per la rete generale
-									if(jcbLing.isSelected()&&jcbAudio.isSelected()){
-										System.out.println("All selected");
-										getSActionPerformed();
+								//inserire istruzione per la rete generale
+									
+										getSActionPerformed(jcbLing.isSelected(),jcbAudio.isSelected(),jcbGesti.isSelected());
 										btnGenReset.setEnabled(true);
 										btnGetSA.setEnabled(false);
 										
-									}
+									
 									
 								
 								}});
@@ -450,6 +454,7 @@ public class Finestra extends javax.swing.JFrame {
 											cmbCiao.setSelectedIndex(0);
 											cmbMe.setSelectedIndex(0);
 											cmbYou.setSelectedIndex(0);
+											btnLingOK.setEnabled(false);
 											//jListLingFrasi.removeListSelectionListener(jListLingFrasi.getListSelectionListeners()[0]);
 											
 											hi_ling.reset(1);
@@ -622,7 +627,7 @@ public class Finestra extends javax.swing.JFrame {
 							{
 								ComboBoxModel cmbContxModel = 
 										new DefaultComboBoxModel(
-												new String[] { "???", "Self Presentation", "Answer", "Comment", "Question", "Suggestion", "No Answer", "See You Later"  });
+												new String[] { "Incerto", "Self Presentation", "Answer", "Comment", "Question", "Suggestion", "No Answer", "Goodbye"  });
 								cmbContx = new JComboBox();
 								pnlContesto.add(cmbContx);
 								cmbContx.setModel(cmbContxModel);
@@ -632,7 +637,7 @@ public class Finestra extends javax.swing.JFrame {
 							{
 								ComboBoxModel cmbMtypeModel = 
 										new DefaultComboBoxModel(
-												new String[] { "???", "Self Presentation", "Answer", "Comment", "Question", "See You Later" });
+												new String[] { "Incerto", "Self Presentation", "Answer", "Comment", "Question", "Goodbye" });
 								cmbMtype = new JComboBox();
 								pnlContesto.add(cmbMtype);
 								cmbMtype.setModel(cmbMtypeModel);
@@ -656,7 +661,7 @@ public class Finestra extends javax.swing.JFrame {
 							{
 								ComboBoxModel cmbConfModel = 
 										new DefaultComboBoxModel(
-												new String[] { "???","Yes","No" });
+												new String[] { "Incerto","Yes","No" });
 								cmbConf = new JComboBox();
 								pnlSegni.add(cmbConf);
 								cmbConf.setModel(cmbConfModel);
@@ -673,7 +678,7 @@ public class Finestra extends javax.swing.JFrame {
 							{
 								ComboBoxModel cmbCiaoModel = 
 										new DefaultComboBoxModel(
-												new String[] { "???","Yes","No" });
+												new String[] { "Incerto","Yes","No" });
 								cmbCiao = new JComboBox();
 								pnlSegni.add(cmbCiao);
 								cmbCiao.setModel(cmbCiaoModel);
@@ -697,7 +702,7 @@ public class Finestra extends javax.swing.JFrame {
 							{
 								ComboBoxModel cmbMeModel = 
 										new DefaultComboBoxModel(
-												new String[] { "???","Yes","No"});
+												new String[] { "Incerto","Yes","No"});
 								cmbMe = new JComboBox();
 								pnlSegni.add(cmbMe);
 								cmbMe.setModel(cmbMeModel);
@@ -707,7 +712,7 @@ public class Finestra extends javax.swing.JFrame {
 							{
 								ComboBoxModel cmbYouModel = 
 										new DefaultComboBoxModel(
-												new String[] { "???","Yes","No" });
+												new String[] { "Incerto","Yes","No" });
 								cmbYou = new JComboBox();
 								pnlSegni.add(cmbYou);
 								cmbYou.setModel(cmbYouModel);
@@ -737,7 +742,7 @@ public class Finestra extends javax.swing.JFrame {
 							{
 								ComboBoxModel cmqQmarModel = 
 										new DefaultComboBoxModel(
-												new String[] { "???","Yes","No" });
+												new String[] { "Incerto","Yes","No" });
 								cmbQmar = new JComboBox();
 								pnlSegni.add(cmbQmar);
 								cmbQmar.setModel(cmqQmarModel);
@@ -784,6 +789,8 @@ public class Finestra extends javax.swing.JFrame {
 										hi_ling.reset(1);
 										
 										jListLingFrasi.setSelectedIndex(0);
+										btnLingAggiungi.setEnabled(true);
+										btnLingOK.setEnabled(false);
 										// Ridisegna i grafici
 										disegnaGrafici(sa_ling_history,1);
 									}
@@ -988,7 +995,7 @@ pnlAudioAV.add(lblAr);
 
 ComboBoxModel cmbValModel = 
 new DefaultComboBoxModel(
-new String[] { "???", "Positive", "Neutral", "Negative", "Very Negative" });
+new String[] { "Incerto", "Positive", "Neutral", "Negative", "Very Negative" });
 cmbVal = new JComboBox();
 cmbVal.setVisible(false);
 cmbVal.setModel(cmbValModel);
@@ -1014,7 +1021,7 @@ pnlAudioAV.add(cmbVal);
 
 ComboBoxModel cmbArModel = 
 new DefaultComboBoxModel(
-new String[] { "???","High", "Medium", "Low" });
+new String[] { "Incerto","High", "Medium", "Low" });
 cmbAr = new JComboBox();
 cmbAr.setVisible(false);
 cmbAr.setModel(cmbArModel);
@@ -1368,7 +1375,7 @@ pnlAudio = new JPanel();
 								//modificare in defaultmodel
 								ComboBoxModel cmbArmsModel = 
 										new DefaultComboBoxModel(
-												new String[] { "???","Crossed","Uncrossed","Elbows Away From Body" , "Gripping Own Upper" });
+												new String[] { "Incerto","Crossed","Gripping","Across body","Touch Body","Uncrossed" });
 								cmbArms = new JComboBox();
 								pnlSegniLing.add(cmbArms);
 								cmbArms.setModel(cmbArmsModel);
@@ -1404,7 +1411,7 @@ pnlAudio = new JPanel();
 							{
 								ComboBoxModel cmbLegsModel = 
 										new DefaultComboBoxModel(
-												new String[] {"???", "Crossed", "Uncrossed","Knees Apart", "Sitting Legs Apart" });
+												new String[] {"Incerto", "Crossed" });
 								cmbLegs = new JComboBox();
 								pnlSegniLing.add(cmbLegs);
 								cmbLegs.setModel(cmbLegsModel);
@@ -1426,12 +1433,13 @@ pnlAudio = new JPanel();
 							{
 								ComboBoxModel cmbHandsModel = 
 										new DefaultComboBoxModel(
-												new String[] { "???","Open Palms", "Not Touching", "On Hip(s)" });
+												new String[] { "Incerto","On Ears", "Nose", "Mouth","Neck","Wave","Hip", "TaSelf" });
 								cmbHands = new JComboBox();
 								pnlSegniLing.add(cmbHands);
 								cmbHands.setModel(cmbHandsModel);
 								cmbHands.setToolTipText("<html>Identifies the position of the user's hands</html>");
 								cmbHands.setBounds(158, 33, 96, 23);
+							
 								cmbHands.addItemListener(new ItemListener(){
 
 									@Override
@@ -1557,22 +1565,13 @@ pnlAudio = new JPanel();
 								btnGestiReset.setEnabled(true);
 								btnGestiRimuovi.setEnabled(true);
 								
-							//	if(sa_gesti_history.size()>0)
-								//	hi_gesti.addNodo(3);
+							if(sa_gesti_history.size()>0)
+								hi_gesti.addNodo(3);
 								
 								// Setta le evidenze
-								/*
-								hi_ling.setEvidenza(Nodes.MOSSA_PREC_SISTEMA, cmbContx.getSelectedItem().toString());
-								hi_ling.setEvidenza(Nodes.MOSSA_UTENTE, cmbMtype.getSelectedItem().toString());
-								hi_ling.setEvidenza(Nodes.LUNGHEZZA,txtLeng.getText());
-								hi_ling.setEvidenza(Nodes.P_INTERROGATIVO, cmbQmar.getSelectedItem().toString());
-								hi_ling.setEvidenza(Nodes.ESPR_CONFIDENZIALI, cmbConf.getSelectedItem().toString());
-								hi_ling.setEvidenza(Nodes.ESPR_SALUTO, cmbCiao.getSelectedItem().toString());
-								hi_ling.setEvidenza(Nodes.ESPR_1PERSONA, cmbMe.getSelectedItem().toString());
-								hi_ling.setEvidenza(Nodes.ESPR_2PERSONA, cmbYou.getSelectedItem().toString());
-								*/
+								
 								// Ottiene il valore di Social Attitude
-								double[] sa = {0.2,0.3,0.5};
+								double[] sa = hi_gesti.getSA();
 								sa_gesti_history.add(sa);
 								//for(int i=0;i<3;i++){
 									//System.out.println(i+" "+sa[i]);
@@ -1735,11 +1734,12 @@ pnlAudio = new JPanel();
 			dsNeutral.addValue(ar.get(i-1)[1],"Neutral",i.toString());
 			dsBad.addValue(ar.get(i-1)[2],"Negative",i.toString());
 		}
-		andamento = ChartFactory.createLineChart("Social Attitude Trend: "+title, "Move", "Probability", dsBad, PlotOrientation.VERTICAL, true, true, false);
+		andamento = ChartFactory.createLineChart("Social Attitude Trend: "+title, "Move", "Probability", null, PlotOrientation.VERTICAL, true, true, true);
 		
 		CategoryPlot plotAnd = (CategoryPlot)andamento.getPlot();
 		plotAnd.setDataset(1,dsNeutral);
 		plotAnd.setDataset(2,dsPositive);
+		plotAnd.setDataset(3,dsBad);
 		plotAnd.setRenderer(1,new LineAndShapeRenderer());
 		plotAnd.setRenderer(2,new LineAndShapeRenderer());
 		plotAnd.setRenderer(3,new LineAndShapeRenderer());
@@ -1816,7 +1816,11 @@ pnlAudio = new JPanel();
 		    }
 		break;
 		case 2: System.out.println("Bottone Audio");
-								
+			jpb=new JProgressBar();
+			jpb.setIndeterminate(true);
+			jpb.setVisible(false);
+			Finestra.this.add(jpb);
+			jpb.setBounds(300, 300, 200, 30);
 				JFileChooser chooser = new JFileChooser();
 				 String dir=null;
 				    chooser.setCurrentDirectory(new java.io.File("."));
@@ -1827,6 +1831,10 @@ pnlAudio = new JPanel();
 				    switch(ch){
 				    
 				    case JFileChooser.APPROVE_OPTION:
+				    	Thread t=new Thread();
+				   
+						//jpb.setVisible(true);
+						
 				    	DefaultListModel jListAudioModel = new DefaultListModel();
 						hi_audio = new HuginInterface(2);
 						sa_audio_history = new ArrayList<double[]>();
@@ -1838,8 +1846,8 @@ pnlAudio = new JPanel();
 								jTabbedPane.setSelectedIndex(i);
 								
 								disegnaGrafici(sa_audio_history,2);
-								//voice classifier
-								//Selezione della directory contenente file audio da classificare
+					//voice classifier
+					//Selezione della directory contenente file audio da classificare
 	
 				    dir=chooser.getSelectedFile().toString();
 				    	System.out.println("getSelectedFile() : " + dir);
@@ -1916,18 +1924,30 @@ pnlAudio = new JPanel();
 		
 		//TODO add your code for jbtAudio.actionPerformed
 	}
-	private void getSActionPerformed(){
-	double[] ling,audio;
-	int c=0;
+	private void getSActionPerformed(boolean l,boolean a, boolean g){
+	double[] ling=null,audio=null;
+	int c=0,length=0;
+	if(l)length=sa_ling_history.size();
+	
+	else if(a)length=sa_audio_history.size();
+	
+	else if(g)length=sa_gesti_history.size();
+		
 	//System.out.println(sa_ling_history.size());
-	while(c<sa_ling_history.size()){
+	while(c<length){
 		//System.out.println(c);
+		if(l){
 		ling=sa_ling_history.get(c);
+		
+		}
 		//System.out.println("vet ling");
 		//System.out.println(ling[0]);
 		//System.out.println(ling[1]);
 		//System.out.println(ling[2]);
+		if(a){
 		audio=sa_audio_history.get(c);
+		
+		}
 		//System.out.println("vet audio");
 		//System.out.println(audio[0]);
 		//System.out.println(audio[1]);
@@ -1935,8 +1955,9 @@ pnlAudio = new JPanel();
 		
 		if(sa_gen_history.size()>0)
 			hi_gen.addNodo(4);
-		hi_gen.setGenEvidenza(Nodes.SOCIAL_ATTITUDE_AUDIO,audio);
-		hi_gen.setGenEvidenza(Nodes.SOCIAL_ATTITUDE_LING,ling);
+		
+		if(l)hi_gen.setGenEvidenza(Nodes.SOCIAL_ATTITUDE_LING,ling);
+		if(a)hi_gen.setGenEvidenza(Nodes.SOCIAL_ATTITUDE_AUDIO,audio);
 		
 		
 		double[] sa = hi_gen.getSA();
