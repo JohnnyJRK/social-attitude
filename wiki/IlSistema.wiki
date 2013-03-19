@@ -9,10 +9,10 @@ In considerazione dell'esistenza di un progetto che classifica file audio ottene
 
 Il sistema presenta un'interfaccia costituita da 4 tab:
 
- # General: consente l'accesso ai tab Language, Speech, Gesture e al calcolo finale della social attitude con visualizzazione del risultato
+ 1) General: consente l'accesso ai tab Language, Speech, Gesture e al calcolo finale della social attitude con visualizzazione del risultato
 
- ## Language: configurazione dei parametri relativi a alle frasi del dialogo per calcolarne la social attitude
+ 2) Language: configurazione dei parametri relativi a alle frasi del dialogo per calcolarne la social attitude
 
- ### Speech: caricamento file audio, calcolo di arousal e valenza tramite VoiceClassifier, calcolo della social attitude
+ 3) Speech: caricamento file audio, calcolo di arousal e valenza tramite VoiceClassifier, calcolo della social attitude
 
- #### Gesture: impostazioni dei gesti(mani, braccia, gambe)
+ 4) Gesture: impostazioni dei gesti(mani, braccia, gambe)
