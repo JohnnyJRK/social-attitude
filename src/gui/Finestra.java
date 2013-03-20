@@ -410,7 +410,7 @@ public class Finestra extends javax.swing.JFrame {
 							}
 							btnGetSA = new JButton();
 							btnGetSA.setText("Get Social Attitude");
-							btnGetSA.setBounds(312, 492, 164, 31);
+							btnGetSA.setBounds(318, 492, 164, 31);
 							btnGetSA.setEnabled(false);
 							btnGetSA.addActionListener(new ActionListener(){
 
@@ -437,7 +437,7 @@ public class Finestra extends javax.swing.JFrame {
 							btnGenReset = new JButton();
 							btnGenReset.setEnabled(false);
 							btnGenReset.setText("Reset");
-							btnGenReset.setBounds(17, 492, 74, 31);
+							btnGenReset.setBounds(10, 492, 74, 31);
 							btnGenReset.addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent evt) {
 									
@@ -469,16 +469,25 @@ public class Finestra extends javax.swing.JFrame {
 										}
 										
 										if(jcbAudio.isSelected()){
-											sa_audio_history = new ArrayList<double[]>();
+											
 											for (int i=tblAudioEvidenzeModel.getRowCount()-1;i>=0;i--)
 												tblAudioEvidenzeModel.removeRow(i);
 											//audio
 											cmbAr.setSelectedIndex(0);
 											cmbVal.setSelectedIndex(0);
+											btnAudioReset.setEnabled(false);
+											btnAudioRimuovi.setEnabled(false);
+											btnAudioAggiungi.setEnabled(true);
+											btnAudioOK.setEnabled(false);
+											jListAudioFrasi.removeAll();
+									
 											hi_audio.reset(2);
 											jcbAudio.setEnabled(true);
 											jcbAudio.setSelected(false);
-											jListAudioFrasi.removeAll();
+											fileList.removeAll(fileList);
+											prosodiaList.removeAll(prosodiaList);
+											
+											sa_audio_history = new ArrayList<double[]>();
 											disegnaGrafici(sa_audio_history,2);
 										}
 										
@@ -509,6 +518,9 @@ public class Finestra extends javax.swing.JFrame {
 										// Attiva/disattiva i pulsanti appropriati
 										btnGetSA.setEnabled(false);
 										btnGenReset.setEnabled(false);
+										jcbLing.setEnabled(true);
+										jcbAudio.setEnabled(true);
+										jcbGesti.setEnabled(true);
 										sa_gen_history = new ArrayList<double[]>();
 										hi_gen.reset(4);
 										
@@ -928,7 +940,7 @@ public class Finestra extends javax.swing.JFrame {
 						}
 						btnLingOK = new JButton();
 						btnLingOK.setText("Ok");
-						btnLingOK.setBounds(437, 499, 52, 28);
+						btnLingOK.setBounds(439, 499, 52, 28);
 						btnLingOK.setEnabled(false);
 						btnLingOK.setToolTipText("Complete language configuration");
 						btnLingOK.addActionListener(new ActionListener(){
@@ -1414,7 +1426,7 @@ pnlAudio = new JPanel();
 							{
 								ComboBoxModel cmbLegsModel = 
 										new DefaultComboBoxModel(
-												new String[] {"???", "Crossed" });
+												new String[] {"???", "Crossed", "Uncrossed" });
 								cmbLegs = new JComboBox();
 								pnlSegniLing.add(cmbLegs);
 								cmbLegs.setModel(cmbLegsModel);
@@ -1571,7 +1583,29 @@ pnlAudio = new JPanel();
 							if(sa_gesti_history.size()>0)
 								hi_gesti.addNodo(3);
 								
-								// Setta le evidenze
+								// Setta le evidenze "???","On Ears", "Nose", "Mouth","Neck","Wave","Hip", "TaSelf"
+								switch (cmbHands.getSelectedItem().toString()){
+								case "On Ears":hi_gesti.setGestiEvidenza("Hands_negative",0.65);break;
+								case "Nose":hi_gesti.setGestiEvidenza("Hands_negative",0.6);break;
+								case "Mouth":hi_gesti.setGestiEvidenza("Doubt", 0.75);break;
+								case "Neck":hi_gesti.setGestiEvidenza("Doubt", 0.65);break;
+								case "Wave":hi_gesti.setGestiEvidenza("Confidence", 0.65);break;
+								case "Hip":hi_gesti.setGestiEvidenza("Confidence", 0.75);break;
+								case "TaSelf":hi_gesti.setGestiEvidenza("Confidence", 0.7);break;
+								}
+								//"Crossed","Gripping","Across body","Touch Body","Uncrossed"
+								switch(cmbArms.getSelectedItem().toString()){
+								case "Crossed":
+								case "Gripping":hi_gesti.setGestiEvidenza("Closure", 0.65);break;
+								case "Open":hi_gesti.setGestiEvidenza("Open", 1);break;
+								case "Across body":hi_gesti.setGestiEvidenza("Arms_negative", 0.7);break;
+								case "Touch Body":hi_gesti.setGestiEvidenza("Arms_negative", 0.6);break;
+								}
+								
+								switch(cmbLegs.getSelectedItem().toString()){
+								case "Crossed":hi_gesti.setGestiEvidenza("Crossed_Legs", 1);break;
+								case "Uncrossed":hi_gesti.setGestiEvidenza("Crossed_Legs", 0);break;
+								}
 								
 								// Ottiene il valore di Social Attitude
 								double[] sa = hi_gesti.getSA();
@@ -1830,7 +1864,9 @@ pnlAudio = new JPanel();
 				    chooser.setDialogTitle("Choose Audio Directory");
 				    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 				    chooser.setAcceptAllFileFilterUsed(false);
-				    int ch = chooser.showOpenDialog(Finestra.this);
+				    int ch =0,ldir=0;
+				    ch=chooser.showOpenDialog(Finestra.this);
+			    	
 				    switch(ch){
 				    
 				    case JFileChooser.APPROVE_OPTION:
@@ -1853,12 +1889,15 @@ pnlAudio = new JPanel();
 					//Selezione della directory contenente file audio da classificare
 	
 				    dir=chooser.getSelectedFile().toString();
+				    chooser.getSelectedFile().length();
 				    	System.out.println("getSelectedFile() : " + dir);
 				    	MainView m=new MainView();
 						//arraylist dei nomi dei file
 						fileList.addAll(BusinessDelegate.getFileList(dir));
+						
 						//arraylist della prosodia dei file
 						prosodiaList= new ArrayList<ProsodiaFileAudio>();
+						
 						
 						for(int a=0;a<fileList.size();a++){
 						try {
@@ -1890,7 +1929,7 @@ pnlAudio = new JPanel();
 				break;
 				
 		case 3: System.out.println("Bottone Gesti");
-		hi_gesti = new HuginInterface(2);
+		hi_gesti = new HuginInterface(3);
 		sa_gesti_history = new ArrayList<double[]>();
 		sa_gesti_iniziale = new double[3];
 		sa_gesti_iniziale[0]=0.33333;
