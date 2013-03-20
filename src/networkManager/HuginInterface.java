@@ -1,5 +1,6 @@
 package networkManager;
 
+import COM.hugin.HAPI.BooleanDCNode;
 import COM.hugin.HAPI.Domain;
 import COM.hugin.HAPI.ExceptionHugin;
 import COM.hugin.HAPI.LabelledDCNode;
@@ -171,6 +172,30 @@ public class HuginInterface
 		return codRitorno;
 	}
 	
+	public boolean setGestiEvidenza(String nodo, double valore)
+	{
+		boolean codRitorno;
+		BooleanDCNode temp=null;
+		if(rete==null)
+			codRitorno = false;
+		else
+		{try {
+		temp=(BooleanDCNode)rete.getNodeByName(nodo);
+		temp.getTable().setDataItem(0, 1-valore);
+		temp.getTable().setDataItem(1, valore);
+		System.out.println("setgestievidenza");
+		codRitorno = true;
+		
+		} catch (ExceptionHugin e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("eccezione setgestievidenza");
+			codRitorno = false;
+		}
+	}
+		return codRitorno;
+	}
+	
 	public boolean setAudioEvidenza(String nodo, String valore)
 	{
 		boolean codRitorno;
@@ -193,31 +218,7 @@ public class HuginInterface
 	}
 		return codRitorno;
 	}
-	public boolean setGestiEvidenza(String nodo, double[] val)
-	{System.out.println("setgeneralevidenza start");
-		boolean codRitorno;
-		LabelledDCNode temp=null;
-		if(rete==null)
-			codRitorno = false;
-		else
-		{
-			try {
-		temp=(LabelledDCNode)rete.getNodeByName(nodo);
-		temp.getTable().setDataItem(temp.getStateIndex(Nodes.SA_POSITIVE), val[0]);
-		temp.getTable().setDataItem(temp.getStateIndex(Nodes.SA_NEUTRAL), val[1]);
-		temp.getTable().setDataItem(temp.getStateIndex(Nodes.SA_BAD), val[2]);
-		System.out.println("setgeneralevidenza stop");
-		codRitorno = true;
-		
-		} catch (ExceptionHugin e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println("eccezione setaudioevidenza");
-			codRitorno = false;
-		}
-	}
-		return codRitorno;
-	}
+	
 	public boolean setGenEvidenza(String nodo, double[] val)
 	{System.out.println("setgeneralevidenza start");
 		boolean codRitorno;
