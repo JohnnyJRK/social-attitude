@@ -1,5 +1,5 @@
 #summary Cos'è SocialAttitude.
-
+<wiki:toc max_depth="3" />
 = Introduzione al sistema =
 
 Il sistema "Social Attitude" è un estensione di un precedente progetto, riguardante soltanto l'interfacciamento grafico con la rete bayesiana del linguaggio, che estende e migliora simili funzionalità anche per quanto riguarda il calcolo della social attitude ottenuta da audio e gesti. Inoltre, cosa fondamentale, è che il sistema permette il calcolo finale della social attitude generale ottenuta da più sorgenti(es. audio, testi, gesti).
