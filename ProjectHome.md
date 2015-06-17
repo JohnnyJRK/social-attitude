@@ -1,0 +1,1 @@
+The main goal of the system is to obtain the social attitude from various sources like dialogs, audio file and gestures so as calculate successively the general social attitude
